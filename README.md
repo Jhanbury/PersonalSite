@@ -1,7 +1,20 @@
-# PersonalSite
-This repo contains the source code for my personal site
+# Johns Personal Site
 
-This is currently in development
-Updates goals and tasks can be found in the issues and projects tabs.
+## What is this Repo?
 
-For the overall architecture and decisions please check out the following [Wiki page](https://github.com/Jhanbury/PersonalSite/wiki/Site-Architecture)
+This repo contains the entire source code I have developed for my Personal site
+
+I began the design and development of the site in February 2019.
+
+## Installation
+
+To be Completed
+
+
+
+##  Publishing 
+
+To be Completed
+
+
+

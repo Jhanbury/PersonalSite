@@ -14,6 +14,9 @@ I began the design and development of the site in February 2019.
 
 [Logging Structure](https://github.com/Jhanbury/PersonalSite/wiki/Logging-Structure)
 
+## Design Patterns Used
+
+## Technology's Used
 
 ## Installation
 

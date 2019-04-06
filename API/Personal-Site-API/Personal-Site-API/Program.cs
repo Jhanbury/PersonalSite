@@ -28,21 +28,30 @@ namespace Personal_Site_API
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((ctx, builder) =>
                     {
-                        var env = ctx.HostingEnvironment;
-
-                        builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-                        var vaultUrl = builder.Build().GetSection("keyvault")?.Value;
-                        var keyVaultEndpoint = vaultUrl;
-                        if (!string.IsNullOrEmpty(keyVaultEndpoint))
+                        try
                         {
-                            var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                            var keyVaultClient = new KeyVaultClient(
-                                new KeyVaultClient.AuthenticationCallback(
-                                    azureServiceTokenProvider.KeyVaultTokenCallback));
-                            builder.AddAzureKeyVault(
-                                keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+                            var env = ctx.HostingEnvironment;
+
+                            builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                            var vaultUrl = builder.Build().GetSection("keyvault")?.Value;
+                            var keyVaultEndpoint = vaultUrl;
+                            if (!string.IsNullOrEmpty(keyVaultEndpoint))
+                            {
+                                var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                                var keyVaultClient = new KeyVaultClient(
+                                    new KeyVaultClient.AuthenticationCallback(
+                                        azureServiceTokenProvider.KeyVaultTokenCallback));
+                                builder.AddAzureKeyVault(
+                                    keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+                            }
                         }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+
+                        }
+
                     }
                 )
                 .UseSerilog()

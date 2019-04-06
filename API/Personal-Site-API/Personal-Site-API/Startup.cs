@@ -19,12 +19,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
+using Hangfire.Common;
 using Serilog;
 using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
+using Site.Infrastructure.Services;
 using Site.Persistance;
 using Site.Persistance.Repository;
 
@@ -42,12 +44,13 @@ namespace Personal_Site_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
             // Add MediatR
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-
+            services.AddTransient<IGithubService, GithubRepoServices>();
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
 
             services.AddMediatR(typeof(GetAllGithubReposQuery).GetTypeInfo().Assembly);
@@ -63,21 +66,26 @@ namespace Personal_Site_API
                 .Enrich.WithProperty("Application", "API")
                 .WriteTo.MSSqlServer(connectionString,"Logs", autoCreateSqlTable:true)
                 .CreateLogger();
+
+            services.AddTransient<IRecurringJobService, RecurringJobService>();
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
-            //services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
-            //services.AddHangfireServer();
+            services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
+            services.AddHangfireServer();
+            JobStorage.Current = new SqlServerStorage(connectionString);
+            //BackgroundJob.Enqueue<IGithubService>(service => service.GetAllGithubRepos("JHanbury"));
+            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
             //Log.Logger.Information("Test Log from Startup");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    // base-address of your identityserver
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
-                    // name of the API resource
-                    options.Audience = "api1";
-                });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        // base-address of your identityserver
+            //        options.Authority = "http://localhost:5000";
+            //        options.RequireHttpsMetadata = false;
+            //        // name of the API resource
+            //        options.Audience = "api1";
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +102,8 @@ namespace Personal_Site_API
             }
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
+            app.UseHangfireServer();
+            //app.UseAuthentication();
             app.UseMvc();
         }
     }

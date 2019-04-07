@@ -22,6 +22,11 @@ namespace Site.Persistance.Repository
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
+        public async Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> expression)
+        {
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+        }
+
         public async Task<IEnumerable<TEntity>> GetAll()
         {
             return await _context.Set<TEntity>().ToListAsync();

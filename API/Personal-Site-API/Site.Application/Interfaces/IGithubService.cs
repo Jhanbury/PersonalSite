@@ -7,5 +7,6 @@ namespace Site.Application.Interfaces
     public interface IGithubService
     {
         Task<List<GithubRepoDto>> GetAllGithubRepos(string username);
+        Task UpdateGithubReposForUser(int userId, string username);
     }
 }

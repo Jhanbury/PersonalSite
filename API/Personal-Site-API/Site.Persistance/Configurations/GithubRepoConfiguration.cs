@@ -8,9 +8,7 @@ namespace Site.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<GithubRepo> builder)
         {
-            builder.HasKey(e => e.Id);
-
-           
+            builder.HasKey(e => e.RepoId);
         }
     }
 }

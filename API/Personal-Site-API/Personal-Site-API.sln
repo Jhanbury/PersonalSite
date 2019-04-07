@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Infrastructure", "Site
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{E480701B-B47E-4E24-B036-15E8A24684E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.WorkerRole", "Site.WorkerRole\Site.WorkerRole.csproj", "{C575745B-28FC-4404-B93C-9064FD17C9AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.WorkerRole", "Site.WorkerRole\Site.WorkerRole.csproj", "{C575745B-28FC-4404-B93C-9064FD17C9AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,7 +51,6 @@ Global
 		{A6EF0289-EC8D-48D5-8106-20626C200205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6EF0289-EC8D-48D5-8106-20626C200205}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C575745B-28FC-4404-B93C-9064FD17C9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C575745B-28FC-4404-B93C-9064FD17C9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C575745B-28FC-4404-B93C-9064FD17C9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C575745B-28FC-4404-B93C-9064FD17C9AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

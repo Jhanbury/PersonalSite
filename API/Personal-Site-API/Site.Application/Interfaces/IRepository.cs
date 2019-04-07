@@ -8,6 +8,7 @@ namespace Site.Application.Interfaces
     public interface IRepository<TEntity, TPrimaryKey> 
     {
         Task<TEntity> GetById(TPrimaryKey id);
+        Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> expression);
         Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> expression);
         Task<IEnumerable<TEntity>> GetAll();
         TEntity Add(TEntity entity);

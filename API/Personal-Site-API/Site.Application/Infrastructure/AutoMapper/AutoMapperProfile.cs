@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Site.Application.Entities;
+using Site.Application.GithubRepos.Models;
 using Site.Application.Technologies.Models;
 
 namespace Site.Application.Infrastructure.AutoMapper
@@ -9,6 +10,7 @@ namespace Site.Application.Infrastructure.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<Technology, TechnologyDto>().ReverseMap();
+            CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
         }
 
         //private void LoadConverters()

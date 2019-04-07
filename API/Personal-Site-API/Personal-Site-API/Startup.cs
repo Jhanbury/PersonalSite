@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
 using Hangfire.Common;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
@@ -44,39 +45,21 @@ namespace Personal_Site_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
-            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
-            // Add MediatR
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-            services.AddTransient<IGithubService, GithubRepoServices>();
-            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
-
-            services.AddMediatR(typeof(GetAllGithubReposQuery).GetTypeInfo().Assembly);
             var connectionString = Configuration["ConnectionString"];
+            ConfigureApplicationServices(services, connectionString);
+            services.AddHttpClient();
+            ConfigureAutoMapper(services);
+            ConfigureMediatR(services);
+            ConfigureSerilog(connectionString);
+            ConfigureHangFire(services, connectionString);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<SiteDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            var serviceBusConnectionString = Configuration["ServiceBusConnectionString"];
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("Application", "API")
-                .WriteTo.MSSqlServer(connectionString,"Logs", autoCreateSqlTable:true)
-                .CreateLogger();
 
-            services.AddTransient<IRecurringJobService, RecurringJobService>();
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
-            services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
-            services.AddHangfireServer();
-            JobStorage.Current = new SqlServerStorage(connectionString);
-            //BackgroundJob.Enqueue<IGithubService>(service => service.GetAllGithubRepos("JHanbury"));
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
             //Log.Logger.Information("Test Log from Startup");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //var serviceBusConnectionString = Configuration["ServiceBusConnectionString"];
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(options =>
             //    {
@@ -88,6 +71,44 @@ namespace Personal_Site_API
             //    });
         }
 
+        private void ConfigureApplicationServices(IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<IGithubService, GithubRepoServices>();
+            services.AddScoped<IRecurringJobService, RecurringJobService>();
+            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
+        }
+
+        private void ConfigureAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
+        }
+
+        public void ConfigureMediatR(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            services.AddMediatR(typeof(GetAllGithubReposQuery).GetTypeInfo().Assembly);
+        }
+        public void ConfigureSerilog(string connectionString)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("Application", "API")
+                .WriteTo.MSSqlServer(connectionString, "Logs")
+                .CreateLogger();
+        }
+        public void ConfigureHangFire(IServiceCollection services, string connectionString)
+        {
+            services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
+            services.AddHangfireServer();
+            JobStorage.Current = new SqlServerStorage(connectionString);
+            RecurringJob.AddOrUpdate<IGithubService>(service => service.UpdateGithubReposForUser(1, "JHanbury"), Cron.Minutely);
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

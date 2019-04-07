@@ -4,7 +4,8 @@ namespace Site.Application.Entities
 {
     public class GithubRepo
     {
-        public long Id { get; set; }
+        public int RepoId { get; set; }
+        public long GithubId { get; set; }
 
         public int UserId { get; set; }
 

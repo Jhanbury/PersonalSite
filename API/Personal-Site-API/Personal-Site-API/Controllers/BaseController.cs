@@ -1,15 +1,25 @@
-﻿using MediatR;
+﻿using FluentCache;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Personal_Site_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    
     public class BaseController : ControllerBase
     {
-        private IMediator _mediator;
+        protected readonly IMediator _mediator;
+        protected readonly Cache<IMediator> _cache;
+        protected readonly ILogger _logger;
 
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        public BaseController(IMediator mediator, ICache cache, ILogger logger)
+        {
+            _mediator = mediator;
+            _cache = cache.WithSource(mediator);
+            _logger = logger;
+        }
     }
 }

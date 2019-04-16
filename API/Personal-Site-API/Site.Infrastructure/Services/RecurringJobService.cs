@@ -34,8 +34,7 @@ namespace Site.Infrastructure.Services
 
                 var QueueName = "github-repos";
                 var ServiceBusConnectionString = _configuration["ServiceBusConnectionString"];
-                ServiceBusConnectionString =
-                    "Endpoint=sb://personal-site.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Owi7u08ajWgNs6lDp0D7v0UwzLnKqvxoNO4pPGiCLtE=";
+                ServiceBusConnectionString = "Endpoint=sb://personal-site.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Owi7u08ajWgNs6lDp0D7v0UwzLnKqvxoNO4pPGiCLtE=";
                 var queueClient = new QueueClient(ServiceBusConnectionString, QueueName);
 
                 // Create a new message to send to the queue.

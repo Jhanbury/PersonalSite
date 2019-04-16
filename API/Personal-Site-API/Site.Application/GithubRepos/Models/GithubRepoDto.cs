@@ -5,6 +5,7 @@ namespace Site.Application.GithubRepos.Models
 {
     public class GithubRepoDto
     {
+        [JsonIgnore]
         public int Id { get; set; }
         [JsonProperty("id")]
         public long GithubId { get; set; }

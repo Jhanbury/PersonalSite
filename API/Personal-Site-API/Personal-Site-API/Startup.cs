@@ -19,8 +19,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
+using FluentCache;
+using FluentCache.Microsoft.Extensions.Caching.Distributed;
 using Hangfire.Common;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
@@ -45,13 +49,14 @@ namespace Personal_Site_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["ConnectionString"];
-            ConfigureApplicationServices(services, connectionString);
+            var connectionString = Configuration["KeyVault"];
+            var dbConnectionString = Configuration["ConnectionString"];
+            ConfigureApplicationServices(services, dbConnectionString);
             services.AddHttpClient();
             ConfigureAutoMapper(services);
             ConfigureMediatR(services);
-            ConfigureSerilog(connectionString);
-            ConfigureHangFire(services, connectionString);
+            ConfigureSerilog(dbConnectionString);
+            ConfigureHangFire(services, dbConnectionString);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 
@@ -73,6 +78,10 @@ namespace Personal_Site_API
 
         private void ConfigureApplicationServices(IServiceCollection services, string connectionString)
         {
+
+            services.AddDistributedMemoryCache();
+            services.AddSingleton<ICache>(sp =>
+                new FluentIDistributedCache(sp.GetService<IDistributedCache>(), new Serializer()));
             services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IGithubService, GithubRepoServices>();
             services.AddScoped<IRecurringJobService, RecurringJobService>();
@@ -92,6 +101,7 @@ namespace Personal_Site_API
 
             services.AddMediatR(typeof(GetAllGithubReposQuery).GetTypeInfo().Assembly);
         }
+
         public void ConfigureSerilog(string connectionString)
         {
             Log.Logger = new LoggerConfiguration()
@@ -102,13 +112,15 @@ namespace Personal_Site_API
                 .WriteTo.MSSqlServer(connectionString, "Logs")
                 .CreateLogger();
         }
+
         public void ConfigureHangFire(IServiceCollection services, string connectionString)
         {
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            RecurringJob.AddOrUpdate<IGithubService>(service => service.UpdateGithubReposForUser(1, "JHanbury"), Cron.Minutely);
+            RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -122,8 +134,10 @@ namespace Personal_Site_API
                 app.UseHsts();
             }
 
+            
             app.UseHttpsRedirection();
             app.UseHangfireServer();
+            //app.UseHangfireDashboard();
             //app.UseAuthentication();
             app.UseMvc();
         }

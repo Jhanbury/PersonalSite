@@ -62,12 +62,15 @@ namespace Site.Infrastructure.Services
                 var githubRepos = await GetAllGithubRepos(username);
                 var dbRepos = await _repository.Get(x => x.UserId.Equals(userId));
                 var enumerable = dbRepos.ToList();
+                var dbIds = dbRepos.Select(x => x.GithubId);
+                var githubIds = githubRepos.Select(x => x.GithubId);
                 var itemsToAdd = githubRepos.Where(x => !enumerable.Any(y => y.GithubId.Equals(x.GithubId)));
-                var itemsToRemove = enumerable.Where(x => githubRepos.Any(y => y.GithubId.Equals(x.GithubId)));
+                var itemsToRemove = dbIds.Except(githubIds);
                 var itemsToCheckForUpdates = githubRepos.Where(x => enumerable.Any(y => y.GithubId.Equals(x.GithubId)));
-                _logger.LogInformation($"Items To Add:{itemsToAdd?.Count() ?? 0}");
-                _logger.LogInformation($"Items To Remove:{itemsToRemove?.Count() ?? 0}");
-                _logger.LogInformation($"Items To Update:{itemsToCheckForUpdates?.Count() ?? 0}");
+                //_logger.LogInformation($"Items To Add:{itemsToAdd?.Count() ?? 0}");
+                //_logger.LogInformation($"Items To Remove:{itemsToRemove?.Count() ?? 0}");
+                //_logger.LogInformation($"Items To Update:{itemsToCheckForUpdates?.Count() ?? 0}");
+                await RemoveDeletedRepos(itemsToRemove);
                 AddNewRepos(itemsToAdd, userId);
                 await UpdateExisting(itemsToCheckForUpdates);
                 //await RemoveDeletedRepos(itemsToRemove);
@@ -80,15 +83,16 @@ namespace Site.Infrastructure.Services
             
         }
 
-        private async Task RemoveDeletedRepos(IEnumerable<GithubRepo> itemsToRemove)
+        
+        private async Task RemoveDeletedRepos(IEnumerable<long> itemsToRemove)
         {
             foreach (var repo in itemsToRemove)
             {
-                var model = await _repository.GetSingle(x => x.GithubId.Equals(repo.GithubId));
+                var model = await _repository.GetSingle(x => x.GithubId.Equals(repo));
                 if (model != null)
                 {
                     _repository.Delete(model);
-                    _logger.LogInformation($"Github Repo deleted to DB: {repo.Name}");
+                    _logger.LogInformation($"Github Repo deleted to DB: {model.Description}");
                 }
             }
         }

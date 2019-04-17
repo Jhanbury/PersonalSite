@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Addresses\Queries\" />
     <Folder Include="GithubRepos\Commands\" />
   </ItemGroup>
 

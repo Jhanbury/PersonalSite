@@ -18,10 +18,10 @@ namespace Site.Persistance.Configurations
                 .HasForeignKey(x => x.UserId)
                 .IsRequired();
 
-            builder.HasMany(x => x.PersonalProjects)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserId)
+            builder.HasOne(x => x.Address)
+                .WithMany(x => x.Users)
                 .IsRequired();
+            
 
             builder.HasMany(x => x.SocialMediaAccounts)
                 .WithOne(x => x.User)

@@ -9,6 +9,7 @@ namespace Site.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.HasKey(x => x.Id);
+            //builder.HasMany(x => x.Users).WithOne(x => x.Address).IsRequired();
         }
     }
 }

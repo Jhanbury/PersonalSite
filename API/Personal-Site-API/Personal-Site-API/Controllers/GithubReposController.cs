@@ -11,7 +11,7 @@ using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 
 namespace Personal_Site_API.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("api/github-repos")]
+    [Route("api/github-repos")]
     public class GithubReposController : BaseController
     {
         public GithubReposController(IMediator mediator, ICache cache, ILogger<GithubReposController> logger) : base(mediator, cache,logger)
@@ -35,10 +35,6 @@ namespace Personal_Site_API.Controllers
                 _logger.LogError(e,e.Message);
                 return BadRequest();
             }
-            
-            
         }
-
-        
     }
 }

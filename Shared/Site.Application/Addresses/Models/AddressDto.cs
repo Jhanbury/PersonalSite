@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Site.Application.Entities
+﻿namespace Site.Application.Addresses.Models
 {
-    public class Address
+    public class AddressDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -11,7 +9,5 @@ namespace Site.Application.Entities
         public string AddressLine3 { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        
-        public ICollection<User> Users { get; set; }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using Site.Application.Addresses.Models;
+using Site.Application.GithubRepos.Models;
 
-namespace Site.Application.Entities
+namespace Site.Application.Users.Models
 {
-    public class User
+    public class UserDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -11,10 +12,7 @@ namespace Site.Application.Entities
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public int AddressId { get; set; }
-        public Address Address { get; set; }
-        public ICollection<GithubRepo> GithubRepos { get; set; }
-        public ICollection<SocialMediaAccount> SocialMediaAccounts { get; set; }
-        
+        public AddressDto Address { get; set; }
         
     }
 }

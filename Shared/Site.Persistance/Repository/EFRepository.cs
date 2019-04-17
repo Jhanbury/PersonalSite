@@ -22,6 +22,12 @@ namespace Site.Persistance.Repository
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
+        public async Task<TEntity> GetSingleIncluding(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> includes)
+        {
+            var model = _context.Set<TEntity>().Include(includes).SingleOrDefault(expression);
+            return model;
+        }
+
         public async Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> expression)
         {
             return await _context.Set<TEntity>().FirstOrDefaultAsync(expression);

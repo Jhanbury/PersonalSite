@@ -9,6 +9,8 @@ namespace Site.Persistance.Configurations
         public void Configure(EntityTypeBuilder<SocialMediaAccount> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasOne(x => x.SocialMediaPlatform).WithMany(x => x.SocialMediaAccounts);
         }
     }
 }

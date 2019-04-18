@@ -2,6 +2,7 @@
 using Site.Application.Addresses.Models;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
+using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
 using Site.Application.Users.Models;
 
@@ -14,6 +15,9 @@ namespace Site.Application.Infrastructure.AutoMapper
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();
+            CreateMap<SocialMediaAccount, SocialMediaAccountDto>()
+                .ForMember(x => x.Platform, y => y.MapFrom(z => z.SocialMediaPlatform.Name))
+                .ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
         }

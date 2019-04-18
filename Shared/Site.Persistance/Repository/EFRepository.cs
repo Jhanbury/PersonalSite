@@ -22,15 +22,33 @@ namespace Site.Persistance.Repository
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetSingleIncluding(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> includes)
+        public async Task<TEntity> GetSingleIncluding(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
         {
-            var model = _context.Set<TEntity>().Include(includes).SingleOrDefault(expression);
-            return model;
+            var query = _context.Set<TEntity>().AsQueryable();
+            foreach (Expression<Func<TEntity, object>> includeProperty in includes)
+            {
+                query = query.Include<TEntity, object>(includeProperty);
+            }
+            
+            return await query.SingleOrDefaultAsync(expression);
+            
         }
 
         public async Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> expression)
         {
             return await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetIncluding(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = _context.Set<TEntity>().Where(expression);
+            foreach (Expression<Func<TEntity, object>> includeProperty in includes)
+            {
+
+                query = query.Include<TEntity, object>(includeProperty);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()

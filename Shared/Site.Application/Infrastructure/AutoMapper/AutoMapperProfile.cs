@@ -13,6 +13,7 @@ namespace Site.Application.Infrastructure.AutoMapper
         {
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
+            CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
         }

@@ -28,21 +28,21 @@ namespace Site.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<List<GithubRepoDto>> GetAllGithubRepos(string username)
+        public async Task<List<GithubRepoApiResultDto>> GetAllGithubRepos(string username)
         {
             using (var client = _httpClientFactory.CreateClient())
             {
                 client.DefaultRequestHeaders.Add("User-Agent","Personal-Site");
                 var response = await client.GetAsync($"https://api.github.com/users/{username}/repos");
                 var responseString = await response.Content.ReadAsStringAsync();
-                var repos = JsonConvert.DeserializeObject<List<GithubRepoDto>>(responseString);
+                var repos = JsonConvert.DeserializeObject<List<GithubRepoApiResultDto>>(responseString);
                 return repos;
             }
 
             
         }
 
-        private void AddNewRepos(IEnumerable<GithubRepoDto> newRepos, int userId)
+        private void AddNewRepos(IEnumerable<GithubRepoApiResultDto> newRepos, int userId)
         {
             foreach (var repo in newRepos)
             {
@@ -98,7 +98,7 @@ namespace Site.Infrastructure.Services
         }
 
 
-        private async Task UpdateExisting(IEnumerable<GithubRepoDto> itemsToCheckForUpdates)
+        private async Task UpdateExisting(IEnumerable<GithubRepoApiResultDto> itemsToCheckForUpdates)
         {
             foreach (var repo in itemsToCheckForUpdates)
             {

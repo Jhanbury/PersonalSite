@@ -2,6 +2,7 @@
 using Site.Application.Addresses.Models;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
+using Site.Application.Hobbies.Model;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
 using Site.Application.Users.Models;
@@ -18,8 +19,13 @@ namespace Site.Application.Infrastructure.AutoMapper
             CreateMap<SocialMediaAccount, SocialMediaAccountDto>()
                 .ForMember(x => x.Platform, y => y.MapFrom(z => z.SocialMediaPlatform.Name))
                 .ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserDto>()
+                .ForMember(x => x.CurrentLocation, y => y.MapFrom(z => z.Address.City + ", " + z.Address.Country))
+                .ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Hobby, HobbyDto>()
+                .ForMember(x => x.Type, y => y.MapFrom(z => z.HobbyType.Type))
+                .ReverseMap();
         }
 
         //private void LoadConverters()

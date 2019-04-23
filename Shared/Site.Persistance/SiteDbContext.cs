@@ -16,6 +16,8 @@ namespace Site.Persistance
         //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Hobby> Hobby { get; set; }
+        public DbSet<UserHobby> UserHobby { get; set; }
 
         
 

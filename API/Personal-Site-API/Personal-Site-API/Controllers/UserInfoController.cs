@@ -7,6 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Site.Application.Entities;
+using Site.Application.Hobbies.Model;
+using Site.Application.Hobbies.Querys;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Models;
@@ -41,7 +43,7 @@ namespace Personal_Site_API.Controllers
 
         [HttpGet]
         [Route("{userId}/SocialMediaAccounts")]
-        public async Task<ActionResult> GetUSerSocialMediaAccounts(int userId)
+        public async Task<ActionResult> GetUserSocialMediaAccounts(int userId)
         {
             try
             {
@@ -53,6 +55,24 @@ namespace Personal_Site_API.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e,e.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("{userId}/Hobbies")]
+        public async Task<ActionResult> GetUserHobbies(int userId)
+        {
+            try
+            {
+                var userInfo = await _cache.Method(x => x.Send<List<HobbyDto>>(new GetUserHobbiesQuery(userId), CancellationToken.None))
+                    .ExpireAfter(TimeSpan.FromSeconds(5))
+                    .GetValueAsync();
+                return Ok(userInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
                 return BadRequest();
             }
         }

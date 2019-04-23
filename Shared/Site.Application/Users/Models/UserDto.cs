@@ -11,8 +11,8 @@ namespace Site.Application.Users.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
-        public int AddressId { get; set; }
-        public AddressDto Address { get; set; }
+        public string  CurrentLocation { get; set; }
+        public string PersonalStatement { get; set; }
         
     }
 }

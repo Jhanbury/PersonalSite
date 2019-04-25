@@ -6,6 +6,8 @@ using FluentCache;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Site.Application.BlogPosts.Models;
+using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
 using Site.Application.Entities;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
@@ -70,6 +72,24 @@ namespace Personal_Site_API.Controllers
                     .ExpireAfter(TimeSpan.FromSeconds(5))
                     .GetValueAsync();
                 return Ok(userInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("{userId}/BlogPosts")]
+        public async Task<ActionResult> GetUserBlogPosts(int userId)
+        {
+            try
+            {
+                var blogPosts = await _cache.Method(x => x.Send<List<UserBlogPostDto>>(new GetUserBlogPostsQuery(userId), CancellationToken.None))
+                    .ExpireAfter(TimeSpan.FromSeconds(5))
+                    .GetValueAsync();
+                return Ok(blogPosts);
             }
             catch (Exception e)
             {

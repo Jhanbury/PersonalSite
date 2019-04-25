@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Site.Application.Entities;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
+using Site.Application.Interfaces;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Models;
@@ -21,7 +22,7 @@ namespace Personal_Site_API.Controllers
     {
         public UserInfoController(IMediator mediator, ICache cache, ILogger<UserInfoController> logger) : base(mediator, cache, logger)
         {
-
+            
         }
         [HttpGet]
         [Route("{userId}")]

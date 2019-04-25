@@ -14,7 +14,7 @@ namespace Site.Infrastructure.Services
 {
     public class BlogPostService : IBlogPostService
     {
-        private readonly IRepository<BlogPost, string> _blogRepository;
+        private readonly IRepository<UserBlogPost, string> _blogRepository;
         private readonly IRepository<User, int> _userRepository;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Site.Infrastructure.Services
         private string _blogsite = "https://www.bytesizedprogramming.com";
         private string _clientId = "ghost-frontend";
         private string _clientSecret = "1146deda3d2e";
-        public BlogPostService(IRepository<BlogPost, string> blogRepository, IRepository<User, int> userRepository, IHttpClientFactory httpClientFactory, IMapper mapper, ILogger<BlogPostService> logger)
+        public BlogPostService(IRepository<UserBlogPost, string> blogRepository, IRepository<User, int> userRepository, IHttpClientFactory httpClientFactory, IMapper mapper, ILogger<BlogPostService> logger)
         {
             _blogRepository = blogRepository;
             _userRepository = userRepository;
@@ -32,7 +32,7 @@ namespace Site.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<BlogPost>> GetUserBlogPosts(int userId)
+        public async Task<IEnumerable<UserBlogPost>> GetUserBlogPosts(int userId)
         {
             using (var client = _httpClientFactory.CreateClient())
             {
@@ -40,12 +40,13 @@ namespace Site.Infrastructure.Services
                 var response = await client.GetAsync(url);
                 var responseString = await response.Content.ReadAsStringAsync();
                 var blogs = JsonConvert.DeserializeObject<BlogApiResponse>(responseString);
-                var models = blogs.Posts.Select(x => new BlogPost
+                var models = blogs.Posts.Select(x => new UserBlogPost
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Url = $"{_blogsite}{x.Url}",
                     ImageUrl = $"{_blogsite}{x.ImageUrl}",
+                    UserId = userId
                 });
                 return models;
             }
@@ -56,6 +57,10 @@ namespace Site.Infrastructure.Services
             try
             {
                 var models = await GetUserBlogPosts(id);
+                foreach (var blogPost in models)
+                {
+                    _blogRepository.Add(blogPost);
+                }
             }
             catch (Exception e)
             {

@@ -6,7 +6,7 @@ namespace Site.Application.Interfaces
 {
     public interface IBlogPostService
     {
-        Task<IEnumerable<BlogPost>> GetUserBlogPosts(int userId);
+        Task<IEnumerable<UserBlogPost>> GetUserBlogPosts(int userId);
         Task UpdateBlogPostsForUser(int id);
     }
 }

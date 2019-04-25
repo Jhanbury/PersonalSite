@@ -15,6 +15,7 @@ namespace Site.Application.Entities
         public Address Address { get; set; }
         public ICollection<GithubRepo> GithubRepos { get; set; }
         public ICollection<SocialMediaAccount> SocialMediaAccounts { get; set; }
+        public ICollection<UserBlogPost> UserBlogPosts { get; set; }
         public ICollection<UserHobby> UserHobbies { get; set; }
         
         

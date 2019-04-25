@@ -1,30 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Hangfire;
-using Hangfire.Azure.ServiceBusQueue;
 using Hangfire.SqlServer;
 using MediatR;
 using MediatR.Pipeline;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using AutoMapper;
 using FluentCache;
 using FluentCache.Microsoft.Extensions.Caching.Distributed;
-using Hangfire.Common;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
@@ -58,8 +47,17 @@ namespace Personal_Site_API
             ConfigureSerilog(dbConnectionString);
             ConfigureHangFire(services, dbConnectionString);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("cors",
+                    builder =>
+                    {
+                        builder.AllowAnyHeader()
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod();
+                    });
+            });
+            
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
@@ -84,6 +82,7 @@ namespace Personal_Site_API
                 new FluentIDistributedCache(sp.GetService<IDistributedCache>(), new Serializer()));
             services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IGithubService, GithubRepoServices>();
+            services.AddScoped<IBlogPostService, BlogPostService>();
             services.AddScoped<IRecurringJobService, RecurringJobService>();
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
         }
@@ -118,7 +117,9 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
+            //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
+            //RecurringJob.AddOrUpdate<IBlogPostService>(service => service.UpdateBlogPostsForUser(1),);
+            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Hourly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -135,9 +136,10 @@ namespace Personal_Site_API
             }
 
             
+            app.UseCors("cors");
             app.UseHttpsRedirection();
             app.UseHangfireServer();
-            //app.UseHangfireDashboard();
+            app.UseHangfireDashboard();
             //app.UseAuthentication();
             app.UseMvc();
         }

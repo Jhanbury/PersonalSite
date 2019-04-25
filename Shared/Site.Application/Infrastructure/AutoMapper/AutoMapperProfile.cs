@@ -2,6 +2,7 @@
 using Site.Application.Addresses.Models;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
+using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
@@ -13,6 +14,7 @@ namespace Site.Application.Infrastructure.AutoMapper
     {
         public AutoMapperProfile()
         {
+            //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();

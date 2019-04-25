@@ -16,6 +16,11 @@
     <PackageReference Include="Willezone.Azure.WebJobs.Extensions.DependencyInjection" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Site.Application\Site.Application.csproj" />
+    <ProjectReference Include="..\..\Shared\Site.Infrastructure\Site.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Site.Persistance\Site.Persistance.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

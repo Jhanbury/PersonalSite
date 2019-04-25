@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
+using Site.Application.Infrastructure.Models;
 
 namespace Site.Application.Interfaces
 {

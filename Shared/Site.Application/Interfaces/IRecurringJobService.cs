@@ -5,5 +5,6 @@ namespace Site.Application.Interfaces
     public interface IRecurringJobService
     {
         Task UpdateGithubRepos(int userId, string username);
+        Task UpdateUserBlogs(int userId);
     }
 }

@@ -13,6 +13,7 @@ namespace Site.Persistance
         public DbSet<GithubRepo> GithubRepos { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
+        public DbSet<UserBlogPost> UserBlogPosts { get; set; }
         //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         public DbSet<User> Users { get; set; }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
+using Site.Application.Infrastructure.Models;
 using Site.Application.Interfaces;
 
 namespace Site.Infrastructure.Services

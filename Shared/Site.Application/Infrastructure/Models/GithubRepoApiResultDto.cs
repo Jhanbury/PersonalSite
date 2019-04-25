@@ -1,6 +1,7 @@
 ﻿using System;
+using Site.Application.Entities;
 
-namespace Site.Application.Entities
+namespace Site.Application.Infrastructure.Models
 {
     public class GithubRepoApiResultDto
     {

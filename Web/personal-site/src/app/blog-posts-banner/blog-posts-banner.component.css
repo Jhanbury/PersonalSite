@@ -1,0 +1,12 @@
+.view-post{
+    display: block;
+    text-align: center;
+
+}
+.example-card{
+    background-color: lightgray;
+    padding: 10px;
+}
+.user-blogs{
+    margin-top: 40px;
+}

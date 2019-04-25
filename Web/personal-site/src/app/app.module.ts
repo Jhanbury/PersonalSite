@@ -6,23 +6,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http'; 
 import { GithubRepoListComponent } from './github-repo-list/github-repo-list.component';
-import { UserinfoService } from './services/userinfo/userinfo.service';
+import { UserInfoService } from './services/userinfo/userinfo.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatListModule,MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatListModule,MatToolbarModule, MatCardModule,MatGridListModule} from '@angular/material';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faAdobe } from '@fortawesome/free-brands-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { BlogPostsBannerComponent } from './blog-posts-banner/blog-posts-banner.component';
 library.add(fab, faAdobe);
 @NgModule({
   declarations: [
     AppComponent,    
-    GithubRepoListComponent
+    GithubRepoListComponent,
+    BlogPostsBannerComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     MatListModule,
+    MatGridListModule,
+    MatCardModule,
     FontAwesomeModule,
     MatToolbarModule,
     BrowserAnimationsModule,

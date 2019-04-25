@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialMediaAccount } from './models/socialMediaAccount';
-import { UserinfoService } from './services/userinfo/userinfo.service';
+import { UserInfoService } from './services/userinfo/userinfo.service';
 import {faStackOverflow, faTwitter, faGithub, faLinkedin, IconDefinition} from '@fortawesome/free-brands-svg-icons';
 import { User } from './models/user';
 
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
   socialMediaAccounts: SocialMediaAccount[] = [ {id: 1, accountUrl:'test', platform: 'Facebook'}];
   socialMediaToolbarItems: SocialMediaToolbarItem[] = [];
   public userInfo: User;
-  constructor(private userinfoService: UserinfoService){
+  constructor(private userinfoService: UserInfoService){
     
     this.userinfoService.getUserSocialAccounts(1)
       .subscribe((data) => 

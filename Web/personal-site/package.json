@@ -28,6 +28,7 @@
     "@syncfusion/ej2-angular-lists": "^17.1.40",
     "@syncfusion/ej2-angular-navigations": "^17.1.41",
     "@syncfusion/ej2-angular-popups": "^17.1.40",
+    "@syncfusion/ej2-layouts": "^17.1.42",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

@@ -18,5 +18,7 @@ namespace Site.Application.Infrastructure.Models
         public string Url { get; set; }
         [JsonProperty("feature_image")]
         public string ImageUrl { get; set; }
+        [JsonProperty("custom_excerpt")]
+        public string Teaser { get; set; }
     }
 }

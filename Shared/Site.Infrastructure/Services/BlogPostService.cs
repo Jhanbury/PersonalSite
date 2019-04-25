@@ -46,6 +46,7 @@ namespace Site.Infrastructure.Services
                     Title = x.Title,
                     Url = $"{_blogsite}{x.Url}",
                     ImageUrl = $"{_blogsite}{x.ImageUrl}",
+                    Teaser = x.Teaser,
                     UserId = userId
                 });
                 return models;

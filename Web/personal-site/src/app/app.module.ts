@@ -29,6 +29,7 @@ library.add(fab, faAdobe);
     MatCardModule,
     FontAwesomeModule,
     MatToolbarModule,
+    MatButtonModule,
     BrowserAnimationsModule,
     ListViewModule, 
     ToolbarModule ,

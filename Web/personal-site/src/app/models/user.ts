@@ -3,5 +3,6 @@ export interface User {
     firstName:   string;
     lastName:    string;
     dateOfBirth: Date;
-    email:       string;    
+    email:       string;
+    personalStatement: string;    
 }

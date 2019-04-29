@@ -4,7 +4,7 @@
       <mat-grid-tile *ngFor="let post of blogPosts" [colspan]="1" [rowspan]="1" class="blog-tile">
           <mat-card class="example-card">
               <mat-card-header>              
-                <mat-card-title class="text-center">{{post.title}}</mat-card-title>              
+                <mat-card-title class="view-post">{{post.title}}</mat-card-title>              
               </mat-card-header>
               <img mat-card-image src="{{post.imageUrl}}">
               <mat-card-content>
@@ -13,7 +13,7 @@
                 </p>
               </mat-card-content>
               <mat-card-actions>
-                <button class="view-post" mat-raised-button (click)="openLink(post.url)" >View Post</button>              
+                <button class="view-post" mat-raised-button (click)="openLink(post.url)" >View</button>                           
               </mat-card-actions>
             </mat-card>        
       </mat-grid-tile>

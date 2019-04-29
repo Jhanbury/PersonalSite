@@ -1,22 +1,40 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container main-container">
-  <div class="row">
-    <mat-toolbar  style=" float:right;">
-      <mat-toolbar-row>
-          <span>{{userInfo.firstName}}{{userInfo.lastName}}.io</span>
-          <span class="example-fill-remaining-space"></span>
-        <fa-icon *ngFor="let toolbaritem of socialMediaToolbarItems" [icon]="toolbaritem.icon" (click)="openLink(toolbaritem.url)" style="padding: 5px 5px;"></fa-icon>
-        
-      </mat-toolbar-row>
-    </mat-toolbar>
-  </div>
-  <div class="row">
-    <div class="col-md-2"></div>  
-    <div class="col-md-8">
-      <github-repo-list></github-repo-list> 
-      <blog-posts-banner></blog-posts-banner> 
-    </div>  
-    <div class="col-md-2"></div>
+<div class="hero-container">
+  <div class="container"> 
+      <div class="row">
+          <mat-toolbar  style=" float:right;background: transparent">
+            <mat-toolbar-row class="toolbar">
+                <span>{{userInfo.firstName}}{{userInfo.lastName}}.io</span>
+                <span class="example-fill-remaining-space"></span>
+              <fa-icon *ngFor="let toolbaritem of socialMediaToolbarItems" [icon]="toolbaritem.icon" size="lg" (click)="openLink(toolbaritem.url)" style="padding: 5px 5px; height: 30px;"></fa-icon>        
+            </mat-toolbar-row>
+          </mat-toolbar>
+        </div>  
+      <div class="row justify-content-center vertical-center">
+          <div class="welcome-message-container">
+            <div class="welcome-message">
+              <h1>My name is John Hanbury
+              </h1>
+              <h3>{{userInfo.personalStatement}}</h3>
+            </div>
+          </div>
+      </div> 
   </div>
 </div>
+<div class="container other-content">    
+      <div class="row">
+        <div class="col-md-2"></div>  
+        <div class="col-md-8">
+          <github-repo-list></github-repo-list> 
+          <blog-posts-banner></blog-posts-banner> 
+        </div>  
+        <div class="col-md-2"></div>
+      </div>
+      <div class="row footer">
+  
+        </div>
+
+</div>
+
+
 <router-outlet></router-outlet>

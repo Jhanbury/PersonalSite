@@ -4,9 +4,11 @@
 
 }
 .example-card{
-    background-color: lightgray;
-    padding: 10px;
+    background-color: white;
+    background-size: cover;
+    padding: 30px;
 }
 .user-blogs{
     margin-top: 40px;
 }
+

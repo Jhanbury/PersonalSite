@@ -21,5 +21,8 @@ export class BlogPostsBannerComponent implements OnInit {
   openLink(url:string){
     window.open(url);
   }
+  shareLink(post: BlogPost){
+    window.open("https://twitter.com/intent/tweet?text=" + post.url + " target='share'");
+  }
 
 }

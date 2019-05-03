@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BlogPosts\Models\BlogPostMessageDto.cs" />
+    <Compile Remove="GithubRepos\Models\GithubMessageDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Addresses\Queries\" />
     <Folder Include="GithubRepos\Commands\" />
   </ItemGroup>

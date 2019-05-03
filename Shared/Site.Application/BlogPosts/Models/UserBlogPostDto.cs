@@ -1,4 +1,5 @@
-﻿using Site.Application.Users.Models;
+﻿using Site.Application.Messaging;
+using Site.Application.Users.Models;
 
 namespace Site.Application.BlogPosts.Models
 {

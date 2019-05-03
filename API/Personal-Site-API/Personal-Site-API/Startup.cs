@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Hangfire;
 using Hangfire.SqlServer;
 using MediatR;
@@ -20,6 +22,11 @@ using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
+using Site.Application.Messaging;
+using Site.Infrastructure;
+using Site.Infrastructure.MessageHandlers;
+using Site.Infrastructure.Messages;
+using Site.Infrastructure.Modules;
 using Site.Infrastructure.Services;
 using Site.Persistance;
 using Site.Persistance.Repository;
@@ -32,15 +39,14 @@ namespace Personal_Site_API
         {
             Configuration = configuration;
         }
-
+        public IContainer ApplicationContainer { get; set; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["KeyVault"];
             var dbConnectionString = Configuration["ConnectionString"];
-            ConfigureApplicationServices(services, dbConnectionString);
+            ConfigureCaching(services, dbConnectionString);
             services.AddHttpClient();
             ConfigureAutoMapper(services);
             ConfigureMediatR(services);
@@ -57,7 +63,11 @@ namespace Personal_Site_API
                             .AllowAnyMethod();
                     });
             });
-            
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Populate(services);
+            containerBuilder.RegisterModule<ApplicationModule>();
+            ApplicationContainer = containerBuilder.Build();
+            return new AutofacServiceProvider(ApplicationContainer);
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
@@ -74,17 +84,15 @@ namespace Personal_Site_API
             //    });
         }
 
-        private void ConfigureApplicationServices(IServiceCollection services, string connectionString)
+        
+        private void ConfigureCaching(IServiceCollection services, string connectionString)
         {
 
             services.AddDistributedMemoryCache();
             services.AddSingleton<ICache>(sp =>
                 new FluentIDistributedCache(sp.GetService<IDistributedCache>(), new Serializer()));
             services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<IGithubService, GithubRepoServices>();
-            services.AddScoped<IBlogPostService, BlogPostService>();
-            services.AddScoped<IRecurringJobService, RecurringJobService>();
-            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
+            
         }
 
         private void ConfigureAutoMapper(IServiceCollection services)
@@ -117,9 +125,9 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
+            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"));
             //RecurringJob.AddOrUpdate<IBlogPostService>(service => service.UpdateBlogPostsForUser(1),);
-            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Hourly);
+            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Minutely);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

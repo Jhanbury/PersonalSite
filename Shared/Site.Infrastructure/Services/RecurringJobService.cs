@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Site.Application.BlogPosts.Models;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Interfaces;
+using Site.Infrastructure.Messages;
+using Message = Microsoft.Azure.ServiceBus.Message;
 
 namespace Site.Infrastructure.Services
 {
@@ -27,7 +29,7 @@ namespace Site.Infrastructure.Services
         {
             try
             {
-                var model = new GithubMessageDto
+                var model = new GithubMessage
                 {
                     UserId = userId,
                     UserName = username
@@ -50,7 +52,8 @@ namespace Site.Infrastructure.Services
             var queueClient = new QueueClient(ServiceBusConnectionString, queue);
 
             // Create a new message to send to the queue.
-            string messageBody = JsonConvert.SerializeObject(data);
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+            string messageBody = JsonConvert.SerializeObject(data,settings);
             var message = new Message(Encoding.UTF8.GetBytes(messageBody));
 
             // Write the body of the message to the console.
@@ -64,7 +67,7 @@ namespace Site.Infrastructure.Services
         {
             try
             {
-                var model = new BlogPostMessageDto
+                var model = new BlogPostMessage
                 {
                     UserId = userId
                 };

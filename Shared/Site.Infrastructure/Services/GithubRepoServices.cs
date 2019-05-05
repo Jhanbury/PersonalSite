@@ -43,7 +43,7 @@ namespace Site.Infrastructure.Services
             
         }
 
-        private void AddNewRepos(IEnumerable<GithubRepoApiResultDto> newRepos, int userId)
+        public void AddNewRepos(IEnumerable<GithubRepoApiResultDto> newRepos, int userId)
         {
             foreach (var repo in newRepos)
             {
@@ -62,20 +62,12 @@ namespace Site.Infrastructure.Services
             {
                 var githubRepos = await GetAllGithubRepos(username);
                 var dbRepos = await _repository.Get(x => x.UserId.Equals(userId));
-                var enumerable = dbRepos.ToList();
-                var dbIds = dbRepos.Select(x => x.GithubId);
-                var githubIds = githubRepos.Select(x => x.GithubId);
-                var itemsToAdd = githubRepos.Where(x => !enumerable.Any(y => y.GithubId.Equals(x.GithubId)));
-                var itemsToRemove = dbIds.Except(githubIds);
-                var itemsToCheckForUpdates = githubRepos.Where(x => enumerable.Any(y => y.GithubId.Equals(x.GithubId)));
-                //_logger.LogInformation($"Items To Add:{itemsToAdd?.Count() ?? 0}");
-                //_logger.LogInformation($"Items To Remove:{itemsToRemove?.Count() ?? 0}");
-                //_logger.LogInformation($"Items To Update:{itemsToCheckForUpdates?.Count() ?? 0}");
+                var itemsToAdd = CalculateItemsToAdd(githubRepos, dbRepos);
+                var itemsToRemove = CalculateItemsToRemove(githubRepos, dbRepos);
+                var itemsToCheckForUpdates = CalculateItemsToUpdate(githubRepos, dbRepos);
                 await RemoveDeletedRepos(itemsToRemove);
                 AddNewRepos(itemsToAdd, userId);
                 await UpdateExisting(itemsToCheckForUpdates);
-                //await RemoveDeletedRepos(itemsToRemove);
-
             }
             catch (Exception e)
             {
@@ -85,7 +77,7 @@ namespace Site.Infrastructure.Services
         }
 
         
-        private async Task RemoveDeletedRepos(IEnumerable<long> itemsToRemove)
+        public async Task RemoveDeletedRepos(IEnumerable<long> itemsToRemove)
         {
             foreach (var repo in itemsToRemove)
             {
@@ -93,13 +85,13 @@ namespace Site.Infrastructure.Services
                 if (model != null)
                 {
                     _repository.Delete(model);
-                    _logger.LogInformation($"Github Repo deleted to DB: {model.Description}");
+                    //_logger.LogInformation($"Github Repo deleted to DB: {model.Description}");
                 }
             }
         }
 
 
-        private async Task UpdateExisting(IEnumerable<GithubRepoApiResultDto> itemsToCheckForUpdates)
+        public async Task UpdateExisting(IEnumerable<GithubRepoApiResultDto> itemsToCheckForUpdates)
         {
             foreach (var repo in itemsToCheckForUpdates)
             {
@@ -114,6 +106,21 @@ namespace Site.Infrastructure.Services
             }
         }
 
+        public IEnumerable<long> CalculateItemsToRemove(IEnumerable<GithubRepoApiResultDto> apiResults, IEnumerable<GithubRepo> dbRecords)
+        {
+            var dbIds = dbRecords.Select(x => x.GithubId);
+            var githubIds = apiResults.Select(x => x.GithubId);
+            return dbIds.Except(githubIds);
+        }
 
+        public IEnumerable<GithubRepoApiResultDto> CalculateItemsToAdd(IEnumerable<GithubRepoApiResultDto> apiResults, IEnumerable<GithubRepo> dbRepos)
+        {
+            return apiResults.Where(x => !dbRepos.Any(y => y.GithubId.Equals(x.GithubId)));
+        }
+
+        public IEnumerable<GithubRepoApiResultDto> CalculateItemsToUpdate(IEnumerable<GithubRepoApiResultDto> apiResults, IEnumerable<GithubRepo> dbRecords)
+        {
+            return apiResults.Where(x => dbRecords.Any(y => y.GithubId.Equals(x.GithubId)));
+        }
     }
 }

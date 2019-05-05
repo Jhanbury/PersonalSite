@@ -15,7 +15,7 @@ namespace Site.Infrastructure.Services
     public class BlogPostService : IBlogPostService
     {
         private readonly IRepository<UserBlogPost, string> _blogRepository;
-        private readonly IRepository<User, int> _userRepository;
+        //private readonly IRepository<User, int> _userRepository;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
@@ -23,10 +23,10 @@ namespace Site.Infrastructure.Services
         private string _blogsite = "https://www.bytesizedprogramming.com";
         private string _clientId = "ghost-frontend";
         private string _clientSecret = "1146deda3d2e";
-        public BlogPostService(IRepository<UserBlogPost, string> blogRepository, IRepository<User, int> userRepository, IHttpClientFactory httpClientFactory, IMapper mapper, ILogger<BlogPostService> logger)
+        public BlogPostService(IRepository<UserBlogPost, string> blogRepository, IHttpClientFactory httpClientFactory, IMapper mapper, ILogger<BlogPostService> logger)
         {
             _blogRepository = blogRepository;
-            _userRepository = userRepository;
+            //_userRepository = userRepository;
             _httpClientFactory = httpClientFactory;
             _mapper = mapper;
             _logger = logger;
@@ -40,6 +40,7 @@ namespace Site.Infrastructure.Services
                 var response = await client.GetAsync(url);
                 var responseString = await response.Content.ReadAsStringAsync();
                 var blogs = JsonConvert.DeserializeObject<BlogApiResponse>(responseString);
+                //todo use AutoMapper
                 var models = blogs.Posts.Select(x => new UserBlogPost
                 {
                     Id = x.Id,
@@ -58,16 +59,75 @@ namespace Site.Infrastructure.Services
             try
             {
                 var models = await GetUserBlogPosts(id);
-                foreach (var blogPost in models)
-                {
-                    _blogRepository.Add(blogPost);
-                }
+                var dbBlogs = await _blogRepository.Get(x => x.UserId.Equals(id));
+                AddBlogs(dbBlogs,models,id);
+                await RemoveBlogs(dbBlogs, models);
+                await UpdateBlogs(dbBlogs, models);
             }
             catch (Exception e)
             {
                 _logger.LogError(e,e.Message);
             }
             
+        }
+
+        public IEnumerable<string> BlogsToRemove(IEnumerable<UserBlogPost> dbRepos, IEnumerable<UserBlogPost> apiRepos)
+        {
+            var dbIds = dbRepos.Select(x => x.Id);
+            var githubIds = apiRepos.Select(x => x.Id);
+            return dbIds.Except(githubIds);
+        }
+
+        public IEnumerable<UserBlogPost> BlogsToUpdate(IEnumerable<UserBlogPost> dbRepos, IEnumerable<UserBlogPost> apiRepos)
+        {
+            return apiRepos.Where(x => dbRepos.Any(y => y.Id.Equals(x.Id)));
+        }
+
+        public IEnumerable<UserBlogPost> BlogsToAdd(IEnumerable<UserBlogPost> dbRepos, IEnumerable<UserBlogPost> apiRepos)
+        {
+            return apiRepos.Where(x => !dbRepos.Any(y => y.Id.Equals(x.Id)));
+        }
+
+        public void AddBlogs(IEnumerable<UserBlogPost> dbblogs, IEnumerable<UserBlogPost> apiblogs, int userId)
+        {
+            var blogsToAdd = BlogsToAdd(dbblogs, apiblogs);
+            foreach (var blog in blogsToAdd)
+            {
+                var model = _mapper.Map<UserBlogPost>(blog);
+                model.UserId = userId;
+                var createdModel = _blogRepository.Add(model);
+                //_logger.LogInformation($"Github Repo added to DB: {createdModel.Name}");
+            }
+        }
+
+        public async Task RemoveBlogs(IEnumerable<UserBlogPost> dbBlogs, IEnumerable<UserBlogPost> apiBlogs)
+        {
+            var blogsToDelete = BlogsToRemove(dbBlogs, apiBlogs);
+            foreach (var repo in blogsToDelete)
+            {
+                var model = await _blogRepository.GetSingle(x => x.Id.Equals(repo));
+                if (model != null)
+                {
+                    _blogRepository.Delete(model);
+                    //_logger.LogInformation($"Github Repo deleted to DB: {model.Description}");
+                }
+            }
+        }
+
+        public async Task UpdateBlogs(IEnumerable<UserBlogPost> dbBlogs, IEnumerable<UserBlogPost> apiBlogs)
+        {
+            var blogsToUpdate = BlogsToUpdate(dbBlogs, apiBlogs);
+            foreach (var repo in blogsToUpdate)
+            {
+                var existingModel = await _blogRepository.GetSingle(x => x.Id.Equals(repo.Id));
+                var existingId = existingModel.Id;
+                var existingUserId = existingModel.UserId;
+                _mapper.Map(repo, existingModel);
+                existingModel.Id = existingId;
+                existingModel.UserId = existingUserId;
+                //_logger.LogInformation(existingModel.Description);
+                _blogRepository.Update(existingModel);
+            }
         }
     }
 }

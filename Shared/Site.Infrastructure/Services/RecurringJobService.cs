@@ -34,10 +34,8 @@ namespace Site.Infrastructure.Services
                     UserId = userId,
                     UserName = username
                 };
-
                 var QueueName = "github-repos";
                 await AddJobToQueue(QueueName, model);
-
             }
             catch (Exception e)
             {
@@ -72,7 +70,7 @@ namespace Site.Infrastructure.Services
                     UserId = userId
                 };
 
-                var QueueName = "blog-posts";
+                var QueueName = "github-repos";
                 await AddJobToQueue(QueueName, model);
 
             }

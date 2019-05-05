@@ -22,14 +22,8 @@ using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
-using Site.Application.Messaging;
-using Site.Infrastructure;
-using Site.Infrastructure.MessageHandlers;
-using Site.Infrastructure.Messages;
 using Site.Infrastructure.Modules;
-using Site.Infrastructure.Services;
 using Site.Persistance;
-using Site.Persistance.Repository;
 
 namespace Personal_Site_API
 {
@@ -125,9 +119,11 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"));
+            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //RecurringJob.AddOrUpdate<IBlogPostService>(service => service.UpdateBlogPostsForUser(1),);
-            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Minutely);
+            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
+            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

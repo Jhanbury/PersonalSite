@@ -1,4 +1,4 @@
 <div class="text-center pagination-centered">
     <h3 class="github-header">Github Repos</h3>
-    <ejs-listview id='github-list' [dataSource]='repos' [fields]='fields' [showHeader]='false' ></ejs-listview>
+    <ejs-listview id='github-list' [dataSource]='repos' [fields]='fields' [showHeader]='false' (select)="openLink($event)"></ejs-listview>
 </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Site.Application.Entities;
 
 namespace Site.Application.Infrastructure.Models
@@ -12,7 +13,7 @@ namespace Site.Application.Infrastructure.Models
         public string FullName { get; set; }
 
         public string Description { get; set; }
-
+        [JsonProperty("html_url")]
         public string Url { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; }

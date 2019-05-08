@@ -120,7 +120,7 @@ namespace Personal_Site_API
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"));
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //RecurringJob.AddOrUpdate<IBlogPostService>(service => service.UpdateBlogPostsForUser(1),);
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);

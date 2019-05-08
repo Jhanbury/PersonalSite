@@ -29,30 +29,5 @@ namespace Site.Application.Infrastructure.AutoMapper
                 .ForMember(x => x.Type, y => y.MapFrom(z => z.HobbyType.Type))
                 .ReverseMap();
         }
-
-        //private void LoadConverters()
-        //{
-
-        //}
-
-        //private void LoadStandardMappings()
-        //{
-        //    var mapsFrom = MapperProfileHelper.LoadStandardMappings(Assembly.GetExecutingAssembly());
-
-        //    foreach (var map in mapsFrom)
-        //    {
-        //        CreateMap(map.Source, map.Destination).ReverseMap();
-        //    }
-        //}
-
-        //private void LoadCustomMappings()
-        //{
-        //    var mapsFrom = MapperProfileHelper.LoadCustomMappings(Assembly.GetExecutingAssembly());
-
-        //    foreach (var map in mapsFrom)
-        //    {
-        //        map.CreateMappings(this);
-        //    }
-        //}
     }
 }

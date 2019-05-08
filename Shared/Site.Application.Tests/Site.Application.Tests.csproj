@@ -8,15 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.10.1" />
-    <PackageReference Include="Moq.Contrib.HttpClient" Version="1.2.0" />
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Site.Application\Site.Application.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Site.Infrastructure\Site.Infrastructure.csproj" />
+    <ProjectReference Include="..\Site.Application\Site.Application.csproj" />
   </ItemGroup>
 
 </Project>

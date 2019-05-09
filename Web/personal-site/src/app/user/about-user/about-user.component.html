@@ -1,0 +1,19 @@
+<div class="about-content">
+    <div class="row justify-content-center">
+        <p>{{userInfo.firstName}} {{userInfo.lastName}}</p>        
+      </div>
+  <div class="row justify-content-center ">
+      <p class="personal-statement">{{userInfo.personalStatement}} </p>      
+  </div>
+  <div class="row justify-content-center hobbies-content">
+      <p>Hobbies</p>        
+  </div>
+  <div class="row justify-content-center hobbies-content">
+    <div class="col-md-4">
+        <ul>
+          <li *ngFor="let hobby of userHobbies">{{ hobby.name }}</li>
+        </ul>    
+    </div>            
+  </div>
+</div>
+

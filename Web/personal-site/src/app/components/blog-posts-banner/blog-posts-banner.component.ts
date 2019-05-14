@@ -19,8 +19,8 @@ export class BlogPostsBannerComponent implements OnInit {
       console.log(data);
       this.blogPosts.push(...data);
       // this.CreateGroups(data);
-      let blogsTemp = [this.testBlog,this.testBlog,this.testBlog,this.testBlog,this.testBlog,this.testBlog,];
-      this.groups = this.chunk(blogsTemp, 3);     
+      //let blogsTemp = [this.testBlog,this.testBlog,this.testBlog,this.testBlog,this.testBlog,this.testBlog,];
+      this.groups = this.chunk(data, 3);     
       
     })
   }
@@ -39,19 +39,4 @@ export class BlogPostsBannerComponent implements OnInit {
     }
     return R;
   }
-  // CreateGroups(blogs:BlogPost[]){
-  //   return this.chunkArray(blogs,3);
-  // }
-
-//   chunkArray(myArray :BlogPost[], chunk_size:number){
-//     var results: BlogPost[] = [];
-//     var groups : BlogPostGroup[] = [];
-//     while (myArray.length) {
-//         results.push(myArray.splice(0, chunk_size));
-//     }
-//     //results.push([[{}]])
-//     console.log(results);
-//     this.groups = results;
-// }
-
 }

@@ -1,0 +1,22 @@
+<!-- <div class="text-center pagination-centered">
+    <h3 class="github-header">Github Repos</h3>
+    <ejs-listview id='github-list' [dataSource]='repos' [fields]='fields' [showHeader]='false' (select)="openLink($event)"></ejs-listview>
+</div> -->
+<div class="container">
+    <div class="row col-md-4 offset-md-4 text-center pagination-centered">
+        <h3 class="github-header">Github Repos</h3>
+    </div>
+    <div class="row col-md-12">
+        <div class="card-columns">    
+            <div class="card repo-card" *ngFor="let repo of repos">
+              <div class="card-body">
+                <h5 class="card-title">{{repo.name}}</h5>
+                <p class="card-text">{{repo.description}}</p>
+                <p class="card-text"><small class="text-muted">Created on {{repo.created_at}}</small></p>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+

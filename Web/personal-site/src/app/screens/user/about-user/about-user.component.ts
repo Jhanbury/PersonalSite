@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/user';
-import { UserInfoService } from '../services/userinfo/userinfo.service';
-import { Hobby } from '../models/hobby';
+import { User } from '../../../models/user';
+import { UserInfoService } from '../../../services/userinfo/userinfo.service';
+import { Hobby } from '../../../models/hobby';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  selector: 'app-about-user',
+  templateUrl: './about-user.component.html',
+  styleUrls: ['./about-user.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class AboutUserComponent implements OnInit {
   public userInfo: User;
   public userHobbies : Hobby[] = [];
   constructor(private userinfoService: UserInfoService) {

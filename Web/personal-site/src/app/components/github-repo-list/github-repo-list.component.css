@@ -5,3 +5,7 @@
 .github-header{
     margin: 40px;    
 }
+
+.repo-card:hover {
+    transform: scale(1.1);
+}

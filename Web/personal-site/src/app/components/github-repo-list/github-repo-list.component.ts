@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GithubRepo } from '../models/githuRepo';
-import { GithubrepoService } from '../services/githubrepos/githubrepo.service';
-import { User } from '../models/user';
+import { GithubRepo } from '../../models/githuRepo';
+import { GithubrepoService } from '../../services/githubrepos/githubrepo.service';
+import { User } from '../../models/user';
 
 
 @Component({

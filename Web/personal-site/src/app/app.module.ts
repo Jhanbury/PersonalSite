@@ -13,6 +13,7 @@ import {MatButtonModule, MatCheckboxModule, MatListModule,MatToolbarModule, MatC
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faAdobe } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { BlogPostsBannerComponent } from './components/blog-posts-banner/blog-posts-banner.component';
 import { AboutUserComponent } from './screens/user/about-user/about-user.component';

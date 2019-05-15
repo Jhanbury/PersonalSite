@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GithubRepo } from '../../models/githuRepo';
 import { GithubrepoService } from '../../services/githubrepos/githubrepo.service';
 import { User } from '../../models/user';
+import { faStickyNote, faStar } from '@fortawesome/free-regular-svg-icons'
 
 
 @Component({
@@ -13,7 +14,8 @@ export class GithubRepoListComponent implements OnInit {
   public repos: GithubRepo[] = [];
   public fields: Object = { text: 'name', tooltip: 'Name', id:'id', cssClass:'float:left;' };
   public headertitle = 'Github Repos';
-  
+  public issueIcon = faStickyNote;
+  public starIcon = faStar;
   constructor(private githubService:GithubrepoService) { }
 
   ngOnInit() {

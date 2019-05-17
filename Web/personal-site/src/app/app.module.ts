@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GithubRepoListComponent } from './components/github-repo-list/github-repo-list.component';
 import { UserInfoService } from './services/userinfo/userinfo.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatListModule,MatToolbarModule, MatCardModule,MatGridListModule, MatMenuModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatListModule,MatToolbarModule, MatCardModule,MatGridListModule, MatMenuModule} from '@angular/material';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faAdobe } from '@fortawesome/free-brands-svg-icons';
@@ -19,6 +19,8 @@ import { BlogPostsBannerComponent } from './components/blog-posts-banner/blog-po
 import { AboutUserComponent } from './screens/user/about-user/about-user.component';
 import { HomePageComponent } from './screens/home-page/home-page.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { SocialLinksComponent } from './components/social-links/social-links.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 library.add(fab, faAdobe);
 
 
@@ -28,7 +30,9 @@ library.add(fab, faAdobe);
     GithubRepoListComponent,
     BlogPostsBannerComponent,
     AboutUserComponent,
-    HomePageComponent
+    HomePageComponent,
+    SocialLinksComponent,
+    NavBarComponent
   ],
   imports: [    
     HttpClientModule,
@@ -39,6 +43,7 @@ library.add(fab, faAdobe);
     MatMenuModule,
     FontAwesomeModule,
     MatToolbarModule,
+    MatIconModule,
     MatButtonModule,
     BrowserAnimationsModule,
     ListViewModule, 

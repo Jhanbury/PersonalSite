@@ -9,3 +9,13 @@
 .repo-card:hover {
     transform: scale(1.1);
 }
+
+.github-repos{
+    width: 100vw; 
+    background-color: white;
+}
+:host {
+    background-color: white;
+    size: 200px 200px;
+    display: block;
+}

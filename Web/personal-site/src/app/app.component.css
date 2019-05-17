@@ -10,7 +10,7 @@
   }
   .hero-container { 
     /* The image used */
-    background-image: url("/assets/background.png");
+    background-image: url("/assets/home-background.jpg");
 
     /* Full height */
     height: 100vh;
@@ -26,11 +26,7 @@
 .site-title{
     margin-right: 20px;
 }
-.menu-item{
-    color: white;
-    margin-left: 20px;
-    margin-right: 20px;
-}
+
 
 .personal-statement{
     max-width: 50vw;

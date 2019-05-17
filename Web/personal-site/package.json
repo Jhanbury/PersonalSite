@@ -30,7 +30,7 @@
     "@syncfusion/ej2-angular-lists": "^17.1.40",
     "@syncfusion/ej2-angular-navigations": "^17.1.41",
     "@syncfusion/ej2-angular-popups": "^17.1.40",
-    "@syncfusion/ej2-layouts": "^17.1.42",
+    "@syncfusion/ej2-layouts": "^17.1.47",
     "@types/chart.js": "^2.7.52",
     "angular-bootstrap-md": "^7.5.2",
     "bootstrap": "^4.3.1",

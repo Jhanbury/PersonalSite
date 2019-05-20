@@ -6,6 +6,7 @@ import { User } from '../../models/user';
 import { BlogPost } from '../../models/blogPost';
 import {environment} from '../../../environments/environment';
 import { Hobby } from '../../models/hobby';
+import { Project } from 'src/app/models/project';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class UserInfoService {
 
   getUserHobbies(id:number): Observable<Hobby[]>{
     return this.client.get<Array<Hobby>>(environment.baseUrl + `/userinfo/${id}/hobbies`);
+  }
+
+  getUserProjects(id:number): Observable<Project[]>{
+    return this.client.get<Array<Project>>(environment.baseUrl + `/userinfo/${id}/projects`);
   }
 
 

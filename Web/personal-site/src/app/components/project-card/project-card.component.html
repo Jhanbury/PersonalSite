@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{project.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{project.description}}</h6>
+    <p>Technologies Used:</p>
+    <tech-list [technologies]="project.technologies"></tech-list>
+    <p>Skills Used:</p>
+    <skill-list [skills]="project.skills"></skill-list>
+    <a *ngIf="project.projectUrl" (click)="openLink(project.projectUrl)" class="btn btn-primary">Open Project</a>
+  </div>
+</div>

@@ -2,8 +2,12 @@
     display: block;
 }
 
+.github-repos-icon{
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
 .github-header{
-    margin: 40px;    
+    margin-bottom: 40px;    
 }
 
 .repo-card:hover {
@@ -13,6 +17,7 @@
 .github-repos{
     width: 100vw; 
     background-color: white;
+    margin-bottom: 40px;
 }
 :host {
     background-color: white;

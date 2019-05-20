@@ -21,6 +21,10 @@ import { HomePageComponent } from './screens/home-page/home-page.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { SocialLinksComponent } from './components/social-links/social-links.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { TechListComponent } from './components/tech-list/tech-list.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { SkillListComponent } from './components/skill-list/skill-list.component';
+import { UserProjectColumnComponent } from './components/user-project-column/user-project-column.component';
 library.add(fab, faAdobe);
 
 
@@ -32,7 +36,11 @@ library.add(fab, faAdobe);
     AboutUserComponent,
     HomePageComponent,
     SocialLinksComponent,
-    NavBarComponent
+    NavBarComponent,
+    TechListComponent,
+    ProjectCardComponent,
+    SkillListComponent,
+    UserProjectColumnComponent
   ],
   imports: [    
     HttpClientModule,

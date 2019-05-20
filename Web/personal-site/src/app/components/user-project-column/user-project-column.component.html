@@ -1,0 +1,14 @@
+<div class="container project-container">  
+    <div class="row col-md-8 offset-md-2 d-flex justify-content-center user-project-column-icon">    
+        <mdb-icon fas icon="drafting-compass" size="4x"></mdb-icon>
+    </div>  
+    <div class="row col-md-8 offset-md-2 d-flex justify-content-center user-project-column-header">    
+        <h3 >Personal Projects</h3>
+    </div>
+    <div class="row col-md-12 d-flex justify-content-center">
+        <div class="card-columns">
+          <project-card *ngFor="let project of projects" [project]="project"></project-card>
+        </div>
+    </div>   
+  </div> 
+

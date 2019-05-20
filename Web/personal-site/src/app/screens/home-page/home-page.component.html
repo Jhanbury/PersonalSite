@@ -1,7 +1,7 @@
-<div>
+<div id="home-background">
   <div class="container home-page">
     <div class="row align-items-center">
-      <div class="col-md-2 offset-md-5 user-icon-container text-center">        
+      <div class="col-md-2 offset-md-5 d-flex justify-content-center user-icon-container ">        
           <div class="e-avatar e-avatar-circle user-icon">
               <img src="https://avatars2.githubusercontent.com/u/11406932?s=400&u=1daa67e7dd746084a56c68a0de041acac5c4d652&v=4" alt="profile_pic">
           </div>
@@ -10,7 +10,7 @@
     <div class="row align-items-center">
         <div class="col-md-8 offset-md-2 welcome-message-container">        
           <div class="welcome-message">
-            <h1>My name is {{userInfo.firstName}} {{userInfo.lastName}}
+            <h1>Hi,<br> I'm {{userInfo.firstName}} {{userInfo.lastName}}
             </h1>
             <h4 class="personal-statement">{{userInfo.personalStatement}}</h4>
           </div>
@@ -24,9 +24,12 @@
     </div>
     <div class="row align-items-center social-links-block">
         <div class="col col-md-8 offset-md-2 text-center">
-            <button mat-raised-button class="see-more-button" (click)="scroll(repos)">
+            <button mat-fab (click)="scroll(repos)" class="see-more-button">
+                <mat-icon >expand_more</mat-icon>
+              </button>
+            <!-- <button mat-stroked-button color="black" outline="true" class="see-more-button" (click)="scroll(repos)">
                 See More   <mat-icon >expand_more</mat-icon> 
-            </button>
+            </button> -->
         </div>
   
     </div>
@@ -38,6 +41,8 @@
         <github-repo-list ></github-repo-list>
         <mat-divider></mat-divider>
         <blog-posts-banner></blog-posts-banner>
+        <mat-divider></mat-divider>   
+        <user-project-column [projects]="projects"></user-project-column>     
       </div>
       
     </div>
@@ -47,3 +52,5 @@
 
   </div>
 </div>
+
+

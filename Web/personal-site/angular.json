@@ -37,7 +37,8 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/hammerjs/hammer.min.js",
+              "src/assets/js/background.js"
             ],
             "es5BrowserSupport": true
           },
@@ -95,7 +96,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["src/assets/js/background.js"],
             "assets": [
               "src/favicon.ico",
               "src/assets"

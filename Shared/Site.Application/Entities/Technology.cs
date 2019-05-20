@@ -9,6 +9,7 @@ namespace Site.Application.Entities
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public TechnologyType TechnologyType { get; set; }
-        public ICollection<PersonalProjectTechnology> PersonalProjects { get; set; }
+        public ICollection<ProjectTechnologies> ProjectTechnologies { get; set; }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Site.Application.Entities
 {
@@ -40,5 +41,6 @@ namespace Site.Application.Entities
         public long Watchers { get; set; }
 
         public User User { get; set; }
+        public Project Project { get; set; }
     }
 }

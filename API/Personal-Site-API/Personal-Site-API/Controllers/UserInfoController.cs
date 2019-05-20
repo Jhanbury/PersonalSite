@@ -10,6 +10,7 @@ using Site.Application.BlogPosts.Models;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
+using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Models;
@@ -90,6 +91,23 @@ namespace Personal_Site_API.Controllers
                     .ExpireAfter(TimeSpan.FromSeconds(5))
                     .GetValueAsync();
                 return Ok(blogPosts);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+        }
+        [HttpGet]
+        [Route("{userId}/Projects")]
+        public async Task<ActionResult> GetUserProjects(int userId)
+        {
+            try
+            {
+                var projects = await _cache.Method(x => x.Send(new GetUserProjectsQuery(userId), CancellationToken.None))
+                    .ExpireAfter(TimeSpan.FromSeconds(5))
+                    .GetValueAsync();
+                return Ok(projects);
             }
             catch (Exception e)
             {

@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="BlogPosts\Models\BlogPostMessageDto.cs" />
+    <Compile Remove="Entities\PersonalProject.cs" />
+    <Compile Remove="Entities\PersonalProjectTechnology.cs" />
     <Compile Remove="GithubRepos\Models\GithubMessageDto.cs" />
   </ItemGroup>
 

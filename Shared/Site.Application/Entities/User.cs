@@ -17,6 +17,7 @@ namespace Site.Application.Entities
         public ICollection<SocialMediaAccount> SocialMediaAccounts { get; set; }
         public ICollection<UserBlogPost> UserBlogPosts { get; set; }
         public ICollection<UserHobby> UserHobbies { get; set; }
+        public ICollection<Project> Projects { get; set; }
         
         
     }

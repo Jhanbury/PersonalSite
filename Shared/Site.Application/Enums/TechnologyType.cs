@@ -4,6 +4,8 @@
     {
         Language,
         Library,
-        Database
+        Database,
+        Framework,
+
     }
 }

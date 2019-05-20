@@ -9,6 +9,9 @@ namespace Site.Persistance.Configurations
         public void Configure(EntityTypeBuilder<GithubRepo> builder)
         {
             builder.HasKey(e => e.RepoId);
+            builder.HasOne(x => x.Project)
+                .WithOne(x => x.GithubRepo)
+                .HasForeignKey<Project>(x => x.GithubRepoId);
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Site.Persistance;
 
 namespace Site.Persistance.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190518154202_added project url")]
+    partial class addedprojecturl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,6 +132,8 @@ namespace Site.Persistance.Migrations
                     b.Property<int?>("GithubRepoId");
 
                     b.Property<int>("ProjectType");
+
+                    b.Property<int>("ProjectTypeId");
 
                     b.Property<string>("ProjectUrl");
 

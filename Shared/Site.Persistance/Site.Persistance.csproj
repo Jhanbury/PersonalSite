@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190407104655_added-githubRepos.cs" />
     <Compile Remove="Migrations\20190418214939_added social media platform to account table.cs" />
+    <Compile Remove="Migrations\20190517210240_add project tables.cs" />
   </ItemGroup>
 
   <ItemGroup>

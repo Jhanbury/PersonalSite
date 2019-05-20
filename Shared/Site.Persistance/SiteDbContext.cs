@@ -14,11 +14,14 @@ namespace Site.Persistance
         public DbSet<Address> Addresses { get; set; }
         public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         public DbSet<UserBlogPost> UserBlogPosts { get; set; }
-        //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
-        //public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Hobby> Hobby { get; set; }
         public DbSet<UserHobby> UserHobby { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectSkills> ProjectSkills { get; set; }
+        public DbSet<ProjectTechnologies> ProjectTechnologies { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<Technology> Technologies { get; set; }
 
         
 

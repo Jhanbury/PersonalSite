@@ -1,4 +1,19 @@
 <div id="home-background">
+  <div (document:scroll)="handleScroll($event)" class="side-bar" [hidden]="isSideBarVisibile" >
+      <div mdbScrollSpy="scrollspy" id="list-example" class="list-group">
+          <a mdbScrollSpyLink="repos" class="list-group-item list-group-item-action" href="#repos" ><mdb-icon fab icon="github-square" size="2x"></mdb-icon></a>
+          <a mdbScrollSpyLink="projects" class="list-group-item list-group-item-action" href="#projects"><mdb-icon fas icon="drafting-compass" size="2x"></mdb-icon></a>
+          <a mdbScrollSpyLink="blogs" class="list-group-item list-group-item-action" href="#blogs"><mdb-icon fas icon="rss-square" size="2x"></mdb-icon></a>
+          
+      </div>
+      <!-- <div id="list-example" class="list-group">
+          <a class="list-group-item list-group-item-action" href="#repos"><mdb-icon fab icon="github-square" size="3x"></mdb-icon></a>
+          <a class="list-group-item list-group-item-action" href="#projects"><mdb-icon fas icon="drafting-compass" size="3x"></mdb-icon></a>  
+          <a class="list-group-item list-group-item-action" href="#blogs"><mdb-icon fas icon="rss-square" size="3x"></mdb-icon></a>
+                  
+        </div> -->
+      
+  </div>
   <div class="container home-page">
     <div class="row align-items-center">
       <div class="col-md-2 offset-md-5 d-flex justify-content-center user-icon-container ">        
@@ -10,7 +25,7 @@
     <div class="row align-items-center">
         <div class="col-md-8 offset-md-2 welcome-message-container">        
           <div class="welcome-message">
-            <h1>Hi,<br> I'm {{userInfo.firstName}} {{userInfo.lastName}}
+            <h1>Hi, I'm {{userInfo.firstName}} {{userInfo.lastName}}
             </h1>
             <h4 class="personal-statement">{{userInfo.personalStatement}}</h4>
           </div>
@@ -25,7 +40,7 @@
     <div class="row align-items-center social-links-block">
         <div class="col col-md-8 offset-md-2 text-center">
             <button mat-fab (click)="scroll(repos)" class="see-more-button">
-                <mat-icon >expand_more</mat-icon>
+                <mat-icon colo>expand_more</mat-icon>
               </button>
             <!-- <button mat-stroked-button color="black" outline="true" class="see-more-button" (click)="scroll(repos)">
                 See More   <mat-icon >expand_more</mat-icon> 
@@ -38,11 +53,13 @@
     <div class="row">
       <div class="col-md-12" #repos>
           <mat-divider></mat-divider>
-        <github-repo-list ></github-repo-list>
+        <github-repo-list mdbScrollSpyElement="scrollspy" id="repos" ></github-repo-list>
         <mat-divider></mat-divider>
-        <blog-posts-banner></blog-posts-banner>
-        <mat-divider></mat-divider>   
-        <user-project-column [projects]="projects"></user-project-column>     
+        <user-project-column mdbScrollSpyElement="scrollspy" id="projects" [projects]="projects"></user-project-column> 
+        <mat-divider></mat-divider>
+        <blog-posts-banner mdbScrollSpyElement="scrollspy" id="blogs"></blog-posts-banner>
+        
+            
       </div>
       
     </div>

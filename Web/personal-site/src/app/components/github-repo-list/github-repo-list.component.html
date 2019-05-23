@@ -1,24 +1,13 @@
-<div class="container github-repos">    
-    <div class="row col-md-4 offset-md-4 d-flex justify-content-center github-repos-icon">        
-        <mdb-icon fab icon="github-square" size="4x"></mdb-icon>
+<div class="container github-repos">
+  <div class="row col-md-4 offset-md-4 d-flex justify-content-center github-repos-icon">
+    <mdb-icon fab icon="github-square" size="4x"></mdb-icon>
+  </div>
+  <div class="row col-md-4 offset-md-4 d-flex justify-content-center github-header">
+    <h3 class="">Github Repos</h3>
+  </div>
+  <div class="row col-md-12">
+    <div class="card-columns">
+      <github-card *ngFor="let repo of repos" [repo]="repo"></github-card>
     </div>
-    <div class="row col-md-4 offset-md-4 d-flex justify-content-center github-header">        
-        <h3 class="">Github Repos</h3>
-    </div>
-    <div class="row col-md-12">
-        <div class="card-columns">    
-            <div class="card repo-card"  *ngFor="let repo of repos">
-              <div class="card-body" (click)="openLink(repo.html_url)">
-                <h5 class="card-title">{{repo.name}}</h5>
-                <p class="card-text">{{repo.description}}</p>
-                <div class="row">
-                  <div class="col-md-6 text-center"><fa-icon [icon]="issueIcon" size="lg"></fa-icon>   {{repo.open_issues}}</div>
-                  <div class="col-md-6 text-center"><fa-icon [icon]="starIcon" size="lg"></fa-icon>   {{repo.stargazers_count}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
+  </div>
 </div>
-
-

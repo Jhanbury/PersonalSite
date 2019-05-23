@@ -25,6 +25,7 @@ import { TechListComponent } from './components/tech-list/tech-list.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { SkillListComponent } from './components/skill-list/skill-list.component';
 import { UserProjectColumnComponent } from './components/user-project-column/user-project-column.component';
+import { GithubCardComponent } from './components/github-card/github-card.component';
 library.add(fab, faAdobe);
 
 
@@ -40,7 +41,8 @@ library.add(fab, faAdobe);
     TechListComponent,
     ProjectCardComponent,
     SkillListComponent,
-    UserProjectColumnComponent
+    UserProjectColumnComponent,
+    GithubCardComponent
   ],
   imports: [    
     HttpClientModule,

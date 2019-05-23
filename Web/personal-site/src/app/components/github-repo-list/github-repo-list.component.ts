@@ -27,9 +27,6 @@ export class GithubRepoListComponent implements OnInit {
     
   }
 
-  openLink(args:any){
-    console.log(args);
-    window.open(args);
-  }
+  
 
 }

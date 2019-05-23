@@ -1,0 +1,11 @@
+<div class="card repo-card">
+    <div class="card-body" (click)="openLink(repo.html_url)">
+      <h5 class="card-title">{{repo.name}}</h5>
+      <p class="card-text">{{repo.description}}</p>
+      <div class="row">
+        <div class="col-md-4 text-center"><mdb-icon fas icon="exclamation-circle"></mdb-icon>   {{repo.open_issues}}</div>
+        <div class="col-md-4 text-center"><mdb-icon fas icon="star"></mdb-icon>   {{repo.stargazers_count}}</div>
+        <div class="col-md-4 text-center"><mdb-icon fas icon="code-branch"></mdb-icon>   {{repo.forks}}</div>
+      </div>
+    </div>
+  </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone  } from '@angular/core';
 import { User } from '../../models/user';
 import { UserInfoService } from '../../services/userinfo/userinfo.service';
 import { Hobby } from '../../models/hobby';
@@ -42,8 +42,10 @@ export class HomePageComponent implements OnInit {
   ];
   public userInfo: User;
   public userHobbies : Hobby[] = [];
-  constructor(private userinfoService: UserInfoService) {   
-    
+  public isSideBarVisibile: boolean = true;
+  public zone1: NgZone;
+  constructor(private userinfoService: UserInfoService,public zone:NgZone ) {   
+    this.zone1 = zone;
 
     this.userinfoService.getUserInfo(1)
       .subscribe((data) =>{
@@ -60,7 +62,15 @@ export class HomePageComponent implements OnInit {
 }
 
   ngOnInit() {
-    // background.showBackground("#home-background");
+    //window.addEventListener('scroll', this.scrollHandler, true); //third parameter
+  }
+
+  ngOnDestroy() {
+    //window.removeEventListener('scroll', this.scrollHandler, true);
+  }
+
+  handleScroll(event){
+    this.zone1.run(() => this.isSideBarVisibile = window.scrollY < 600);
   }
 
 }

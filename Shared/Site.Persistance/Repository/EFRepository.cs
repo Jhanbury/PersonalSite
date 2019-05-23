@@ -44,12 +44,23 @@ namespace Site.Persistance.Repository
             var query = _context.Set<TEntity>().Where(expression);
             foreach (Expression<Func<TEntity, object>> includeProperty in includes)
             {
-
                 query = query.Include<TEntity, object>(includeProperty);
             }
 
             return await query.ToListAsync();
         }
+
+        //public async Task<IEnumerable<TEntity>> GetIncluding(Expression<Func<TEntity, bool>> expression, params string[] includes)
+        //{
+        //    var query = _context.Set<TEntity>().i(includes);
+        //    foreach (string includeProperty in includes)
+        //    {
+
+        //        query.Include(includeProperty);
+        //    }
+
+        //    return await query.Where(expression).ToListAsync();
+        //}
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {

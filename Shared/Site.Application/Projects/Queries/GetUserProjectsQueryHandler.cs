@@ -16,11 +16,11 @@ namespace Site.Application.Projects.Queries
     public class GetUserProjectsQueryHandler : IRequestHandler<GetUserProjectsQuery, List<ProjectDto>>
     {
         private readonly IRepository<Project, int> _projectRepository;
-        private readonly IRepository<ProjectSkills, int> _projectSkillsRepository;
-        private readonly IRepository<ProjectTechnologies, int> _projectTechRepository;
+        private readonly IRepository<ProjectSkill, int> _projectSkillsRepository;
+        private readonly IRepository<ProjectTechnology, int> _projectTechRepository;
         private readonly IMapper _mapper;
 
-        public GetUserProjectsQueryHandler(IRepository<Project, int> repository, IRepository<ProjectTechnologies, int> techRepo, IRepository<ProjectSkills, int> skillsrepo, IMapper mapper)
+        public GetUserProjectsQueryHandler(IRepository<Project, int> repository, IRepository<ProjectTechnology, int> techRepo, IRepository<ProjectSkill, int> skillsrepo, IMapper mapper)
         {
             _projectRepository = repository;
             _projectSkillsRepository = skillsrepo;
@@ -32,11 +32,11 @@ namespace Site.Application.Projects.Queries
         {
             var projects = await _projectRepository.GetIncluding(x => x.UserId.Equals(request.UserId),
                 x => x.ProjectSkills,
-                x => x.ProjectTechnologies);
+                x => x.ProjectTechnologys);
             var projectIds = projects.Select(x => x.Id);
             var projectSkills = await _projectSkillsRepository.GetIncluding(x => projectIds.Contains(x.ProjectId), x => x.Skill);
             var projectTech = await _projectTechRepository.GetIncluding(x => projectIds.Contains(x.ProjectId), x => x.Technology);
-            
+
             var projectDtos = projects.Select(x => _mapper.Map<ProjectDto>(x)).ToList();
             foreach (var projectDto in projectDtos)
             {
@@ -47,6 +47,8 @@ namespace Site.Application.Projects.Queries
             }
 
             return projectDtos;
+
+
         }
     }
 }

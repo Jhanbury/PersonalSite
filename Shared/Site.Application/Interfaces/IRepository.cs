@@ -13,6 +13,7 @@ namespace Site.Application.Interfaces
         Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> expression);
         Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> expression);
         Task<IEnumerable<TEntity>> GetIncluding(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity,object>>[] includes);
+        //Task<IEnumerable<TEntity>> GetIncluding(Expression<Func<TEntity, bool>> expression, params string[] includes);
         Task<IEnumerable<TEntity>> GetAll();
         TEntity Add(TEntity entity);
         void Update(TEntity entity);

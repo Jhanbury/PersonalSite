@@ -7,6 +7,6 @@ namespace Site.Application.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ProjectSkills> ProjectSkills { get; set; }
+        public ICollection<ProjectSkill> ProjectSkills { get; set; }
     }
 }

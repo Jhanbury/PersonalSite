@@ -1,6 +1,6 @@
 ﻿namespace Site.Application.Entities
 {
-    public class ProjectSkills
+    public class ProjectSkill
     {
         public int ProjectId { get; set; }
         public int SkillId { get; set; }

@@ -14,7 +14,7 @@ namespace Site.Application.Entities
         public Enums.ProjectType ProjectType { get; set; }
         public GithubRepo GithubRepo { get; set; }
         public User User { get; set; }
-        public ICollection<ProjectSkills> ProjectSkills { get; set; }
-        public ICollection<ProjectTechnologies> ProjectTechnologies { get; set; }
+        public virtual ICollection<ProjectSkill> ProjectSkills { get; set; }
+        public virtual ICollection<ProjectTechnology> ProjectTechnologys { get; set; }
     }
 }

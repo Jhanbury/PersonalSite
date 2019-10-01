@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
+using Site.Application.CareerExperience.Models;
+using Site.Application.Company.Models;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
@@ -20,6 +22,8 @@ namespace Site.Application.Infrastructure.AutoMapper
             //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
+            CreateMap<Entities.Company, CompanyDto>().ReverseMap();
+            CreateMap<UserExperience, UserExperienceDto>().ReverseMap();
             CreateMap<Skill, SkillDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();

@@ -26,6 +26,8 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
 import { SkillListComponent } from './components/skill-list/skill-list.component';
 import { UserProjectColumnComponent } from './components/user-project-column/user-project-column.component';
 import { GithubCardComponent } from './components/github-card/github-card.component';
+import { ExperienceTimelineComponent } from './components/experience-timeline/experience-timeline.component';
+import { MglTimelineModule } from 'angular-mgl-timeline';
 library.add(fab, faAdobe);
 
 
@@ -42,7 +44,8 @@ library.add(fab, faAdobe);
     ProjectCardComponent,
     SkillListComponent,
     UserProjectColumnComponent,
-    GithubCardComponent
+    GithubCardComponent,
+    ExperienceTimelineComponent
   ],
   imports: [    
     HttpClientModule,
@@ -59,6 +62,7 @@ library.add(fab, faAdobe);
     ListViewModule, 
     ToolbarModule ,
     AppRoutingModule,
+    MglTimelineModule,
     MDBBootstrapModule.forRoot()
   ],
   providers: [],

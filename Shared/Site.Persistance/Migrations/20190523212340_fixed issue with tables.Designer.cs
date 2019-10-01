@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Site.Persistance;
 
 namespace Site.Persistance.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190523212340_fixed issue with tables")]
+    partial class fixedissuewithtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,21 +42,6 @@ namespace Site.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("Site.Application.Entities.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.GithubRepo", b =>
@@ -316,23 +303,6 @@ namespace Site.Persistance.Migrations
                     b.ToTable("UserBlogPosts");
                 });
 
-            modelBuilder.Entity("Site.Application.Entities.UserExperience", b =>
-                {
-                    b.Property<int>("UserId");
-
-                    b.Property<int>("CompanyId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<DateTime?>("EndDate");
-
-                    b.HasKey("UserId", "CompanyId", "StartDate");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("UserExperiences");
-                });
-
             modelBuilder.Entity("Site.Application.Entities.UserHobby", b =>
                 {
                     b.Property<int>("HobbyId");
@@ -446,19 +416,6 @@ namespace Site.Persistance.Migrations
                 {
                     b.HasOne("Site.Application.Entities.User", "User")
                         .WithMany("UserBlogPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Site.Application.Entities.UserExperience", b =>
-                {
-                    b.HasOne("Site.Application.Entities.Company", "Company")
-                        .WithMany("UserExperiences")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Site.Application.Entities.User", "User")
-                        .WithMany("UserExperiences")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

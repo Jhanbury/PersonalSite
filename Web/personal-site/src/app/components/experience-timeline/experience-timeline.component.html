@@ -1,0 +1,12 @@
+
+<mgl-timeline>
+  <mgl-timeline-entry *ngFor="let experience of experiences; let i = index;">
+    <mgl-timeline-entry-header>
+      <div>{{experience.company.name}}</div>
+    </mgl-timeline-entry-header>
+    <mgl-timeline-entry-content>      
+    </mgl-timeline-entry-content>
+    <mgl-timeline-entry-dot></mgl-timeline-entry-dot>
+    <mgl-timeline-entry-side>{{experience.startDate | date:'mediumDate'}}</mgl-timeline-entry-side>
+  </mgl-timeline-entry>
+</mgl-timeline>

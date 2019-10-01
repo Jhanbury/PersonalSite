@@ -19,9 +19,11 @@ namespace Site.Persistance
         public DbSet<UserHobby> UserHobby { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
-        public DbSet<ProjectTechnology> ProjectTechnologys { get; set; }
+        public DbSet<ProjectTechnology> ProjectTechnologies { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Technology> Technologies { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<UserExperience> UserExperiences { get; set; }
 
         
 

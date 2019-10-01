@@ -6,6 +6,7 @@ import { Technology } from 'src/app/models/technology';
 import { Project } from 'src/app/models/project';
 import { Skill } from 'src/app/models/skill';
 import * as background from '../../../assets/js/background.js';
+import { Experience } from 'src/app/models/experience';
 
 @Component({
   selector: 'app-home-page',
@@ -41,6 +42,7 @@ export class HomePageComponent implements OnInit {
         }),
   ];
   public userInfo: User;
+  public userExperiences: Experience[] = [];
   public userHobbies : Hobby[] = [];
   public isSideBarVisibile: boolean = true;
   public zone1: NgZone;
@@ -51,7 +53,12 @@ export class HomePageComponent implements OnInit {
       .subscribe((data) =>{
         this.userInfo = data;
       });
-      this.userinfoService.getUserHobbies(1)
+    this.userinfoService.getUserExperience(1)
+      .subscribe((data) => {
+        console.log(data);
+        this.userExperiences = data;
+      })
+    this.userinfoService.getUserHobbies(1)
       .subscribe((data) =>{
         this.userHobbies = data;
       });

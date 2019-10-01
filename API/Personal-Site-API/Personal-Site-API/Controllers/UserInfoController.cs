@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Site.Application.BlogPosts.Models;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
+using Site.Application.CareerExperience.Queries;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
 using Site.Application.Projects.Queries;
@@ -108,6 +109,24 @@ namespace Personal_Site_API.Controllers
                     .ExpireAfter(TimeSpan.FromSeconds(5))
                     .GetValueAsync();
                 return Ok(projects);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("{userId}/Experience")]
+        public async Task<ActionResult> GetUserExperience(int userId)
+        {
+            try
+            {
+                var experience = await _cache.Method(x => x.Send(new GetUserExperienceQuery(userId), CancellationToken.None))
+                    .ExpireAfter(TimeSpan.FromSeconds(5))
+                    .GetValueAsync();
+                return Ok(experience);
             }
             catch (Exception e)
             {

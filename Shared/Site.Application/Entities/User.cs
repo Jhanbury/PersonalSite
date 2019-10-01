@@ -18,6 +18,7 @@ namespace Site.Application.Entities
         public ICollection<UserBlogPost> UserBlogPosts { get; set; }
         public ICollection<UserHobby> UserHobbies { get; set; }
         public ICollection<Project> Projects { get; set; }
+        public ICollection<UserExperience> UserExperiences { get; set; }
         
         
     }

@@ -106,8 +106,8 @@ namespace Personal_Site_API
         public void ConfigureSerilog(string connectionString)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Information()
+                //.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Application", "API")
                 .WriteTo.MSSqlServer(connectionString, "Logs")

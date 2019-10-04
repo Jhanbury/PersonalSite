@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using Site.Application.Interfaces;
 
 namespace Site.Persistance.Repository
@@ -48,6 +49,39 @@ namespace Site.Persistance.Repository
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetIncludingOfType<T>(params Expression<Func<T, object>>[] includes) where T : class
+        {
+            var query = _context.Set<TEntity>().OfType<T>();
+            foreach (Expression<Func<T, object>> includeProperty in includes)
+            {
+                query = query.Include<T, object>(includeProperty);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetIncluding(params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = _context.Set<TEntity>().AsQueryable();
+            foreach (Expression<Func<TEntity, object>> includeProperty in includes)
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.ToListAsync();
+        }
+
+        
+        public async Task<IEnumerable<T>> GetIncludingOfType<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            var query = _context.Set<TEntity>().OfType<T>();
+            foreach (Expression<Func<T, object>> includeProperty in includes)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.Where(expression).ToListAsync();
         }
 
         //public async Task<IEnumerable<TEntity>> GetIncluding(Expression<Func<TEntity, bool>> expression, params string[] includes)

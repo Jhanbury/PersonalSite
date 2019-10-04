@@ -10,7 +10,7 @@ namespace Site.Persistance.Configurations
         {
             builder.HasKey(x => new { x.ProjectId, x.TechnologyId });
             builder.HasOne<Project>()
-                .WithMany(x => x.ProjectTechnologys)
+                .WithMany(x => x.ProjectTechnologies)
                 .HasForeignKey(x => x.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne<Technology>()

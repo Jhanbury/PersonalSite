@@ -31,7 +31,7 @@ namespace Site.Application.Projects.Queries
         {
             var projects = await _projectRepository.GetIncluding(x => x.UserId.Equals(request.UserId),
                 x => x.ProjectSkills,
-                x => x.ProjectTechnologys);
+                x => x.ProjectTechnologies);
             var projectIds = projects.Select(x => x.Id);
             var projectSkills = await _projectSkillsRepository.GetIncluding(x => projectIds.Contains(x.ProjectId), x => x.Skill);
             var projectTech = await _projectTechRepository.GetIncluding(x => projectIds.Contains(x.ProjectId), x => x.Technology);

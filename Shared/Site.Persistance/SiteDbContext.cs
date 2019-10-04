@@ -23,7 +23,8 @@ namespace Site.Persistance
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<UserExperience> UserExperiences { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Degree> Degrees { get; set; }
 
         
 

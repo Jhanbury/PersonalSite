@@ -15,6 +15,6 @@ namespace Site.Application.Entities
         public GithubRepo GithubRepo { get; set; }
         public User User { get; set; }
         public virtual ICollection<ProjectSkill> ProjectSkills { get; set; }
-        public virtual ICollection<ProjectTechnology> ProjectTechnologys { get; set; }
+        public virtual ICollection<ProjectTechnology> ProjectTechnologies { get; set; }
     }
 }

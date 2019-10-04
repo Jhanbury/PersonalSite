@@ -7,6 +7,6 @@ namespace Site.Application.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
-        public ICollection<UserExperience> UserExperiences { get; set; }
+        public ICollection<Job> Jobs { get; set; }
     }
 }

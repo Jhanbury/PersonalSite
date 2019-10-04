@@ -9,7 +9,11 @@ namespace Site.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne<User>().WithMany(x => x.Projects).HasForeignKey(x => x.UserId);
+            builder.HasOne<User>()
+                .WithMany(x => x.Projects)
+                .HasForeignKey(x => x.UserId)
+                .HasConstraintName("FK_Project_User_UserId")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

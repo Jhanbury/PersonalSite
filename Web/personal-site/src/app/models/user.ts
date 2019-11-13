@@ -1,8 +1,0 @@
-export interface User {
-    id:          number;
-    firstName:   string;
-    lastName:    string;
-    dateOfBirth: Date;
-    email:       string;
-    personalStatement: string;    
-}

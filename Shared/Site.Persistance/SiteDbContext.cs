@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Site.Application.Entities;
+using Site.Application.PlatformAccounts.Model;
+using Site.Application.Videos.Models;
 
 namespace Site.Persistance
 {
@@ -24,6 +26,8 @@ namespace Site.Persistance
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<UserExperience> UserExperiences { get; set; }
+        public DbSet<Video> Videos { get; set; }
+        public DbSet<PlatformAccount> PlatformAccounts { get; set; }
 
         
 

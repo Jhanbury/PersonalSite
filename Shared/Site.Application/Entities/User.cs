@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Site.Application.Enums;
+using Site.Application.PlatformAccounts.Model;
 
 namespace Site.Application.Entities
 {
@@ -19,6 +21,7 @@ namespace Site.Application.Entities
         public ICollection<UserHobby> UserHobbies { get; set; }
         public ICollection<Project> Projects { get; set; }
         public ICollection<UserExperience> UserExperiences { get; set; }
+        public ICollection<PlatformAccount> PlatformAccounts { get; set; }
         
         
     }

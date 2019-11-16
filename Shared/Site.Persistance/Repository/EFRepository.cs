@@ -90,5 +90,10 @@ namespace Site.Persistance.Repository
         {
             return await _context.Set<TEntity>().Where(expression).ToListAsync();
         }
+
+        public bool Any(Expression<Func<TEntity, bool>> expression)
+        {
+            return _context.Set<TEntity>().Any(expression);
+        }
     }
 }

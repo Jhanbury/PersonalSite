@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Site.Application.Entities;
 using Site.Application.PlatformAccounts.Model;
 using Site.Application.Videos.Models;
@@ -28,6 +28,14 @@ namespace Site.Persistance
         public DbSet<UserExperience> UserExperiences { get; set; }
         public DbSet<Video> Videos { get; set; }
         public DbSet<PlatformAccount> PlatformAccounts { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<University> Universities { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<DegreeType> DegreeTypes { get; set; }
+        public DbSet<Degree> Degrees { get; set; }
+        public DbSet<UserDegree> UserDegrees { get; set; }
+
+
 
         
 

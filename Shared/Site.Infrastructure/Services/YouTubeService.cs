@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Apis.Services;
@@ -8,6 +8,7 @@ using Google.Apis.YouTube.v3.Data;
 using System.Linq;
 using AutoMapper;
 using Site.Application.PlatformAccounts.Model;
+using Site.Application.Enums;
 using Site.Application.Videos.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -96,7 +97,7 @@ namespace Site.Infrastructure.Services
         {
             var service = new Google.Apis.YouTube.v3.YouTubeService(new BaseClientService.Initializer
             {
-                ApplicationName = "Discovery Sample",
+                ApplicationName = _appName,
                 ApiKey = _apiKey,
             });
             var channelsRequest = service.Channels.List(parts);
@@ -107,14 +108,14 @@ namespace Site.Infrastructure.Services
 
         private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
         {
-            return await repository.Get(x => x.Id.Equals(userId));
+            return await repository.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Application.Enums.Platform.YouTube));
         }
 
         private async Task<IEnumerable<Google.Apis.YouTube.v3.Data.Video>> GetPlaylistVideos(string playlistId)
         {
             var service = new Google.Apis.YouTube.v3.YouTubeService(new BaseClientService.Initializer
             {
-                ApplicationName = "Discovery Sample",
+                ApplicationName = _appName,
                 ApiKey = _apiKey,
             });
             var playlistVideos = service.PlaylistItems.List("contentDetails");
@@ -134,7 +135,7 @@ namespace Site.Infrastructure.Services
         {
             var service = new Google.Apis.YouTube.v3.YouTubeService(new BaseClientService.Initializer
             {
-                ApplicationName = "Discovery Sample",
+                ApplicationName = _appName,
                 ApiKey = _apiKey,
             });
             var videosRequest = service.Videos.List(parts);

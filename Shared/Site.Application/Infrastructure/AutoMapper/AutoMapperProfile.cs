@@ -1,17 +1,21 @@
-﻿using System.Linq;
+using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
 using Site.Application.CareerExperience.Models;
+using Site.Application.Certifications.Models;
 using Site.Application.Company.Models;
+using Site.Application.Education.Model;
 using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
+using Site.Application.PlatformAccounts.Model;
 using Site.Application.Projects.Model;
 using Site.Application.Skills.Model;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
 using Site.Application.Users.Models;
+using Site.Application.Videos.Models;
 
 namespace Site.Application.Infrastructure.AutoMapper
 {
@@ -41,6 +45,23 @@ namespace Site.Application.Infrastructure.AutoMapper
             CreateMap<Hobby, HobbyDto>()
                 .ForMember(x => x.Type, y => y.MapFrom(z => z.HobbyType.Type))
                 .ReverseMap();
+            CreateMap<Video, VideoDto>()
+                .ReverseMap();
+            CreateMap<PlatformAccount, AccountDto>()
+                .ReverseMap();
+            CreateMap<Certification, CertificationDto>()
+              .ForMember(x => x.Accreditor, cfg => cfg.MapFrom(x => x.Accreditor.Name))
+              .ReverseMap();
+            CreateMap<UserCertification, UserCertificationDto>()
+              .ForMember(x => x.Accreditor, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
+              .ForMember(x => x.CertificationName, cfg => cfg.MapFrom(x => x.Certification.Name))
+              .ForMember(x => x.CertificationDescription, cfg => cfg.MapFrom(x => x.Certification.Description))
+              .ReverseMap();
+            CreateMap<UserDegree, UserDegreeDto>()
+              .ForMember(x => x.University, cfg => cfg.MapFrom(x => x.Degree.University.Name))
+              .ForMember(x => x.Grade, cfg => cfg.MapFrom(x => x.Grade.DisplayName))
+              .ForMember(x => x.Degree, cfg => cfg.MapFrom(x => x.Degree.Title))
+              .ReverseMap();
         }
     }
 }

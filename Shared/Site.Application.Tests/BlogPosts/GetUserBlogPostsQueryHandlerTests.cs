@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -25,15 +25,7 @@ namespace Site.Application.Tests.BlogPosts
         private List<UserBlogPost> getBlogs()
         {
             var itemsToReturn = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            return itemsToReturn.Select(x => new UserBlogPost()
-            {
-                Id = $"Test {x}",
-                UserId = x,
-                Teaser = "Test",
-                Title = "Test Blog",
-                Url = "https://google.ie",
-                ImageUrl = "https://google.ie"
-            }).ToList();
+            return null;
         }
 
         [OneTimeSetUp]
@@ -48,7 +40,7 @@ namespace Site.Application.Tests.BlogPosts
             _mapper.Setup(x => x.Map<UserBlogPostDto>(It.IsAny<UserBlogPost>()))
                 .Returns<UserBlogPost>((blog) => new UserBlogPostDto()
                 {
-                    Id = blog.Id,
+                    Id = blog.BlogId,
                     UserId = blog.UserId,
                     Teaser = blog.Teaser,
                     Title = blog.Title,

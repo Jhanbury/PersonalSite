@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /AuthServer/appsettings.json
 /Logging/Docker
+/API/Personal-Site-API/ServiceBus.Tester/appsettings.json

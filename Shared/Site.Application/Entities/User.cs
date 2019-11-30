@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Site.Application.Enums;
 using Site.Application.PlatformAccounts.Model;
@@ -22,6 +22,8 @@ namespace Site.Application.Entities
         public ICollection<Project> Projects { get; set; }
         public ICollection<UserExperience> UserExperiences { get; set; }
         public ICollection<PlatformAccount> PlatformAccounts { get; set; }
+        public ICollection<UserCertification> UserCertifications { get; set; }
+        public ICollection<UserDegree> UserDegrees { get; set; }
         
         
     }

@@ -1,11 +1,12 @@
-﻿using Site.Application.Messaging;
+using Site.Application.Messaging;
 using Site.Application.Users.Models;
 
 namespace Site.Application.BlogPosts.Models
 {
     public class UserBlogPostDto
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string SourceId { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
         public string ImageUrl { get; set; }

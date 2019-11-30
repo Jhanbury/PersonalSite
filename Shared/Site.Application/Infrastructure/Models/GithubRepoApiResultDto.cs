@@ -6,6 +6,7 @@ namespace Site.Application.Infrastructure.Models
 {
     public class GithubRepoApiResultDto
     {
+        [JsonProperty("id")]
         public long GithubId { get; set; }
         
         public string Name { get; set; }

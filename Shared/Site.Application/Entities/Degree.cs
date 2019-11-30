@@ -1,18 +1,17 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Site.Application.Entities
 {
-    public class Degree
-    {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int UniversityId { get; set; }
-        public int GradeId { get; set; }
-        public University University { get; set; }
-        public Grade Grade { get; set; }
-        public User User { get; set; }
+  public class Degree
+  {
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int UniversityId { get; set; }
+    public University University { get; set; }
+    public int DegreeTypeId { get; set; }
+    public DegreeType DegreeType { get; set; }
+    public ICollection<UserDegree> UserDegrees { get; set; }
 
-    }
+  }
 }

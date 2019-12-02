@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Site.Application.BlogPosts.Models;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
 using Site.Application.CareerExperience.Queries;
+using Site.Application.CareerTimeLine.Queries;
 using Site.Application.Certifications.Models;
 using Site.Application.Certifications.Queries;
 using Site.Application.Education.Queries;
@@ -206,6 +207,24 @@ namespace Personal_Site_API.Controllers
       try
       {
         var repos = await _cache.Method(x => x.Send(new GetUserEducationQuery(userId), CancellationToken.None))
+          .ExpireAfter(TimeSpan.FromSeconds(5))
+          .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
+    }
+
+    [HttpGet]
+    [Route("{userId}/careertimeline")]
+    public async Task<ActionResult> GetCareerTimeLine(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send(new GetUserCareerTimelineQuery(userId), CancellationToken.None))
           .ExpireAfter(TimeSpan.FromSeconds(5))
           .GetValueAsync();
         return Ok(repos);

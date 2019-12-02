@@ -2,6 +2,7 @@ using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
 using Site.Application.CareerExperience.Models;
+using Site.Application.CareerTimeLine.Models;
 using Site.Application.Certifications.Models;
 using Site.Application.Company.Models;
 using Site.Application.Education.Model;
@@ -61,6 +62,14 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.University, cfg => cfg.MapFrom(x => x.Degree.University.Name))
               .ForMember(x => x.Grade, cfg => cfg.MapFrom(x => x.Grade.DisplayName))
               .ForMember(x => x.Degree, cfg => cfg.MapFrom(x => x.Degree.Title))
+              .ReverseMap();
+
+            CreateMap<UserCertification, CareerTimeLineDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Certification.Name))
+              .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
+              .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.DateObtained))
+              .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Certification))
+              //.ForMember(x => x., cfg => cfg.MapFrom(x => TimeLineType.Certification))
               .ReverseMap();
         }
     }

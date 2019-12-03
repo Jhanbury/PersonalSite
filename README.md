@@ -2,7 +2,9 @@
 
 ## What is this Repo?
 
-This repo contains the entire source code I have developed for my Personal site
+This repo contains the entire server-side source code I have developed for my Personal site
+
+The Front-end Code can be found here - [Front End Repo](https://github.com/Jhanbury/PersonalSite.Web)
 
 I began the design and development of the site in February 2019.
 
@@ -21,14 +23,15 @@ I began the design and development of the site in February 2019.
 ## Technology's Used
 
 [List of Technology's](https://github.com/Jhanbury/PersonalSite/wiki/Technology's-Used)
+
+
 ## Installation
 
-To be Completed
+TBC
 
 
 ##  Publishing 
 
-To be Completed
-
+TBC
 
 

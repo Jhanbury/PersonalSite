@@ -17,6 +17,7 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
+      working-directory: 'API/Personal-Site-API/Personal-Site-API.sln'
       run: dotnet build --configuration Release
     - name: Run Tests
       run: dotnet test

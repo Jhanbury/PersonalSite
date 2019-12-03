@@ -25,7 +25,7 @@ I began the design and development of the site in February 2019.
 [List of Technology's](https://github.com/Jhanbury/PersonalSite/wiki/Technology's-Used)
 ## Installation
 
-To be Completed
+TBC
 
 
 ##  Publishing 

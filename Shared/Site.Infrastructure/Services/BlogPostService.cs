@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Site.Application.Entities;
-using Site.Application.Infrastructure.Models;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 using Site.Infrastructure.Models.Blogs;
 
 namespace Site.Infrastructure.Services

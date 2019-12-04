@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Site.Application.Entities;
-using Site.Application.PlatformAccounts.Model;
-using Site.Application.Videos.Models;
+using Site.Domain.Entities;
 
 namespace Site.Persistance
 {

@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
-using Site.Application.Entities;
+using Site.Domain.Entities;
 
 namespace Site.Application.Infrastructure.Models
 {

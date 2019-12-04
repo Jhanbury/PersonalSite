@@ -10,9 +10,9 @@ using Moq;
 using Moq.Contrib.HttpClient;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Site.Application.Entities;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 using Site.Infrastructure.Services;
 
 namespace Site.Infrastructure.Tests

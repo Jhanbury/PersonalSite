@@ -4,10 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Site.Application.CareerExperience.Models;
 using Site.Application.Education.Model;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 
 namespace Site.Application.Education.Queries
 {

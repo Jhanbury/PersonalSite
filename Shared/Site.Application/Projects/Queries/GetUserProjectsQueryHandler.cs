@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
 using Site.Application.Projects.Model;
 using Site.Application.Skills.Model;
 using Site.Application.Technologies.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Projects.Queries
 {

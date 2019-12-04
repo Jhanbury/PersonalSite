@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Google.Apis.YouTube.v3.Data;
-using Site.Application.PlatformAccounts.Model;
+using Site.Domain.Entities;
 
 namespace Site.Infrastructure.ValueResolvers
 {

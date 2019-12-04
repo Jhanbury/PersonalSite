@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Site.Application.Videos.Models;
+using Site.Domain.Entities;
 
 namespace Site.Persistance.Configurations
 {

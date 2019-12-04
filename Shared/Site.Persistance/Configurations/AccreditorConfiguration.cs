@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Site.Application.Entities;
+using Site.Domain.Entities;
 
 namespace Site.Persistance.Configurations
 {

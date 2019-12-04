@@ -23,6 +23,7 @@ using Site.Infrastructure.Modules;
 using Site.Persistance;
 using Site.Infrastructure;
 using DryIoc.Microsoft.DependencyInjection;
+using Site.Application.Interfaces;
 
 namespace Personal_Site_API
 {
@@ -138,7 +139,8 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            //BackgroundJob.Enqueue<IGithubService>(service => service.UpdateGithubReposForUser(1, "JHanbury"));
+            BackgroundJob.Enqueue<ITwitchService>(service => service.UpdateTwitchAccounts(1));
+            BackgroundJob.Enqueue<IYouTubeService>(service => service.UpdateYouTubeAccounts(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);

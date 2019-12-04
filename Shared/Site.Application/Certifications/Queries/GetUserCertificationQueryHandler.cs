@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Site.Application.Certifications.Models;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 
 namespace Site.Application.Certifications.Queries
 {

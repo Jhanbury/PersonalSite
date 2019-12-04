@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Site.Application.PlatformAccounts.Model;
+using System.Collections.Generic;
 
 namespace Site.Application.Videos.Models
 {

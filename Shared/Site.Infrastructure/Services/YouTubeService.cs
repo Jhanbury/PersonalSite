@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Apis.Services;
 using Site.Application.Interfaces;
-using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using System.Linq;
 using AutoMapper;
-using Site.Application.PlatformAccounts.Model;
-using Site.Application.Enums;
-using Site.Application.Videos.Models;
 using Microsoft.Extensions.Configuration;
+using Site.Domain.Entities;
 
 namespace Site.Infrastructure.Services
 {
     public class YouTubeService : IYouTubeService
     {
         private readonly IRepository<PlatformAccount, int> repository;
-        private readonly IRepository<Application.Videos.Models.Video, int> _videoRepository;
+        private readonly IRepository<Domain.Entities.Video, int> _videoRepository;
         private readonly IMapper _mapper;
         private readonly string _apiKey;
         private readonly string _appName = "Personal Site";
 
-        public YouTubeService(IRepository<PlatformAccount, int> repository, IRepository<Application.Videos.Models.Video, int> videoRepository, IMapper mapper, IConfiguration config)
+        public YouTubeService(IRepository<PlatformAccount, int> repository, IRepository<Domain.Entities.Video, int> videoRepository, IMapper mapper, IConfiguration config)
         {
             this._apiKey = config.GetValue<string>("YouTubeAPIKey");
             this._videoRepository = videoRepository;
@@ -87,7 +84,7 @@ namespace Site.Infrastructure.Services
                 else
                 {
                     //add
-                    var model = _mapper.Map<Application.Videos.Models.Video>(video);
+                    var model = _mapper.Map<Domain.Entities.Video>(video);
                     _videoRepository.Add(model);
                 }
             }
@@ -108,7 +105,7 @@ namespace Site.Infrastructure.Services
 
         private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
         {
-            return await repository.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Application.Enums.Platform.YouTube));
+            return await repository.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Domain.Enums.Platform.YouTube));
         }
 
         private async Task<IEnumerable<Google.Apis.YouTube.v3.Data.Video>> GetPlaylistVideos(string playlistId)

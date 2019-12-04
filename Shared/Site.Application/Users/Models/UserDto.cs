@@ -1,6 +1,4 @@
-﻿using System;
-using Site.Application.Addresses.Models;
-using Site.Application.GithubRepos.Models;
+using System;
 
 namespace Site.Application.Users.Models
 {

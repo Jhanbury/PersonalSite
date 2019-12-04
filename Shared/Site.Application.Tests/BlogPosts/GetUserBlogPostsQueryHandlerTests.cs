@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,10 +8,8 @@ using Moq;
 using NUnit.Framework;
 using Site.Application.BlogPosts.Models;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
-using Site.Application.Entities;
-using Site.Application.GithubRepos.Models;
-using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 
 namespace Site.Application.Tests.BlogPosts
 {

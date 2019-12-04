@@ -1,5 +1,4 @@
 using System;
-using Site.Application.Entities;
 
 namespace Site.Application.Education.Model
 {

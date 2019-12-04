@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Site.Application\Site.Application.csproj" />
+    <ProjectReference Include="..\Site.Domain\Site.Domain.csproj" />
     <ProjectReference Include="..\Site.Persistance\Site.Persistance.csproj" />
   </ItemGroup>
 

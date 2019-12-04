@@ -1,8 +1,7 @@
 using AutoMapper;
-using Google.Apis.YouTube.v3.Data;
-using Site.Application.PlatformAccounts.Model;
-using TwitchLib.Api.V5.Models.Channels;
+using Site.Domain.Entities;
 using Site.Infrastructure.ValueResolvers;
+using Video = Google.Apis.YouTube.v3.Data.Video;
 
 namespace Site.Infrastructure
 {
@@ -16,11 +15,11 @@ namespace Site.Infrastructure
                 .ForMember(x => x.Followers, y => y.MapFrom(x => x.Statistics.SubscriberCount))
                 .ForMember(x => x.Link, y => y.MapFrom<YouTubeChannelUrlResolver>())
                 .ForMember(x => x.PlatformId, y => y.MapFrom(x => x.Id))
-                .ForMember(x => x.Platform, y => y.MapFrom(x => Site.Application.Enums.Platform.YouTube ))
+                .ForMember(x => x.Platform, y => y.MapFrom(x => Site.Domain.Enums.Platform.YouTube ))
                 .ForMember(x => x.Id, y => y.Ignore())
                 .ReverseMap();
 
-            CreateMap<Video, Site.Application.Videos.Models.Video>()
+            CreateMap<Video, Site.Domain.Entities.Video>()
                 .ForMember(x => x.SourceId, y => y.MapFrom(x => x.Id))
                 .ForMember(x => x.Title, y => y.MapFrom(x => x.Snippet.Title))
                 .ForMember(x => x.ThumbnailUrl, y => y.MapFrom(x => x.Snippet.Thumbnails.Default__.Url))
@@ -37,11 +36,11 @@ namespace Site.Infrastructure
                 .ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
                 .ForMember(x => x.Link, y => y.MapFrom(x => x.Url))
                 .ForMember(x => x.PlatformId, y => y.MapFrom(x => x.Id))
-                .ForMember(x => x.Platform, y => y.MapFrom(x => Site.Application.Enums.Platform.Twitch))
+                .ForMember(x => x.Platform, y => y.MapFrom(x => Site.Domain.Enums.Platform.Twitch))
                 .ForMember(x => x.Id, y => y.Ignore())
                 .ReverseMap();
 
-            CreateMap<TwitchLib.Api.V5.Models.Videos.Video, Site.Application.Videos.Models.Video>()
+            CreateMap<TwitchLib.Api.V5.Models.Videos.Video, Site.Domain.Entities.Video>()
                 .ForMember(x => x.SourceId, y => y.MapFrom(x => x.Id))
                 .ForMember(x => x.Title, y => y.MapFrom(x => x.Title))
                 .ForMember(x => x.ThumbnailUrl, y => y.MapFrom(x => x.Thumbnails.Large[0].Url))

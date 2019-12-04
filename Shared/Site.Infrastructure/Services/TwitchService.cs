@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Site.Application.Interfaces;
-using Site.Application.PlatformAccounts.Model;
-using Site.Application.Videos.Models;
+using Site.Domain.Entities;
 using TwitchLib.Api;
 
 namespace Site.Infrastructure.Services
@@ -65,7 +64,7 @@ namespace Site.Infrastructure.Services
 
         private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
         {
-            return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Application.Enums.Platform.Twitch));
+            return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Domain.Enums.Platform.Twitch));
         }
     }
 }

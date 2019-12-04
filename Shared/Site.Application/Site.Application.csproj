@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Compile Remove="BlogPosts\Models\BlogPostMessageDto.cs" />
-    <Compile Remove="Entities\PersonalProject.cs" />
-    <Compile Remove="Entities\PersonalProjectTechnology.cs" />
     <Compile Remove="GithubRepos\Models\GithubMessageDto.cs" />
   </ItemGroup>
 
@@ -23,6 +21,10 @@
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Site.Domain\Site.Domain.csproj" />
   </ItemGroup>
 
 </Project>

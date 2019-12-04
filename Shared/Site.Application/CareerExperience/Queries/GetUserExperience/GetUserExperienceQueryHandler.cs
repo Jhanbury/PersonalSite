@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Site.Application.CareerExperience.Models;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
-using Site.Application.Projects.Model;
-using Site.Application.Projects.Queries;
+using Site.Domain.Entities;
 
 namespace Site.Application.CareerExperience.Queries
 {

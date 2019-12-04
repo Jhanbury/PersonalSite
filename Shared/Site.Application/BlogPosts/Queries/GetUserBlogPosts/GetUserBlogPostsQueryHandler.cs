@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Site.Application.BlogPosts.Models;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 
 namespace Site.Application.BlogPosts.Queries.GetUserBlogPosts
 {

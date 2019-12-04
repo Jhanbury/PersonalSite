@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
 using Site.Application.CareerExperience.Models;
@@ -6,17 +5,16 @@ using Site.Application.CareerTimeLine.Models;
 using Site.Application.Certifications.Models;
 using Site.Application.Company.Models;
 using Site.Application.Education.Model;
-using Site.Application.Entities;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
-using Site.Application.PlatformAccounts.Model;
 using Site.Application.Projects.Model;
 using Site.Application.Skills.Model;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
 using Site.Application.Users.Models;
 using Site.Application.Videos.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Infrastructure.AutoMapper
 {
@@ -27,7 +25,7 @@ namespace Site.Application.Infrastructure.AutoMapper
             //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
-            CreateMap<Entities.Company, CompanyDto>().ReverseMap();
+            CreateMap<Domain.Entities.Company, CompanyDto>().ReverseMap();
             CreateMap<UserExperience, UserExperienceDto>().ReverseMap();
             CreateMap<Skill, SkillDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();

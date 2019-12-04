@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="3.0.3" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.42.0.1758" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.4.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />

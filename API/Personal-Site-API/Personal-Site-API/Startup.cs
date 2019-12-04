@@ -1,7 +1,5 @@
 using System;
 using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Hangfire;
 using Hangfire.SqlServer;
 using MediatR;
@@ -13,18 +11,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using DryIoc;
 using FluentCache;
 using FluentCache.Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Distributed;
 using Serilog;
-using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
-using Site.Application.Interfaces;
 using Site.Infrastructure.Modules;
 using Site.Persistance;
 using Site.Infrastructure;
+using DryIoc.Microsoft.DependencyInjection;
 
 namespace Personal_Site_API
 {
@@ -60,12 +58,11 @@ namespace Personal_Site_API
                             .AllowAnyMethod();
                     });
             });
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(services);
-            containerBuilder.RegisterModule<ApplicationModule>();
-            ApplicationContainer = containerBuilder.Build();
             
-            return new AutofacServiceProvider(ApplicationContainer);
+            
+            return new Container().WithDependencyInjectionAdapter(services)
+              .ConfigureServiceProvider<CompositionRoot>();
+
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);

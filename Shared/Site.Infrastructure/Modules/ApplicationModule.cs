@@ -1,4 +1,7 @@
-﻿using Autofac;
+
+using Autofac;
+using DryIoc;
+using Site.Application.Infrastructure;
 using Site.Application.Interfaces;
 using Site.Application.Messaging;
 using Site.Infrastructure.MessageHandlers;
@@ -8,22 +11,21 @@ using TwitchLib.Api;
 
 namespace Site.Infrastructure.Modules
 {
-    public class ApplicationModule : Module
+    public class ApplicationModule : IModule
     {
-        protected override void Load(ContainerBuilder builder)
+        public void Load(IRegistrator builder)
         {
-            
-            builder.RegisterType<GithubRepoServices>().As<IGithubService>();
-            builder.RegisterType<BlogPostService>().As<IBlogPostService>();
-            builder.RegisterType<YouTubeService>().As<IYouTubeService>();
-            builder.RegisterType<TwitchService>().As<ITwitchService>();
-            builder.RegisterType<RecurringJobService>().As<IRecurringJobService>();
-            builder.RegisterType<GithubRepoServices>().As<IGithubService>();
-            builder.RegisterGeneric(typeof(EFRepository<,>)).As(typeof(IRepository<,>));
-            builder.RegisterType<GithubMessageHandler>().Keyed<IMessageHandler<IMessage>>(MessageType.GithubRepoUpdate);
-            builder.RegisterType<BlogPostsMessageHandler>().Keyed<IMessageHandler<IMessage>>(MessageType.UserBlogPostsUpdate);
-            builder.RegisterType<MessageHandlerFactory>().As<IMessageHandlerFactory>();
-            
-        }
+          builder.Register<IGithubService, GithubRepoServices>();
+          builder.Register<IBlogPostService, BlogPostService>();
+          builder.Register<IYouTubeService, YouTubeService>();
+          builder.Register<ITwitchService, TwitchService>();
+          builder.Register<IRecurringJobService, RecurringJobService>();
+          builder.Register<IGithubService, GithubRepoServices>();
+          builder.Register<IMessageHandler<IMessage>, GithubMessageHandler>(serviceKey: MessageType.GithubRepoUpdate);
+          builder.Register<IMessageHandler<IMessage>, BlogPostsMessageHandler>(serviceKey: MessageType.UserBlogPostsUpdate);
+          builder.Register<IMessageHandlerFactory, MessageHandlerFactory>();
+          builder.Register(typeof(IRepository<,>), typeof(EFRepository<,>));
+
+    }
     }
 }

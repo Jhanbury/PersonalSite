@@ -20,11 +20,10 @@ namespace Personal_Site_API
         {
           try
           {
-        CreateWebHostBuilder(args).Build().Run();
-      }
+            CreateWebHostBuilder(args).Build().Run();
+          }
           catch (Exception e)
           {
-
             throw;
           }
             

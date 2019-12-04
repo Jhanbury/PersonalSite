@@ -69,7 +69,13 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
               .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.DateObtained))
               .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Certification))
-              //.ForMember(x => x., cfg => cfg.MapFrom(x => TimeLineType.Certification))
+              .ReverseMap();
+            CreateMap<UserDegree, CareerTimeLineDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Degree.Title))
+              .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Grade.DisplayName))
+              .ForMember(x => x.SmallText, cfg => cfg.MapFrom(x => x.Degree.University.Name))
+              .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate))
+              .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Degree))
               .ReverseMap();
         }
     }

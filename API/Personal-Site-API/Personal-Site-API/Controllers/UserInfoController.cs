@@ -31,10 +31,10 @@ namespace Personal_Site_API.Controllers
     [Route("api/userinfo")]
     public class UserInfoController : BaseController
     {
-        private readonly ITwitchService youTubeService;
-        public UserInfoController(IMediator mediator, ICache cache, ILogger<UserInfoController> logger, ITwitchService service) : base(mediator, cache, logger)
+        
+        public UserInfoController(IMediator mediator, ICache cache, ILogger<UserInfoController> logger) : base(mediator, cache, logger)
         {
-            youTubeService = service;
+            
         }
 
         [HttpGet]
@@ -151,7 +151,6 @@ namespace Personal_Site_API.Controllers
         {
             try
             {
-                await youTubeService.UpdateTwitchVideos(userId);
                 var videos = await _cache.Method(x => x.Send<List<AccountDto>>(new GetAllUserVideos(userId), CancellationToken.None))
                     .ExpireAfter(TimeSpan.FromSeconds(5))
                     .GetValueAsync();

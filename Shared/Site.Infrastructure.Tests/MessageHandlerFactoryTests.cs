@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 
 namespace Site.Infrastructure.Tests
 {

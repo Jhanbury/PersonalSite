@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 
 namespace Site.Infrastructure.MessageHandlers
 {

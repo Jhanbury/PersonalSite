@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Messages;
 

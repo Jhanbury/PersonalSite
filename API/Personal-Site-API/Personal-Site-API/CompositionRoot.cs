@@ -2,7 +2,6 @@ using System;
 using DryIoc;
 using Site.Application.Infrastructure;
 using Site.Application.Interfaces;
-using Site.Application.Messaging;
 using Site.Infrastructure;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Modules;

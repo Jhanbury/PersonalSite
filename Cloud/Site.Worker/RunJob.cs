@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure.Messages;
 
 namespace Site.Worker

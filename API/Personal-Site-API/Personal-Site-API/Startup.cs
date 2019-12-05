@@ -83,12 +83,10 @@ namespace Personal_Site_API
         
         private void ConfigureCaching(IServiceCollection services, string connectionString)
         {
-
             services.AddDistributedMemoryCache();
             services.AddSingleton<ICache>(sp =>
                 new FluentIDistributedCache(sp.GetService<IDistributedCache>(), new Serializer()));
             services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
-            
         }
 
         private void ConfigureHttpClientFactory(IServiceCollection services, string blogAPIKey)

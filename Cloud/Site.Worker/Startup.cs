@@ -15,7 +15,7 @@ using System;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Services;

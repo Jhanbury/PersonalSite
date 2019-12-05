@@ -1,4 +1,4 @@
-﻿namespace Site.Application.Messaging
+﻿namespace Site.Application.Interfaces.Messaging
 {
     public interface IMessageHandlerFactory
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Site.Application.Messaging
+namespace Site.Application.Interfaces.Messaging
 {
     public interface IMessageHandler<IMessage>
     {

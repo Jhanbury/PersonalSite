@@ -25,8 +25,7 @@ namespace Site.Application.Infrastructure.AutoMapper
             //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
-            CreateMap<Domain.Entities.Company, CompanyDto>().ReverseMap();
-            CreateMap<UserExperience, UserExperienceDto>().ReverseMap();
+            
             CreateMap<Skill, SkillDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();

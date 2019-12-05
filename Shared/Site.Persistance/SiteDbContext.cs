@@ -22,8 +22,7 @@ namespace Site.Persistance
         public DbSet<ProjectTechnology> ProjectTechnologies { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Technology> Technologies { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<UserExperience> UserExperiences { get; set; }
+        
         public DbSet<Video> Videos { get; set; }
         public DbSet<PlatformAccount> PlatformAccounts { get; set; }
         public DbSet<Location> Locations { get; set; }

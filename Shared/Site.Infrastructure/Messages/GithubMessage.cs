@@ -1,4 +1,4 @@
-﻿using Site.Application.Interfaces.Messaging;
+using Site.Application.Interfaces.Messaging;
 
 namespace Site.Infrastructure.Messages
 {

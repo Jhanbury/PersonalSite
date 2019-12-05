@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="3.0.3" />
     <PackageReference Include="FluentCache.Microsoft.Extensions.Caching.Abstractions" Version="4.0.0.2" />
     <PackageReference Include="Hangfire" Version="1.7.0" />
     <PackageReference Include="Hangfire.Azure.ServiceBusQueue" Version="3.0.1" />

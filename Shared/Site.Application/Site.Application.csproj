@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Messaging\**" />
+    <EmbeddedResource Remove="Messaging\**" />
+    <None Remove="Messaging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="BlogPosts\Models\BlogPostMessageDto.cs" />
     <Compile Remove="GithubRepos\Models\GithubMessageDto.cs" />
   </ItemGroup>

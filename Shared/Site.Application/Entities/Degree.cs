@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Site.Domain.Entities;
 
 namespace Site.Application.Entities
 {
@@ -12,7 +13,7 @@ namespace Site.Application.Entities
         public int GradeId { get; set; }
         public University University { get; set; }
         public Grade Grade { get; set; }
-        public User User { get; set; }
+        
 
     }
 }

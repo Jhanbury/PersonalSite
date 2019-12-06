@@ -1,17 +1,11 @@
 using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
-using Site.Infrastructure.Modules;
-using Site.Persistance;
-using Site.Persistance.Repository;
 using Site.Worker;
-using System;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -19,6 +13,8 @@ using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Services;
+using Site.Persistance;
+using Site.Persistance.Repository;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Site.Worker

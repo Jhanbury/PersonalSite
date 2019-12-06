@@ -1,12 +1,10 @@
-﻿using System;
-using Autofac;
+using System;
 using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure.MessageHandlers;
-using Site.Infrastructure.Messages;
 
 namespace Site.Infrastructure
 {
-    public class MessageHandlerFactory : IMessageHandlerFactory
+  public class MessageHandlerFactory : IMessageHandlerFactory
     {
         private readonly IMessageHandler<IMessage> _githubMessageHandler;
 

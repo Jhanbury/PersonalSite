@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DryIoc;
+using DryIoc.Microsoft.DependencyInjection;
 using FluentCache;
 using FluentCache.Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Distributed;
@@ -19,15 +20,13 @@ using Serilog;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
-using Site.Infrastructure.Modules;
-using Site.Persistance;
 using Site.Infrastructure;
-using DryIoc.Microsoft.DependencyInjection;
 using Site.Application.Interfaces;
+using Site.Persistance;
 
 namespace Personal_Site_API
 {
-    public class Startup
+  public class Startup
     {
         public Startup(IConfiguration configuration)
         {

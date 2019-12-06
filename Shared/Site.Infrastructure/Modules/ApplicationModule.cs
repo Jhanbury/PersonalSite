@@ -1,5 +1,3 @@
-
-using Autofac;
 using DryIoc;
 using Site.Application.Infrastructure;
 using Site.Application.Interfaces;
@@ -7,7 +5,6 @@ using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Services;
 using Site.Persistance.Repository;
-using TwitchLib.Api;
 
 namespace Site.Infrastructure.Modules
 {

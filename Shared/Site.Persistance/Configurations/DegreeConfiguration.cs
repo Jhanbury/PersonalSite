@@ -1,29 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Site.Application.Entities;
+using Site.Domain.Entities;
 
 namespace Site.Persistance.Configurations
 {
-    public class DegreeConfiguration : IEntityTypeConfiguration<Degree>
+  public class DegreeConfiguration : IEntityTypeConfiguration<Degree>
+  {
+    public void Configure(EntityTypeBuilder<Degree> builder)
     {
-        public void Configure(EntityTypeBuilder<Degree> builder)
-        {
-            builder.HasKey(x => x.Id);
-            //builder.HasOne<User>()
-            //    .WithMany(x => x.Degrees)
-            //    .HasForeignKey(x => x.UserId)
-            //    .HasConstraintName("FK_Degree_User_UserId")
-            //    .OnDelete(DeleteBehavior.Restrict);
-            //builder.HasOne<University>()
-            //    .WithMany(x => x.Degrees)
-            //    .HasForeignKey(x => x.UniversityId)
-            //    .HasConstraintName("FK_Degree_University_UniversityId")
-            //    .OnDelete(DeleteBehavior.Restrict);
-            //builder.HasOne<Grade>()
-            //    .WithMany(x => x.Degrees)
-            //    .HasForeignKey(x => x.GradeId)
-            //    .HasConstraintName("FK_Degree_Grade_GradeId")
-            //    .OnDelete(DeleteBehavior.Restrict);
-        }
+      builder.HasKey(x => x.Id);
+      builder.HasOne(x => x.University).WithMany(x => x.Degrees).HasForeignKey(x => x.UniversityId);
+      builder.HasOne(x => x.DegreeType).WithMany(x => x.Degrees).HasForeignKey(x => x.DegreeTypeId);
     }
+  }
 }

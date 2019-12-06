@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Site.Application.Entities;
-using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 
 namespace Site.Infrastructure.Services
 {
@@ -31,10 +29,9 @@ namespace Site.Infrastructure.Services
 
         public async Task<List<GithubRepoApiResultDto>> GetAllGithubRepos(string username)
         {
-            using (var client = _httpClientFactory.CreateClient())
+            using (var client = _httpClientFactory.CreateClient("github"))
             {
-                client.DefaultRequestHeaders.Add("User-Agent","Personal-Site");
-                var response = await client.GetAsync($"https://api.github.com/users/{username}/repos");
+                var response = await client.GetAsync($"/users/{username}/repos");
                 var responseString = await response.Content.ReadAsStringAsync();
                 var repos = JsonConvert.DeserializeObject<List<GithubRepoApiResultDto>>(responseString);
                 return repos;
@@ -61,13 +58,32 @@ namespace Site.Infrastructure.Services
             try
             {
                 var githubRepos = await GetAllGithubRepos(username);
+                foreach (var repo in githubRepos)
+                {
+                    if (_repository.Any(x => x.GithubId.Equals(repo.GithubId)))
+                    {
+                        //update
+                        var existingModel = await _repository.GetSingle(x => x.GithubId.Equals(repo.GithubId));
+                        var existingId = existingModel.RepoId;
+                        var existingUserId = existingModel.UserId;
+                        _mapper.Map(repo, existingModel);
+                        existingModel.RepoId = existingId;
+                        existingModel.UserId = existingUserId;
+                        _logger.LogInformation(existingModel.Description);
+                        _repository.Update(existingModel);
+                    }
+                    else
+                    {
+                        //add
+                        var model = _mapper.Map<GithubRepo>(repo);
+                        model.UserId = userId;
+                        var createdModel = _repository.Add(model);
+                        _logger.LogInformation($"Github Repo added to DB: {createdModel.Name}");
+                    }
+                }
                 var dbRepos = await _repository.Get(x => x.UserId.Equals(userId));
-                var itemsToAdd = CalculateItemsToAdd(githubRepos, dbRepos);
                 var itemsToRemove = CalculateItemsToRemove(githubRepos, dbRepos);
-                var itemsToCheckForUpdates = CalculateItemsToUpdate(githubRepos, dbRepos);
                 await RemoveDeletedRepos(itemsToRemove);
-                AddNewRepos(itemsToAdd, userId);
-                await UpdateExisting(itemsToCheckForUpdates);
             }
             catch (Exception e)
             {

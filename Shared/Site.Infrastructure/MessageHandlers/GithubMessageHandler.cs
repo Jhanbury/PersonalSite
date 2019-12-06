@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Site.Application.Interfaces;
-using Site.Application.Messaging;
+using Site.Application.Interfaces.Messaging;
 using Site.Infrastructure.Messages;
 
 namespace Site.Infrastructure.MessageHandlers

@@ -34,7 +34,7 @@ namespace Site.Infrastructure.Services
                     UserId = userId,
                     UserName = username
                 };
-                var QueueName = "github-repos";
+                var QueueName = "jobs";
                 await AddJobToQueue(QueueName, model);
             }
             catch (Exception e)

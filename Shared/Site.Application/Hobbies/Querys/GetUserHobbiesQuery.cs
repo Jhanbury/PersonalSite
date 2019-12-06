@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MediatR;
-using Site.Application.GithubRepos.Models;
 using Site.Application.Hobbies.Model;
 
 namespace Site.Application.Hobbies.Querys

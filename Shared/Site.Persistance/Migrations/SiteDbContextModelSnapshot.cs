@@ -15,9 +15,26 @@ namespace Site.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Site.Application.Entities.Accreditor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accreditor");
+                });
 
             modelBuilder.Entity("Site.Application.Entities.Address", b =>
                 {
@@ -42,6 +59,25 @@ namespace Site.Persistance.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("Site.Application.Entities.Certification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccreditorId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccreditorId");
+
+                    b.ToTable("Certification");
+                });
+
             modelBuilder.Entity("Site.Application.Entities.Company", b =>
                 {
                     b.Property<int>("Id")
@@ -63,25 +99,34 @@ namespace Site.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("EndDate");
+                    b.Property<int>("DegreeTypeId");
 
-                    b.Property<int>("GradeId");
+                    b.Property<string>("Description");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<string>("Title");
 
                     b.Property<int>("UniversityId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("GradeId");
+                    b.HasIndex("DegreeTypeId");
 
                     b.HasIndex("UniversityId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Degrees");
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.DegreeType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DegreeTypes");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.GithubRepo", b =>
@@ -137,13 +182,13 @@ namespace Site.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description");
+                    b.Property<string>("DisplayName");
 
-                    b.Property<string>("UsGrade");
+                    b.Property<string>("FinalGrade");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Grade");
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.Hobby", b =>
@@ -176,29 +221,21 @@ namespace Site.Persistance.Migrations
                     b.ToTable("HobbyType");
                 });
 
-            modelBuilder.Entity("Site.Application.Entities.Job", b =>
+            modelBuilder.Entity("Site.Application.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CompanyId");
+                    b.Property<string>("CityName");
 
-                    b.Property<DateTime?>("EndDate");
+                    b.Property<string>("CountryName");
 
-                    b.Property<string>("Role");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<int>("UserId");
+                    b.Property<string>("DisplayName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Jobs");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.Project", b =>
@@ -342,17 +379,15 @@ namespace Site.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
+                    b.Property<int>("LocationId");
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("ShortName");
-
                     b.HasKey("Id");
 
-                    b.ToTable("University");
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Universities");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.User", b =>
@@ -382,10 +417,15 @@ namespace Site.Persistance.Migrations
 
             modelBuilder.Entity("Site.Application.Entities.UserBlogPost", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("BlogId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ImageUrl");
+
+                    b.Property<int>("Source");
+
+                    b.Property<string>("SourceId");
 
                     b.Property<string>("Teaser");
 
@@ -395,11 +435,76 @@ namespace Site.Persistance.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("Id");
+                    b.HasKey("BlogId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("UserBlogPosts");
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.UserCertification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CertificationId");
+
+                    b.Property<DateTime>("DateObtained");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCertification");
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.UserDegree", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DegreeId");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<int>("GradeId");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DegreeId");
+
+                    b.HasIndex("GradeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserDegrees");
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.UserExperience", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<DateTime?>("EndDate");
+
+                    b.HasKey("UserId", "CompanyId", "StartDate");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("UserExperiences");
                 });
 
             modelBuilder.Entity("Site.Application.Entities.UserHobby", b =>
@@ -415,21 +520,82 @@ namespace Site.Persistance.Migrations
                     b.ToTable("UserHobby");
                 });
 
+            modelBuilder.Entity("Site.Application.PlatformAccounts.Model.PlatformAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Followers");
+
+                    b.Property<string>("IconUrl");
+
+                    b.Property<bool>("IsLive");
+
+                    b.Property<string>("Link");
+
+                    b.Property<int>("Platform");
+
+                    b.Property<string>("PlatformId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PlatformAccounts");
+                });
+
+            modelBuilder.Entity("Site.Application.Videos.Models.Video", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PlatformAccountId");
+
+                    b.Property<DateTime>("PublishDate");
+
+                    b.Property<string>("SourceId");
+
+                    b.Property<string>("ThumbnailUrl");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Url");
+
+                    b.Property<string>("VideoDuration");
+
+                    b.Property<int>("ViewCount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlatformAccountId");
+
+                    b.ToTable("Videos");
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.Certification", b =>
+                {
+                    b.HasOne("Site.Application.Entities.Accreditor", "Accreditor")
+                        .WithMany("Certifications")
+                        .HasForeignKey("AccreditorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Site.Application.Entities.Degree", b =>
                 {
-                    b.HasOne("Site.Application.Entities.Grade", "Grade")
+                    b.HasOne("Site.Application.Entities.DegreeType", "DegreeType")
                         .WithMany("Degrees")
-                        .HasForeignKey("GradeId")
+                        .HasForeignKey("DegreeTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Site.Application.Entities.University", "University")
                         .WithMany("Degrees")
                         .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Site.Application.Entities.User", "User")
-                        .WithMany("Degrees")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -449,19 +615,6 @@ namespace Site.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Site.Application.Entities.Job", b =>
-                {
-                    b.HasOne("Site.Application.Entities.Company", "Company")
-                        .WithMany("Jobs")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Site.Application.Entities.User", "User")
-                        .WithMany("Jobs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Site.Application.Entities.Project", b =>
                 {
                     b.HasOne("Site.Application.Entities.GithubRepo", "GithubRepo")
@@ -471,8 +624,7 @@ namespace Site.Persistance.Migrations
                     b.HasOne("Site.Application.Entities.User")
                         .WithMany("Projects")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Project_User_UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Site.Application.Entities.User", "User")
                         .WithMany()
@@ -504,7 +656,7 @@ namespace Site.Persistance.Migrations
             modelBuilder.Entity("Site.Application.Entities.ProjectTechnology", b =>
                 {
                     b.HasOne("Site.Application.Entities.Project")
-                        .WithMany("ProjectTechnologies")
+                        .WithMany("ProjectTechnologys")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -535,6 +687,14 @@ namespace Site.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Site.Application.Entities.University", b =>
+                {
+                    b.HasOne("Site.Application.Entities.Location", "Location")
+                        .WithMany("Universities")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Site.Application.Entities.User", b =>
                 {
                     b.HasOne("Site.Application.Entities.Address", "Address")
@@ -551,6 +711,50 @@ namespace Site.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Site.Application.Entities.UserCertification", b =>
+                {
+                    b.HasOne("Site.Application.Entities.Certification", "Certification")
+                        .WithMany("UserCertifications")
+                        .HasForeignKey("CertificationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Site.Application.Entities.User", "User")
+                        .WithMany("UserCertifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.UserDegree", b =>
+                {
+                    b.HasOne("Site.Application.Entities.Degree", "Degree")
+                        .WithMany("UserDegrees")
+                        .HasForeignKey("DegreeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Site.Application.Entities.Grade", "Grade")
+                        .WithMany("UserDegrees")
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Site.Application.Entities.User", "User")
+                        .WithMany("UserDegrees")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Site.Application.Entities.UserExperience", b =>
+                {
+                    b.HasOne("Site.Application.Entities.Company", "Company")
+                        .WithMany("UserExperiences")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Site.Application.Entities.User", "User")
+                        .WithMany("UserExperiences")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Site.Application.Entities.UserHobby", b =>
                 {
                     b.HasOne("Site.Application.Entities.Hobby", "Hobby")
@@ -561,6 +765,22 @@ namespace Site.Persistance.Migrations
                     b.HasOne("Site.Application.Entities.User", "User")
                         .WithMany("UserHobbies")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Site.Application.PlatformAccounts.Model.PlatformAccount", b =>
+                {
+                    b.HasOne("Site.Application.Entities.User", "User")
+                        .WithMany("PlatformAccounts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Site.Application.Videos.Models.Video", b =>
+                {
+                    b.HasOne("Site.Application.PlatformAccounts.Model.PlatformAccount", "PlatformAccount")
+                        .WithMany("Videos")
+                        .HasForeignKey("PlatformAccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

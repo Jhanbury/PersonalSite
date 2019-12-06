@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
 using Site.Application.Technologies.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Technologies.Queries.GetAllTechnologies
 {

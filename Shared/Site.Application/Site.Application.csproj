@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Messaging\**" />
+    <EmbeddedResource Remove="Messaging\**" />
+    <None Remove="Messaging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="BlogPosts\Models\BlogPostMessageDto.cs" />
-    <Compile Remove="Entities\PersonalProject.cs" />
-    <Compile Remove="Entities\PersonalProjectTechnology.cs" />
     <Compile Remove="GithubRepos\Models\GithubMessageDto.cs" />
   </ItemGroup>
 
@@ -18,10 +22,15 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="3.0.3" />
     <PackageReference Include="FluentValidation" Version="8.2.0" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Site.Domain\Site.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,22 +19,6 @@ namespace Personal_Site_API.Controllers
             
         }
 
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult> GetAll()
-        {
-            try
-            {
-                var repos = await _cache.Method(x => x.Send<List<GithubRepoDto>>(new GetAllGithubReposQuery(), CancellationToken.None))
-                    .ExpireAfter(TimeSpan.FromSeconds(5))
-                    .GetValueAsync();
-                return Ok(repos);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e,e.Message);
-                return BadRequest();
-            }
-        }
+        
     }
 }

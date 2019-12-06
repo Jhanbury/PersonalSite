@@ -9,14 +9,8 @@
     <Compile Remove="Migrations\20190418214939_added social media platform to account table.cs" />
     <Compile Remove="Migrations\20190517210240_add project tables.cs" />
     <Compile Remove="Migrations\20190522225018_REMOVED BAD CONFIGS for project.cs" />
-    <Compile Remove="Migrations\20191003201748_segmentedExperience.cs" />
-    <Compile Remove="Migrations\20191003203812_segmentedExperience.cs" />
-    <Compile Remove="Migrations\20191003204014_segmentedExperience.cs" />
-    <Compile Remove="Migrations\20191003204535_segmentedExperience.cs" />
-    <Compile Remove="Migrations\20191003211629_updatedsnapshot.cs" />
-    <Compile Remove="Migrations\20191003213039_updatedsnapshot.cs" />
-    <Compile Remove="Migrations\20191003214917_updatedsnapshot.cs" />
-    <Compile Remove="Migrations\20191003225927_added jobs and degrees tables.cs" />
+    <Compile Remove="Migrations\20191128002539_updated blog post model.cs" />
+    <Compile Remove="Migrations\20191128002539_updated blog post model.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Site.Application\Site.Application.csproj" />
+    <ProjectReference Include="..\Site.Domain\Site.Domain.csproj" />
   </ItemGroup>
 
 </Project>

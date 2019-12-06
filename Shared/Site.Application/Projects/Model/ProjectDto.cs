@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Site.Application.Entities;
+using System.Collections.Generic;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Skills.Model;
 using Site.Application.Technologies.Models;

@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Site.Application.Entities;
-using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Interfaces
 {

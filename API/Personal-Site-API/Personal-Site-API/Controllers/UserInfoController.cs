@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,13 +9,22 @@ using Microsoft.Extensions.Logging;
 using Site.Application.BlogPosts.Models;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
 using Site.Application.CareerExperience.Queries;
+using Site.Application.CareerTimeLine.Queries;
+using Site.Application.Certifications.Models;
+using Site.Application.Certifications.Queries;
+using Site.Application.Education.Queries;
+using Site.Application.GithubRepos.Models;
+using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
+using Site.Application.Interfaces;
 using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Models;
 using Site.Application.Users.Queries;
+using Site.Application.Videos.Models;
+using Site.Application.Videos.Queries;
 
 namespace Personal_Site_API.Controllers
 {
@@ -105,6 +114,7 @@ namespace Personal_Site_API.Controllers
         {
             try
             {
+                
                 var projects = await _cache.Method(x => x.Send(new GetUserProjectsQuery(userId), CancellationToken.None))
                     .ExpireAfter(TimeSpan.FromSeconds(5))
                     .GetValueAsync();
@@ -134,5 +144,95 @@ namespace Personal_Site_API.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("{userId}/Videos")]
+        public async Task<ActionResult> GetAllUserVideos(int userId)
+        {
+            try
+            {
+                var videos = await _cache.Method(x => x.Send<List<AccountDto>>(new GetAllUserVideos(userId), CancellationToken.None))
+                    .ExpireAfter(TimeSpan.FromSeconds(5))
+                    .GetValueAsync();
+                return Ok(videos);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+        }
+
+    [HttpGet]
+    [Route("{userId}/codeRepos")]
+    public async Task<ActionResult> GetRepos(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send<List<GithubRepoDto>>(new GetAllGithubReposQuery(userId), CancellationToken.None))
+            .ExpireAfter(TimeSpan.FromSeconds(5))
+            .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
     }
+
+    [HttpGet]
+    [Route("{userId}/certifications")]
+    public async Task<ActionResult> GetCerts(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send(new GetUserCertificationsQuery(userId), CancellationToken.None))
+          .ExpireAfter(TimeSpan.FromSeconds(5))
+          .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
+    }
+
+    [HttpGet]
+    [Route("{userId}/education")]
+    public async Task<ActionResult> GetEducation(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send(new GetUserEducationQuery(userId), CancellationToken.None))
+          .ExpireAfter(TimeSpan.FromSeconds(5))
+          .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
+    }
+
+    [HttpGet]
+    [Route("{userId}/careertimeline")]
+    public async Task<ActionResult> GetCareerTimeLine(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send(new GetUserCareerTimelineQuery(userId), CancellationToken.None))
+          .ExpireAfter(TimeSpan.FromSeconds(5))
+          .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
+    }
+  }
 }

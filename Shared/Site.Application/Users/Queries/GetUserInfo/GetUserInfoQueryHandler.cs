@@ -1,10 +1,10 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Site.Application.Entities;
 using Site.Application.Interfaces;
 using Site.Application.Users.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Users.Queries.GetUserInfo
 {

@@ -23,5 +23,6 @@ namespace Site.Application.Interfaces
         TEntity Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
+        bool Any(Expression<Func<TEntity, bool>> expression);
     }
 }

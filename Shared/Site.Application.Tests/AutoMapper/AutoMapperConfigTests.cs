@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using NUnit.Framework;
-using Site.Application.Entities;
 using Site.Application.Hobbies.Model;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Users.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Tests.AutoMapper
 {

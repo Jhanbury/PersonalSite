@@ -1,10 +1,10 @@
-﻿using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
-using Site.Application.CareerExperience.Enums;
 using Site.Application.CareerExperience.Models;
+using Site.Application.CareerTimeLine.Models;
+using Site.Application.Certifications.Models;
 using Site.Application.Company.Models;
-using Site.Application.Entities;
+using Site.Application.Education.Model;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
@@ -13,6 +13,8 @@ using Site.Application.Skills.Model;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.Technologies.Models;
 using Site.Application.Users.Models;
+using Site.Application.Videos.Models;
+using Site.Domain.Entities;
 
 namespace Site.Application.Infrastructure.AutoMapper
 {
@@ -23,7 +25,7 @@ namespace Site.Application.Infrastructure.AutoMapper
             //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
-            CreateMap<Entities.Company, CompanyDto>().ReverseMap();
+            
             CreateMap<Skill, SkillDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoApiResultDto>().ReverseMap();
@@ -41,24 +43,37 @@ namespace Site.Application.Infrastructure.AutoMapper
             CreateMap<Hobby, HobbyDto>()
                 .ForMember(x => x.Type, y => y.MapFrom(z => z.HobbyType.Type))
                 .ReverseMap();
-            CreateMap<Degree, DegreeDto>().ReverseMap();
-            CreateMap<Job, JobDto>().ReverseMap();
-            CreateMap<Degree, UserExperienceDto>()
-                .ForMember(x => x.ExperienceType, cfg => cfg.MapFrom(x => ExperienceType.Degree))
-                .ForMember(x => x.StartDate, cfg => cfg.MapFrom(x => x.StartDate))
-                .ForMember(x => x.EndDate, cfg => cfg.MapFrom(x => x.EndDate))
-                .ForMember(x => x.DegreeId, cfg => cfg.MapFrom(x => x.Id))
-                .ForMember(x => x.Degree, cfg => cfg.MapFrom(x => x))
+            CreateMap<Video, VideoDto>()
                 .ReverseMap();
-            CreateMap<Job, UserExperienceDto>()
-                .ForMember(x => x.ExperienceType, cfg => cfg.MapFrom(x => ExperienceType.Job))
-                .ForMember(x => x.StartDate, cfg => cfg.MapFrom(x => x.StartDate))
-                .ForMember(x => x.EndDate, cfg => cfg.MapFrom(x => x.EndDate))
-                .ForMember(x => x.JobId, cfg => cfg.MapFrom(x => x.Id))
-                .ForMember(x => x.Job, cfg => cfg.MapFrom(x => x))
+            CreateMap<PlatformAccount, AccountDto>()
                 .ReverseMap();
-            CreateMap<University, UniversityDto>().ReverseMap();
-            CreateMap<Grade, GradeDto>().ReverseMap();
+            CreateMap<Certification, CertificationDto>()
+              .ForMember(x => x.Accreditor, cfg => cfg.MapFrom(x => x.Accreditor.Name))
+              .ReverseMap();
+            CreateMap<UserCertification, UserCertificationDto>()
+              .ForMember(x => x.Accreditor, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
+              .ForMember(x => x.CertificationName, cfg => cfg.MapFrom(x => x.Certification.Name))
+              .ForMember(x => x.CertificationDescription, cfg => cfg.MapFrom(x => x.Certification.Description))
+              .ReverseMap();
+            CreateMap<UserDegree, UserDegreeDto>()
+              .ForMember(x => x.University, cfg => cfg.MapFrom(x => x.Degree.University.Name))
+              .ForMember(x => x.Grade, cfg => cfg.MapFrom(x => x.Grade.DisplayName))
+              .ForMember(x => x.Degree, cfg => cfg.MapFrom(x => x.Degree.Title))
+              .ReverseMap();
+
+            CreateMap<UserCertification, CareerTimeLineDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Certification.Name))
+              .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
+              .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.DateObtained))
+              .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Certification))
+              .ReverseMap();
+            CreateMap<UserDegree, CareerTimeLineDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Degree.Title))
+              .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Grade.DisplayName))
+              .ForMember(x => x.SmallText, cfg => cfg.MapFrom(x => x.Degree.University.Name))
+              .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate))
+              .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Degree))
+              .ReverseMap();
         }
     }
 }

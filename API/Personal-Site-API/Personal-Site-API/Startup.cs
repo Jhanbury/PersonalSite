@@ -1,7 +1,5 @@
-﻿using System;
+using System;
 using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Hangfire;
 using Hangfire.SqlServer;
 using MediatR;
@@ -13,17 +11,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using DryIoc;
 using FluentCache;
 using FluentCache.Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Distributed;
 using Serilog;
-using Serilog.Events;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Infrastructure;
 using Site.Application.Infrastructure.AutoMapper;
-using Site.Application.Interfaces;
 using Site.Infrastructure.Modules;
 using Site.Persistance;
+using Site.Infrastructure;
+using DryIoc.Microsoft.DependencyInjection;
+using Site.Application.Interfaces;
 
 namespace Personal_Site_API
 {
@@ -40,10 +40,12 @@ namespace Personal_Site_API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var dbConnectionString = Configuration["ConnectionString"];
+            var devToAPIKey = Configuration["DevtoAPIKey"];
             ConfigureCaching(services, dbConnectionString);
             services.AddHttpClient();
             ConfigureAutoMapper(services);
             ConfigureMediatR(services);
+            ConfigureHttpClientFactory(services, devToAPIKey);
             ConfigureSerilog(dbConnectionString);
             ConfigureHangFire(services, dbConnectionString);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -57,11 +59,11 @@ namespace Personal_Site_API
                             .AllowAnyMethod();
                     });
             });
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(services);
-            containerBuilder.RegisterModule<ApplicationModule>();
-            ApplicationContainer = containerBuilder.Build();
-            return new AutofacServiceProvider(ApplicationContainer);
+            
+            
+            return new Container().WithDependencyInjectionAdapter(services)
+              .ConfigureServiceProvider<CompositionRoot>();
+
             //var sqlStorage = new SqlServerStorage(connectionString);
             //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
@@ -81,17 +83,33 @@ namespace Personal_Site_API
         
         private void ConfigureCaching(IServiceCollection services, string connectionString)
         {
-
             services.AddDistributedMemoryCache();
             services.AddSingleton<ICache>(sp =>
                 new FluentIDistributedCache(sp.GetService<IDistributedCache>(), new Serializer()));
             services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
-            
+        }
+
+        private void ConfigureHttpClientFactory(IServiceCollection services, string blogAPIKey)
+        {
+            services.AddHttpClient("dev.to", client =>
+            {
+              client.BaseAddress = new Uri("https://dev.to/");
+              client.DefaultRequestHeaders.Add("api-key", blogAPIKey);
+              
+            });
+            services.AddHttpClient("github", client =>
+            {
+              client.BaseAddress = new Uri("https://api.github.com");
+              client.DefaultRequestHeaders.Add("User-Agent", "Personal-Site");
+            });
+
+
+     
         }
 
         private void ConfigureAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
+            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly, typeof(InfrastructureProfile).GetTypeInfo().Assembly });
         }
 
         public void ConfigureMediatR(IServiceCollection services)
@@ -119,11 +137,13 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"));
+            BackgroundJob.Enqueue<ITwitchService>(service => service.UpdateTwitchAccounts(1));
+            BackgroundJob.Enqueue<IYouTubeService>(service => service.UpdateYouTubeAccounts(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
-            //RecurringJob.AddOrUpdate<IBlogPostService>(service => service.UpdateBlogPostsForUser(1),);
+            //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
             //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

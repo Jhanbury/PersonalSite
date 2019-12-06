@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using Site.Application.CareerExperience.Enums;
 using Site.Application.Company.Models;
-using Site.Application.Entities;
 
 namespace Site.Application.CareerExperience.Models
 {

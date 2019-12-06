@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,11 +10,9 @@ using Moq;
 using Moq.Contrib.HttpClient;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
-using Site.Application.Entities;
-using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Interfaces;
+using Site.Domain.Entities;
 using Site.Infrastructure.Services;
 
 namespace Site.Infrastructure.Tests

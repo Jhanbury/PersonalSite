@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,8 +18,15 @@ namespace Personal_Site_API
     {
         public static void Main(string[] args)
         {
-            
+          try
+          {
             CreateWebHostBuilder(args).Build().Run();
+          }
+          catch (Exception e)
+          {
+            throw;
+          }
+            
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

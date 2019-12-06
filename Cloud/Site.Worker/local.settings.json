@@ -1,9 +1,0 @@
-{
-    "IsEncrypted": false,
-  "Values": {
-    "ServiceBusConnectionString": "Endpoint=sb://personal-site.servicebus.windows.net/;SharedAccessKeyName=worker;SharedAccessKey=ss95U1PyafiTCW24uEuR8Sf7+VtZ5iFUXzxanI55ZMU=",
-    "DBConnectionString": "Data Source=personal-site.database.windows.net;Initial Catalog=personalsiteDB;User ID=ps-admin;Password=7O3mq3l4Dksv4IUgZx2",
-    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=personalsitelogs;AccountKey=5exKHOgPmDimKRFybaKAgvlQCXm9gsl3tb6QZfjihOQUQG1Wdf8JOe88IHK/ogx1VF9N/QUlT6+WWd/d7wG4Xw==;BlobEndpoint=https://personalsitelogs.blob.core.windows.net/;TableEndpoint=https://personalsitelogs.table.core.windows.net/;QueueEndpoint=https://personalsitelogs.queue.core.windows.net/;FileEndpoint=https://personalsitelogs.file.core.windows.net/",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
-  }
-}

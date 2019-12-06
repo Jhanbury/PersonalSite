@@ -10,5 +10,6 @@ namespace Site.Domain.Entities
     public string CityName { get; set; }
 
     public ICollection<University> Universities { get; set; }
+    public ICollection<Company> Companies { get; set; }
   }
 }

@@ -22,6 +22,7 @@ namespace Site.Domain.Entities
         public ICollection<PlatformAccount> PlatformAccounts { get; set; }
         public ICollection<UserCertification> UserCertifications { get; set; }
         public ICollection<UserDegree> UserDegrees { get; set; }
+        public ICollection<UserWorkExperience> UserWorkExperiences { get; set; }
         
         
     }

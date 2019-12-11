@@ -9,13 +9,13 @@ using Newtonsoft.Json;
 using Site.Application.Interfaces;
 using Site.Domain.Entities;
 using Site.Infrastructure.Models.Blogs;
+using User = Site.Domain.Entities.User;
 
 namespace Site.Infrastructure.Services
 {
     public class BlogPostService : IBlogPostService
     {
         private readonly IRepository<UserBlogPost, string> _blogRepository;
-        //private readonly IRepository<User, int> _userRepository;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
@@ -23,7 +23,6 @@ namespace Site.Infrastructure.Services
         public BlogPostService(IRepository<UserBlogPost, string> blogRepository, IHttpClientFactory httpClientFactory, IMapper mapper, ILogger<BlogPostService> logger)
         {
             _blogRepository = blogRepository;
-            //_userRepository = userRepository;
             _httpClientFactory = httpClientFactory;
             _mapper = mapper;
             _logger = logger;
@@ -57,13 +56,27 @@ namespace Site.Infrastructure.Services
             try
             {
                 var models = await GetUserBlogPosts(id);
-                await UpdateDatabase(models);
+                var userBlogPosts = models as UserBlogPost[] ?? models.ToArray();
+                await UpdateDatabase(userBlogPosts);
+                await RemoveExpiredPosts(id,userBlogPosts);
             }
             catch (Exception e)
             {
                 _logger.LogError(e,e.Message);
             }
             
+        }
+
+        private async Task RemoveExpiredPosts(int userId,IEnumerable<UserBlogPost> models)
+        {
+          var dbBlogs = await _blogRepository.Get(x => x.UserId.Equals(userId));
+          foreach (var blog in dbBlogs)
+          {
+            if (!models.Any(x => x.SourceId.Equals(blog.SourceId)))
+            {
+              _blogRepository.Delete(blog);
+            }
+          }
         }
 
         public async Task UpdateDatabase(IEnumerable<UserBlogPost> blogs)

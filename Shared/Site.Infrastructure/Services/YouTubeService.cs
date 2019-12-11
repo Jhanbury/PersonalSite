@@ -44,6 +44,7 @@ namespace Site.Infrastructure.Services
                     continue;
                 var videos = await GetVideoInformation("snippet,contentDetails,statistics", idString);
                 await UpdateVideos(videos);
+                await RemoveExpiredVideos(videos, userId);
             }
         }
 
@@ -87,10 +88,25 @@ namespace Site.Infrastructure.Services
                     var model = _mapper.Map<Domain.Entities.Video>(video);
                     _videoRepository.Add(model);
                 }
+                
+
             }
         }
 
-        private async Task<IEnumerable<Channel>> GetChannelInformation(string parts, string ids)
+        private async Task RemoveExpiredVideos(IEnumerable<Google.Apis.YouTube.v3.Data.Video> channelVideos, int userId)
+        {
+          var userChannelVideos = await
+            _videoRepository.Get(x => x.PlatformAccount.UserId.Equals(userId) && x.PlatformAccount.Platform.Equals(Domain.Enums.Platform.YouTube));
+          foreach (var video in userChannelVideos)
+          {
+            if (!channelVideos.Any(x => x.Id.Equals(video.SourceId)))
+            {
+              _videoRepository.Delete(video);
+            }
+          }
+        }
+
+    private async Task<IEnumerable<Channel>> GetChannelInformation(string parts, string ids)
         {
             var service = new Google.Apis.YouTube.v3.YouTubeService(new BaseClientService.Initializer
             {

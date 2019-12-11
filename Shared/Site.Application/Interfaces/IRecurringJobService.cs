@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Site.Application.Interfaces
 {
@@ -6,5 +6,6 @@ namespace Site.Application.Interfaces
     {
         Task UpdateGithubRepos(int userId, string username);
         Task UpdateUserBlogs(int userId);
+        Task UpdateVideoPlatforms(int userId);
     }
 }

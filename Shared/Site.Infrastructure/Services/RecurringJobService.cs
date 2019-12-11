@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@ namespace Site.Infrastructure.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
-
+        private const string _queueName = "jobs";
         public RecurringJobService(IConfiguration configuration, ILogger<RecurringJobService> logger)
         {
             _configuration = configuration;
@@ -34,8 +34,8 @@ namespace Site.Infrastructure.Services
                     UserId = userId,
                     UserName = username
                 };
-                var QueueName = "jobs";
-                await AddJobToQueue(QueueName, model);
+                
+                await AddJobToQueue(_queueName, model);
             }
             catch (Exception e)
             {
@@ -69,9 +69,21 @@ namespace Site.Infrastructure.Services
                 {
                     UserId = userId
                 };
+                await AddJobToQueue(_queueName, model);
 
-                var QueueName = "github-repos";
-                await AddJobToQueue(QueueName, model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+            }
+        }
+
+        public async Task UpdateVideoPlatforms(int userId)
+        {
+            try
+            {
+              var model = new VideoPlatformsMessage(userId);
+                await AddJobToQueue(_queueName, model);
 
             }
             catch (Exception e)

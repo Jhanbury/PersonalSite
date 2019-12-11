@@ -8,6 +8,7 @@ using Site.Persistance.Repository;
 
 namespace Site.Infrastructure.Modules
 {
+    public delegate IMessageHandler<IMessage> HandlerResolver(MessageType message);
     public class ApplicationModule : IModule
     {
         public void Load(IRegistrator builder)
@@ -20,9 +21,11 @@ namespace Site.Infrastructure.Modules
           builder.Register<IGithubService, GithubRepoServices>();
           builder.Register<IMessageHandler<IMessage>, GithubMessageHandler>(serviceKey: MessageType.GithubRepoUpdate);
           builder.Register<IMessageHandler<IMessage>, BlogPostsMessageHandler>(serviceKey: MessageType.UserBlogPostsUpdate);
+          builder.Register<IMessageHandler<IMessage>, VideoPlatformMessageHandler>(serviceKey: MessageType.VideoPlatformUpdate);
           builder.Register<IMessageHandlerFactory, MessageHandlerFactory>();
           builder.Register(typeof(IRepository<,>), typeof(EFRepository<,>));
+          
 
-    }
+        }
     }
 }

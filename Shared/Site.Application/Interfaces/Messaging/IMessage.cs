@@ -1,4 +1,4 @@
-﻿namespace Site.Application.Interfaces.Messaging
+namespace Site.Application.Interfaces.Messaging
 {
     public interface IMessage
     {
@@ -8,6 +8,7 @@
     public enum MessageType
     {
         GithubRepoUpdate,
-        UserBlogPostsUpdate
+        UserBlogPostsUpdate,
+        VideoPlatformUpdate,
     }
 }

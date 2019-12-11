@@ -1,21 +1,24 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Site.Application.Interfaces;
 using Site.Domain.Entities;
 using TwitchLib.Api;
+using TwitchLib.Api.V5.Models.Videos;
 
 namespace Site.Infrastructure.Services
 {
     public class TwitchService : ITwitchService
     {
         private readonly IRepository<PlatformAccount, int> _accountRepo;
-        private readonly IRepository<Video, int> _videoRepository;
+        private readonly IRepository<Domain.Entities.Video, int> _videoRepository;
         private readonly TwitchAPI _twitchAPI;
         private readonly IMapper _mapper;
 
-        public TwitchService(IConfiguration config, IRepository<PlatformAccount, int> accountRepo, IRepository<Video, int> videoRepo, IMapper mapper)
+        public TwitchService(IConfiguration config, IRepository<PlatformAccount, int> accountRepo, IRepository<Domain.Entities.Video, int> videoRepo, IMapper mapper)
         {
             _twitchAPI = new TwitchAPI();
             _twitchAPI.Settings.ClientId = config.GetValue<string>("TwitchAPIKey");
@@ -41,15 +44,30 @@ namespace Site.Infrastructure.Services
                     }
                     else
                     {
-                        var model = _mapper.Map<Video>(video);
+                        var model = _mapper.Map<Domain.Entities.Video>(video);
                         model.PlatformAccountId = account.Id;
                         _videoRepository.Add(model);
                     }
                 }
+
+                await RemoveExpiredVideos(channelVideos, userId);
             }
         }
 
-        public async Task UpdateTwitchAccounts(int userId)
+    private async Task RemoveExpiredVideos(TwitchLib.Api.V5.Models.Videos.Video[] channelVideos, int userId)
+    {
+      var userChannelVideos = await 
+        _videoRepository.Get(x => x.PlatformAccount.UserId.Equals(userId) && x.PlatformAccount.Platform.Equals(Domain.Enums.Platform.Twitch));
+      foreach (var video in userChannelVideos)
+      {
+        if (!channelVideos.Any(x => x.Id.Equals(video.SourceId)))
+        {
+          _videoRepository.Delete(video);
+        }
+      }
+    }
+
+    public async Task UpdateTwitchAccounts(int userId)
         {
             var accounts = await GetUserAccounts(userId);
             foreach (var account in accounts)

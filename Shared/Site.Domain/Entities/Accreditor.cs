@@ -4,6 +4,11 @@ namespace Site.Domain.Entities
 {
   public class Accreditor
   {
+    public Accreditor()
+    {
+      Certifications = new List<Certification>();
+    }
+
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

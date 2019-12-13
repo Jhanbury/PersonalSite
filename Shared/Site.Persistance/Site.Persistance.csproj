@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20190522225018_REMOVED BAD CONFIGS for project.cs" />
     <Compile Remove="Migrations\20191128002539_updated blog post model.cs" />
     <Compile Remove="Migrations\20191128002539_updated blog post model.Designer.cs" />
+    <Compile Remove="Migrations\20191212215622_added tech and skills to roles.cs" />
+    <Compile Remove="Migrations\20191212215622_added tech and skills to roles.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

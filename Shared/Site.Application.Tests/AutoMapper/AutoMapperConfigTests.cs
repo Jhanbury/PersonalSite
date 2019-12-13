@@ -1,5 +1,10 @@
+using System;
 using AutoMapper;
 using NUnit.Framework;
+using Site.Application.CareerTimeLine.Models;
+using Site.Application.Certifications.Models;
+using Site.Application.Company.Models;
+using Site.Application.Education.Model;
 using Site.Application.Hobbies.Model;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.SocialMediaAccounts.Models;
@@ -75,5 +80,23 @@ namespace Site.Application.Tests.AutoMapper
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual.Type);
         }
+
+
+        [Test]
+        [TestCase(typeof(SocialMediaAccount), typeof(SocialMediaAccountDto))]
+        [TestCase(typeof(User), typeof(UserDto))]
+        [TestCase(typeof(Hobby), typeof(HobbyDto))]
+        [TestCase(typeof(UserDegree), typeof(UserDegreeDto))]
+        [TestCase(typeof(Certification), typeof(CertificationDto))]
+        [TestCase(typeof(UserDegree), typeof(CareerTimeLineDto))]
+        [TestCase(typeof(UserWorkExperience), typeof(CareerTimeLineDto))]
+        [TestCase(typeof(UserCertification), typeof(CareerTimeLineDto))]
+        public void TestConfig(Type source, Type dest)
+        {
+          var instance = Activator.CreateInstance(source);
+
+          _mapper.Map(instance, source, dest);
+        }
+
     }
 }

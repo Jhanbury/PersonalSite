@@ -12,7 +12,6 @@ namespace Site.Persistance.Configurations
             builder.HasOne<User>()
                 .WithMany(x => x.Projects)
                 .HasForeignKey(x => x.UserId)
-                .HasConstraintName("FK_Project_User_UserId")
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

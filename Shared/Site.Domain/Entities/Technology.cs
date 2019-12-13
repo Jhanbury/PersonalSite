@@ -9,7 +9,8 @@ namespace Site.Domain.Entities
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public TechnologyType TechnologyType { get; set; }
-        public ICollection<ProjectTechnology> ProjectTechnologys { get; set; }
+        public ICollection<ProjectTechnology> ProjectTechnologies { get; set; }
+        public ICollection<RoleTechnology> RoleTechnologies { get; set; }
         
     }
 }

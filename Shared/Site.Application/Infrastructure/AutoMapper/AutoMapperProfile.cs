@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
 using Site.Application.CareerExperience.Models;
@@ -74,6 +76,22 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate))
               .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Degree))
               .ReverseMap();
+
+            CreateMap<UserWorkExperience, CareerTimeLineDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Role.Title))
+              .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Company.Name))
+              .ForMember(x => x.SmallText, cfg => cfg.MapFrom(x => x.Company.Location.CountryName))
+              .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate ?? DateTime.Now))
+              .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Job))
+              .ReverseMap();
+
+            CreateMap<UserWorkExperience, UserExperienceDto>()
+              .ForMember(x => x.Role, cfg => cfg.MapFrom(x => x.Role.Title))
+              .ForMember(x => x.Company, cfg => cfg.MapFrom(x => x.Company.Name))
+              .ForMember(x => x.Location, cfg => cfg.MapFrom(x => x.Company.Location.CountryName))
+              .ForMember(x => x.Skills, cfg => cfg.MapFrom(x => x.Role.RoleSkills.Select(y => y.Skill.Name)))
+              .ForMember(x => x.Technologies,
+                cfg => cfg.MapFrom(x => x.Role.RoleTechnologies.Select(y => y.Technology.Name)));
         }
     }
 }

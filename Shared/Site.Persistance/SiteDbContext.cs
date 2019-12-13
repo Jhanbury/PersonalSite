@@ -22,7 +22,6 @@ namespace Site.Persistance
         public DbSet<ProjectTechnology> ProjectTechnologies { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Technology> Technologies { get; set; }
-        
         public DbSet<Video> Videos { get; set; }
         public DbSet<PlatformAccount> PlatformAccounts { get; set; }
         public DbSet<Location> Locations { get; set; }
@@ -31,6 +30,9 @@ namespace Site.Persistance
         public DbSet<DegreeType> DegreeTypes { get; set; }
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<UserDegree> UserDegrees { get; set; }
+        public DbSet<RoleTechnology> RoleTechnologies { get; set; }
+        public DbSet<RoleSkill> RoleSkills { get; set; }
+        public DbSet<UserWorkExperience> UserWorkExperiences { get; set; }
 
 
 

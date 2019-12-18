@@ -83,7 +83,7 @@ namespace Site.Infrastructure.Services
         {
           foreach (var blog in blogs)
           {
-            if(_blogRepository.Any(x => x.SourceId.Equals(blog.BlogId) && x.Source.Equals(blog.Source)))
+            if(_blogRepository.Any(x => x.SourceId.Equals(blog.SourceId) && x.Source.Equals(blog.Source)))
             {
                 var model = await _blogRepository.GetSingle(x => x.BlogId.Equals(blog.BlogId));
                 model.ImageUrl = blog.ImageUrl;

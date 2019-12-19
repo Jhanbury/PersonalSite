@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
+using Site.Application.Infrastructure.Models.Twitch;
+using Site.Application.PlatformAccounts.Commands;
 
 namespace Site.Application.Interfaces
 {
@@ -6,5 +8,8 @@ namespace Site.Application.Interfaces
     {
         Task UpdateTwitchVideos(int userId);
         Task UpdateTwitchAccounts(int userId);
+        UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId);
+        Task<bool> SubscribeToTwitchStreamWebHook(TwitchSubscriptionData subscription);
+
     }
 }

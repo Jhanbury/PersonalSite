@@ -1,10 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Site.Application.Infrastructure.Models.Twitch;
 using Site.Application.Interfaces;
+using Site.Application.PlatformAccounts.Commands;
 using Site.Domain.Entities;
 using TwitchLib.Api;
 using TwitchLib.Api.V5.Models.Videos;
@@ -17,14 +23,22 @@ namespace Site.Infrastructure.Services
         private readonly IRepository<Domain.Entities.Video, int> _videoRepository;
         private readonly TwitchAPI _twitchAPI;
         private readonly IMapper _mapper;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly string _twitchApiKey;
+        private readonly string _baseCallbackUrl;
+        private readonly string _twitchUrl;
 
-        public TwitchService(IConfiguration config, IRepository<PlatformAccount, int> accountRepo, IRepository<Domain.Entities.Video, int> videoRepo, IMapper mapper)
+        public TwitchService(IConfiguration config, IRepository<PlatformAccount, int> accountRepo, IRepository<Domain.Entities.Video, int> videoRepo, IMapper mapper, IHttpClientFactory factory)
         {
             _twitchAPI = new TwitchAPI();
-            _twitchAPI.Settings.ClientId = config.GetValue<string>("TwitchAPIKey");
+            _twitchApiKey = config.GetValue<string>("TwitchAPIKey");
+            _twitchUrl = config.GetValue<string>("TwitchWebHookUrl");
+            _twitchAPI.Settings.ClientId = _twitchApiKey;
+            _baseCallbackUrl = config.GetValue<string>("TwitchBaseCallback");
             _mapper = mapper;
             _videoRepository = videoRepo;
             _accountRepo = accountRepo;
+            _clientFactory = factory;
         }
 
         public async Task UpdateTwitchVideos(int userId)
@@ -80,9 +94,51 @@ namespace Site.Infrastructure.Services
 
         }
 
-        private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
+    public UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId)
+    {
+      if (response != null && (response?.Data == null || Equals(response.Data, Enumerable.Empty<TwitchStreamUpdateData>())))
+        return new UpdateAccountStreamStateCommand()
         {
-            return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Domain.Enums.Platform.Twitch));
-        }
+          UserId = userId,
+          IsStreaming = false
+        };
+      var commandData = _mapper.Map<UpdateAccountStreamStateCommand>(response);
+      commandData.UserId = userId;
+      return commandData;
     }
+
+
+    public async Task<bool> SubscribeToTwitchStreamWebHook(TwitchSubscriptionData subscription)
+    {
+      using (var client = _clientFactory.CreateClient("TwitchWebhook"))
+      {
+        var callback = $"{_baseCallbackUrl}/api/TwitchWebhook/StreamUpdate/{subscription.UserId}/{subscription.TwitchAccountId}";
+        var mode = $"subscribe";
+        var topic = $"{_twitchUrl}/streams?user_id={subscription.TwitchAccountId}";
+        var leaseSeconds = 0;
+        
+        var parameters = new TwitchWebHookParameters()
+        {
+          Callback = callback,
+          Mode = mode,
+          Topic = topic,
+          Lease = leaseSeconds
+        };
+        client.DefaultRequestHeaders.Add("Client-ID", _twitchApiKey);
+        var contentString = JsonConvert.SerializeObject(parameters);
+        var content = new StringContent(contentString, Encoding.UTF8, "application/json");
+        var url = $"{_twitchUrl}/webhooks/hub";
+        var response = await client.PostAsync(url, content);
+        return response.IsSuccessStatusCode;
+      }
+    }
+
+
+    private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
+    {
+        return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Domain.Enums.Platform.Twitch));
+    }
+  }
+
+    
 }

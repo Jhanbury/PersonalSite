@@ -138,9 +138,10 @@ namespace Personal_Site_API
             JobStorage.Current = new SqlServerStorage(connectionString);
             //BackgroundJob.Enqueue<ITwitchService>(service => service.UpdateTwitchAccounts(1));
             //BackgroundJob.Enqueue<IYouTubeService>(service => service.UpdateYouTubeAccounts(1));
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "Jhanbury"));
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateVideoPlatforms(1));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "Jhanbury"));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateVideoPlatforms(1));
+            BackgroundJob.Enqueue<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));

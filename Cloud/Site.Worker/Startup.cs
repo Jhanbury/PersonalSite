@@ -66,6 +66,7 @@ namespace Site.Worker
             builder.Services.AddScoped<GithubMessageHandler>();
             builder.Services.AddScoped<BlogPostsMessageHandler>();
             builder.Services.AddScoped<VideoPlatformMessageHandler>();
+            builder.Services.AddScoped<TwitchWebhookSubscriptionHandler>();
             builder.Services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
             builder.Services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
             builder.Services.AddScoped<HandlerResolver>(sp => message =>
@@ -78,6 +79,8 @@ namespace Site.Worker
                   return sp.GetService<BlogPostsMessageHandler>();
                 case MessageType.VideoPlatformUpdate:
                   return sp.GetService<VideoPlatformMessageHandler>();
+                case MessageType.TwitchWebhookSubscription:
+                  return sp.GetService<TwitchWebhookSubscriptionHandler>();
                 default:
                   return null;
 

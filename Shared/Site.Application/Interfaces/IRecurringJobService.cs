@@ -7,5 +7,6 @@ namespace Site.Application.Interfaces
         Task UpdateGithubRepos(int userId, string username);
         Task UpdateUserBlogs(int userId);
         Task UpdateVideoPlatforms(int userId);
+        Task SubscribeToTwitchWebhooks(int userId);
     }
 }

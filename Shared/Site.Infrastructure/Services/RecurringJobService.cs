@@ -82,7 +82,7 @@ namespace Site.Infrastructure.Services
         {
             try
             {
-              var model = new VideoPlatformsMessage(userId);
+                var model = new VideoPlatformsMessage(userId);
                 await AddJobToQueue(_queueName, model);
 
             }
@@ -90,6 +90,13 @@ namespace Site.Infrastructure.Services
             {
                 _logger.LogError(e, e.Message);
             }
+        }
+
+        public async Task SubscribeToTwitchWebhooks(int userId)
+        {
+            var message = new TwitchWebhookSubscriptionMessage();
+            message.UserId = userId;
+            await AddJobToQueue(_queueName, message);
         }
     }
 }

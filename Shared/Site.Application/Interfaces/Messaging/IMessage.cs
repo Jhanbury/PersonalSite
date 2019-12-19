@@ -10,5 +10,6 @@ namespace Site.Application.Interfaces.Messaging
         GithubRepoUpdate,
         UserBlogPostsUpdate,
         VideoPlatformUpdate,
-    }
+        TwitchWebhookSubscription,
+  }
 }

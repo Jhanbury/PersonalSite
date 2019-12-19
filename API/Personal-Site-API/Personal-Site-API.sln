@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Worker", "..\..\Cloud\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Domain", "..\..\Shared\Site.Domain\Site.Domain.csproj", "{3817A38D-B72F-4E2B-9FAF-DF5B8F66B3A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{EE2D4A28-C220-4937-9E1C-C89F55F01CDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Domain.Tests", "Domain.Tests\Site.Domain.Tests.csproj", "{EE2D4A28-C220-4937-9E1C-C89F55F01CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

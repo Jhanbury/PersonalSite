@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
+using Site.Application.BlogPosts.Models;
 using Site.Application.CareerExperience.Models;
 using Site.Application.CareerTimeLine.Models;
 using Site.Application.Certifications.Models;
@@ -10,6 +11,8 @@ using Site.Application.Education.Model;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
+using Site.Application.Infrastructure.Models.Twitch;
+using Site.Application.PlatformAccounts.Commands;
 using Site.Application.Projects.Model;
 using Site.Application.Skills.Model;
 using Site.Application.SocialMediaAccounts.Models;
@@ -27,6 +30,13 @@ namespace Site.Application.Infrastructure.AutoMapper
             //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
+            CreateMap<UserBlogPost, UserBlogPostDto>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Title))
+              .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.ImageUrl))
+              .ForMember(x => x.Teaser, cfg => cfg.MapFrom(x => x.Teaser))
+              .ForMember(x => x.Url, cfg => cfg.MapFrom(x => x.Url))
+              .ForMember(x => x.User, cfg => cfg.MapFrom(x => x.User))
+              .ReverseMap();
             
             CreateMap<Skill, SkillDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
@@ -92,6 +102,10 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.Skills, cfg => cfg.MapFrom(x => x.Role.RoleSkills.Select(y => y.Skill.Name)))
               .ForMember(x => x.Technologies,
                 cfg => cfg.MapFrom(x => x.Role.RoleTechnologies.Select(y => y.Technology.Name)));
+
+            CreateMap<TwitchStreamUpdateData, UpdateAccountStreamStateCommand>()
+              .ForMember(x => x.IsStreaming, cfg => cfg.MapFrom(x => x.Type.Equals("live")))
+              .ReverseMap();
         }
     }
 }

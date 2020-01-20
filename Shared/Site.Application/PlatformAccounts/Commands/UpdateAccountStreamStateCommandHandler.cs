@@ -1,9 +1,11 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Site.Application.Interfaces;
 using Site.Domain.Entities;
+using Site.Domain.Enums;
 
 namespace Site.Application.PlatformAccounts.Commands
 {
@@ -20,7 +22,20 @@ namespace Site.Application.PlatformAccounts.Commands
 
     public async Task<bool> Handle(UpdateAccountStreamStateCommand request, CancellationToken cancellationToken)
     {
-      return false;
+      try
+      {
+        var platformAccount = await _repository.GetSingle(x =>
+          x.UserId.Equals(request.UserId) && x.PlatformId.Equals(request.AccountId) &&
+          x.Platform.Equals(Platform.Twitch));
+        platformAccount.IsLive = request.IsStreaming;
+        _repository.Update(platformAccount);
+        return true;
+      }
+      catch (Exception e)
+      {
+        return false;
+      }
+      
     }
   }
 }

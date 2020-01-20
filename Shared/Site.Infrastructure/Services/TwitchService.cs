@@ -94,16 +94,19 @@ namespace Site.Infrastructure.Services
 
         }
 
-    public UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId)
+    public UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId, string platformId)
     {
       if (response != null && (response?.Data == null || Equals(response.Data, Enumerable.Empty<TwitchStreamUpdateData>())))
         return new UpdateAccountStreamStateCommand()
         {
           UserId = userId,
-          IsStreaming = false
+          IsStreaming = false,
+          AccountId = platformId
         };
-      var commandData = _mapper.Map<UpdateAccountStreamStateCommand>(response);
+      var streamData = response.Data.FirstOrDefault();
+      var commandData = _mapper.Map<UpdateAccountStreamStateCommand>(streamData);
       commandData.UserId = userId;
+      commandData.AccountId = platformId;
       return commandData;
     }
 

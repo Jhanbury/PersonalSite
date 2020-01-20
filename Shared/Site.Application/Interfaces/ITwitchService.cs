@@ -8,7 +8,7 @@ namespace Site.Application.Interfaces
     {
         Task UpdateTwitchVideos(int userId);
         Task UpdateTwitchAccounts(int userId);
-        UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId);
+        UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId, string accountId);
         Task<bool> SubscribeToTwitchStreamWebHook(TwitchSubscriptionData subscription);
 
     }

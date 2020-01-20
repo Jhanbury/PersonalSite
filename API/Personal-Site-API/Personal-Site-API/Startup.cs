@@ -141,7 +141,7 @@ namespace Personal_Site_API
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "Jhanbury"));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateVideoPlatforms(1));
-            BackgroundJob.Enqueue<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1));
+            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
             //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));

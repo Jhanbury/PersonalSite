@@ -35,7 +35,8 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.ImageUrl))
               .ForMember(x => x.Teaser, cfg => cfg.MapFrom(x => x.Teaser))
               .ForMember(x => x.Url, cfg => cfg.MapFrom(x => x.Url))
-              .ForMember(x => x.User, cfg => cfg.MapFrom(x => x.User))
+              .ForMember(x => x.Source, cfg => cfg.MapFrom(x => x.Source.ToString()))
+              .ForMember(x => x.AuthorName, cfg => cfg.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
               .ReverseMap();
             
             CreateMap<Skill, SkillDto>().ReverseMap();
@@ -105,6 +106,10 @@ namespace Site.Application.Infrastructure.AutoMapper
 
             CreateMap<TwitchStreamUpdateData, UpdateAccountStreamStateCommand>()
               .ForMember(x => x.IsStreaming, cfg => cfg.MapFrom(x => x.Type.Equals("live")))
+              .ReverseMap();
+
+            CreateMap<PlatformAccount, LiveStreamDto>()
+              .ForMember(x => x.Url, cfg => cfg.MapFrom(y => y.Link))
               .ReverseMap();
         }
     }

@@ -16,6 +16,7 @@ using Site.Application.GithubRepos.Models;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Hobbies.Model;
 using Site.Application.Hobbies.Querys;
+using Site.Application.PlatformAccounts.Queries;
 using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Models;
 using Site.Application.SocialMediaAccounts.Queries;
@@ -222,6 +223,25 @@ namespace Personal_Site_API.Controllers
       try
       {
         var repos = await _cache.Method(x => x.Send(new GetUserCareerTimelineQuery(userId), CancellationToken.None))
+          .ExpireAfter(TimeSpan.FromSeconds(5))
+          .GetValueAsync();
+        return Ok(repos);
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, e.Message);
+        return BadRequest();
+      }
+    }
+
+    [HttpGet]
+    [Route("{userId}/livestreams")]
+
+    public async Task<ActionResult> GetLiveStreams(int userId)
+    {
+      try
+      {
+        var repos = await _cache.Method(x => x.Send(new GetUserLiveStreamsQuery(userId), CancellationToken.None))
           .ExpireAfter(TimeSpan.FromSeconds(5))
           .GetValueAsync();
         return Ok(repos);

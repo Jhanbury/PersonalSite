@@ -136,19 +136,22 @@ namespace Personal_Site_API
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
             JobStorage.Current = new SqlServerStorage(connectionString);
-            //BackgroundJob.Enqueue<ITwitchService>(service => service.UpdateTwitchAccounts(1));
-            //BackgroundJob.Enqueue<IYouTubeService>(service => service.UpdateYouTubeAccounts(1));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "Jhanbury"));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateVideoPlatforms(1));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
-            //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
-            //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
-            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
-            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);
-            
-        }
+
+      //BackgroundJob.Enqueue<ITwitchService>(service => service.UpdateTwitchAccounts(1));
+      //BackgroundJob.Enqueue<IYouTubeService>(service => service.UpdateYouTubeAccounts(1));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateGithubRepos(1, "Jhanbury"));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateVideoPlatforms(1));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
+      //BackgroundJob.Enqueue<IRecurringJobService>(service => service.UpdateUserBlogs(1));
+      //BackgroundJob.Enqueue<IBlogPostService>(service => service.UpdateBlogPostsForUser(1));
+      RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1, "JHanbury"), Cron.Daily);
+      RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);
+      RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateVideoPlatforms(1), Cron.Daily);
+      RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1), Cron.Daily);
+
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

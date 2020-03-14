@@ -23,9 +23,9 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: Build
-    inputs:
-      command: build
-      arguments: '$(buildConfiguration)'
+  inputs:
+    command: build
+    arguments: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:

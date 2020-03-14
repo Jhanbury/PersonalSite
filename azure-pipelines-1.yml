@@ -25,7 +25,7 @@ steps:
   displayName: Build
   inputs:
     command: build
-    projects: 'PersonalSite\API\Personal-Site-API\Personal-Site-API\Personal-Site-API.csproj'
+    projects: '**\Personal-Site-API.csproj'
     arguments: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2

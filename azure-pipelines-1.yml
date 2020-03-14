@@ -23,11 +23,9 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: Build
-  workingDirectory: 'PersonalSite\API\Personal-Site-API\Personal-Site-API'
-  inputs:
-    command: build
-    projects: 'Personal-Site-API.csproj'
-    arguments: '$(buildConfiguration)'
+    inputs:
+      command: build
+      arguments: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:

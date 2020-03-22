@@ -9,6 +9,7 @@ namespace Site.Application.CareerTimeLine.Models
     public string SmallText { get; set; }
     public string TimeLineType { get; set; }
     public DateTime Date { get; set; }
+    public string FormattedDate { get; set; }
   }
 }
 

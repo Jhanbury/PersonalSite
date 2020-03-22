@@ -79,6 +79,7 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.SubTitle, cfg => cfg.MapFrom(x => x.Certification.Accreditor.Name))
               .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.DateObtained))
               .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Certification))
+              .ForMember(x => x.FormattedDate, cfg => cfg.MapFrom(x => x.DateObtained.ToString("dd MMMM yyyy")))
               .ReverseMap();
             CreateMap<UserDegree, CareerTimeLineDto>()
               .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Degree.Title))
@@ -86,6 +87,7 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.SmallText, cfg => cfg.MapFrom(x => x.Degree.University.Name))
               .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate))
               .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Degree))
+              .ForMember(x => x.FormattedDate, cfg => cfg.MapFrom(x => $"{x.StartDate:MMMM yyyy} - {x.EndDate:MMMM yyyy}"))
               .ReverseMap();
 
             CreateMap<UserWorkExperience, CareerTimeLineDto>()
@@ -94,6 +96,7 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.SmallText, cfg => cfg.MapFrom(x => x.Company.Location.CountryName))
               .ForMember(x => x.Date, cfg => cfg.MapFrom(x => x.EndDate ?? DateTime.Now))
               .ForMember(x => x.TimeLineType, cfg => cfg.MapFrom(x => TimeLineType.Job))
+              .ForMember(x => x.FormattedDate, cfg => cfg.MapFrom(x => $"{x.StartDate:MMMM yyyy} - {(x.EndDate.HasValue ? x.EndDate.Value.ToString("MMMM yyyy") : "Current")} "))
               .ReverseMap();
 
             CreateMap<UserWorkExperience, UserExperienceDto>()

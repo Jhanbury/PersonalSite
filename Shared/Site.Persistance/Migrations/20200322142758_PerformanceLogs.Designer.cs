@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Site.Persistance;
 
 namespace Site.Persistance.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200322142758_PerformanceLogs")]
+    partial class PerformanceLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +61,6 @@ namespace Site.Persistance.Migrations
                     b.ToTable("Addresses");
                 });
 
-
             modelBuilder.Entity("Site.Domain.Entities.Audit.PerformanceLog", b =>
                 {
                     b.Property<int>("Id")
@@ -82,7 +83,6 @@ namespace Site.Persistance.Migrations
 
                     b.ToTable("PerformanceLogs");
                 });
-
 
             modelBuilder.Entity("Site.Domain.Entities.Certification", b =>
                 {
@@ -665,7 +665,6 @@ namespace Site.Persistance.Migrations
                 });
 
             modelBuilder.Entity("Site.Domain.Entities.Company", b =>
-
                 {
                     b.HasOne("Site.Domain.Entities.Location", "Location")
                         .WithMany("Companies")
@@ -675,17 +674,6 @@ namespace Site.Persistance.Migrations
 
             modelBuilder.Entity("Site.Domain.Entities.Degree", b =>
                 {
-
-                {
-                    b.HasOne("Site.Domain.Entities.Location", "Location")
-                        .WithMany("Companies")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Site.Domain.Entities.Degree", b =>
-                {
-
                     b.HasOne("Site.Domain.Entities.DegreeType", "DegreeType")
                         .WithMany("Degrees")
                         .HasForeignKey("DegreeTypeId")

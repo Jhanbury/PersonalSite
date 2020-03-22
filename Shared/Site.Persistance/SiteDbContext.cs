@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Site.Domain.Entities;
+using Site.Domain.Entities.Audit;
 
 namespace Site.Persistance
 {
@@ -33,6 +34,8 @@ namespace Site.Persistance
         public DbSet<RoleTechnology> RoleTechnologies { get; set; }
         public DbSet<RoleSkill> RoleSkills { get; set; }
         public DbSet<UserWorkExperience> UserWorkExperiences { get; set; }
+        public DbSet<PerformanceLog> PerformanceLogs { get; set; }
+
 
 
 

@@ -41,7 +41,7 @@ namespace Personal_Site_API
             var dbConnectionString = Configuration["ConnectionString"];
             var devToAPIKey = Configuration["DevtoAPIKey"];
             ConfigureCaching(services, dbConnectionString);
-            services.AddHttpClient();
+            ConfigureHttpSettings(services);
             ConfigureAutoMapper(services);
             ConfigureMediatR(services);
             ConfigureHttpClientFactory(services, devToAPIKey);
@@ -63,23 +63,16 @@ namespace Personal_Site_API
             return new Container().WithDependencyInjectionAdapter(services)
               .ConfigureServiceProvider<CompositionRoot>();
 
-            //var sqlStorage = new SqlServerStorage(connectionString);
-            //sqlStorage.UseServiceBusQueues(serviceBusConnectionString, "critical", "default");
-            //RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateGithubRepos(1,"Jhanbury"),Cron.Minutely);
-            //Log.Logger.Information("Test Log from Startup");
-            //var serviceBusConnectionString = Configuration["ServiceBusConnectionString"];
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        // base-address of your identityserver
-            //        options.Authority = "http://localhost:5000";
-            //        options.RequireHttpsMetadata = false;
-            //        // name of the API resource
-            //        options.Audience = "api1";
-            //    });
+            
         }
 
-        
+        private void ConfigureHttpSettings(IServiceCollection services)
+        {
+          services.AddHttpClient();
+          services.AddHttpContextAccessor();
+        }
+
+
         private void ConfigureCaching(IServiceCollection services, string connectionString)
         {
             services.AddDistributedMemoryCache();

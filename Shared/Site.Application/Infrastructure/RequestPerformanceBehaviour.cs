@@ -1,41 +1,50 @@
-﻿using System.Diagnostics;
+using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Site.Domain.Entities.Audit;
 
 namespace Site.Application.Infrastructure
 {
-    public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+  public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+  {
+    private readonly Stopwatch _timer;
+    private readonly ILogger<TRequest> _logger;
+    private readonly IHttpContextAccessor _httpAccessor;
+
+    public RequestPerformanceBehaviour(ILogger<TRequest> logger, IHttpContextAccessor accessor)
     {
-        private readonly Stopwatch _timer;
-        private readonly ILogger<TRequest> _logger;
+      _httpAccessor = accessor;
+      _timer = new Stopwatch();
 
-        public RequestPerformanceBehaviour(ILogger<TRequest> logger)
-        {
-            _timer = new Stopwatch();
-
-            _logger = logger;
-        }
-
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
-        {
-            _timer.Start();
-
-            var response = await next();
-
-            _timer.Stop();
-
-            if (_timer.ElapsedMilliseconds > 500)
-            {
-                var name = typeof(TRequest).Name;
-
-                // TODO: Add User Details
-
-                _logger.LogWarning("Site Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", name, _timer.ElapsedMilliseconds, request);
-            }
-
-            return response;
-        }
+      _logger = logger;
     }
+
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+      var startTime = DateTime.Now;
+      _timer.Start();
+
+      var response = await next();
+
+      _timer.Stop();
+      var endTime = DateTime.Now;
+
+      var performanceLog = new PerformanceLog
+      {
+        StartTime = startTime,
+        EndTime = endTime,
+        RequestData = JsonConvert.SerializeObject(request),
+        RequestName = request.GetType().Name,
+        ClientIPAddress = _httpAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "N/A"
+      };
+
+
+      return response;
+    }
+  }
 }

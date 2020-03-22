@@ -127,7 +127,6 @@ namespace Personal_Site_API
       RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateUserBlogs(1), Cron.Daily);
       RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.UpdateVideoPlatforms(1), Cron.Daily);
       RecurringJob.AddOrUpdate<IRecurringJobService>(service => service.SubscribeToTwitchWebhooks(1), Cron.Daily);
-
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

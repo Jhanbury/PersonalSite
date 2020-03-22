@@ -1,36 +1,31 @@
 name: Deploy ASP.NET Core app to Azure Web App
 
 on:
-  pr:
+  pull_request:
     branches:
-      - dev 
+      - 'dev'
 env:
-  
-  SOLUTION_FILE_PATH: 'API/Personal-Site-API'      
-  DOTNET_VERSION: '2.2.402'           
+  SOLUTION_FILE_PATH: "API/Personal-Site-API"
+  DOTNET_VERSION: "2.2.402"
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-
       # Checkout the repo
       - uses: actions/checkout@master
-      
+
       # Setup .NET Core SDK
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }} 
-      
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
       # BUILD
-      - name: dotnet build  
+      - name: dotnet build
         working-directory: ${{ env.SOLUTION_FILE_PATH }}
         run: dotnet build Personal-Site-API.sln --configuration Debug
       # TEST
       - name: dotnet test
         working-directory: ${{ env.SOLUTION_FILE_PATH }}
-        run: dotnet test Personal-Site-API.sln     
-          
-    
-      
+        run: dotnet test Personal-Site-API.sln

@@ -12,6 +12,8 @@ namespace Site.Application.Infrastructure.Models
         public string Name { get; set; }
 
         public string FullName { get; set; }
+        [JsonProperty("fork")]
+        public bool Fork { get; set; }
 
         public string Description { get; set; }
         [JsonProperty("html_url")]

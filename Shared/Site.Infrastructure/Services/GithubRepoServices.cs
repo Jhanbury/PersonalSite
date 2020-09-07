@@ -58,7 +58,7 @@ namespace Site.Infrastructure.Services
             try
             {
                 var githubRepos = await GetAllGithubRepos(username);
-                foreach (var repo in githubRepos)
+                foreach (var repo in githubRepos.Where(x => x.Fork == false))
                 {
                     if (_repository.Any(x => x.GithubId.Equals(repo.GithubId)))
                     {
@@ -84,6 +84,7 @@ namespace Site.Infrastructure.Services
                 var dbRepos = await _repository.Get(x => x.UserId.Equals(userId));
                 var itemsToRemove = CalculateItemsToRemove(githubRepos, dbRepos);
                 await RemoveDeletedRepos(itemsToRemove);
+                await RemoveForkedRepos(githubRepos.Where(x => x.Fork), userId);
             }
             catch (Exception e)
             {
@@ -92,7 +93,17 @@ namespace Site.Infrastructure.Services
             
         }
 
-        
+        private async Task RemoveForkedRepos(IEnumerable<GithubRepoApiResultDto> forkedRepos, int userId)
+        {
+          foreach (var forked in forkedRepos)
+          {
+            var model = await _repository.GetSingle(x => x.GithubId.Equals(forked.GithubId) && x.UserId.Equals(userId));
+            if(model != null)
+              _repository.Delete(model);
+          }
+        }
+
+
         public async Task RemoveDeletedRepos(IEnumerable<long> itemsToRemove)
         {
             foreach (var repo in itemsToRemove)

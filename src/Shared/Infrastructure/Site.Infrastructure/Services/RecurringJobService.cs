@@ -1,13 +1,10 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Site.Application.BlogPosts.Models;
-using Site.Application.GithubRepos.Models;
 using Site.Application.Interfaces;
 using Site.Infrastructure.Messages;
 using Message = Microsoft.Azure.ServiceBus.Message;

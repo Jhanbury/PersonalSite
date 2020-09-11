@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Site.Application\Site.Application.csproj" />
-    <ProjectReference Include="..\Site.Domain\Site.Domain.csproj" />
-    <ProjectReference Include="..\Site.Persistance\Site.Persistance.csproj" />
+    <ProjectReference Include="..\..\Application\Site.Application\Site.Application.csproj" />
+    <ProjectReference Include="..\..\Domain\Site.Domain\Site.Domain.csproj" />
+    <ProjectReference Include="..\..\Persistance\Site.Persistance\Site.Persistance.csproj" />
   </ItemGroup>
 
 </Project>

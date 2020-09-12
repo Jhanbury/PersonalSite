@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -23,8 +24,18 @@ namespace Site.Application.SocialMediaAccounts.Queries
 
         public async Task<IEnumerable<SocialMediaAccountDto>> Handle(GetUserSocialMediaAccountsQuery request, CancellationToken cancellationToken)
         {
-            var accounts = await _repository.GetIncluding(x => x.UserId.Equals(request.UserId), x => x.SocialMediaPlatform);
-            return accounts.Select(x => _mapper.Map<SocialMediaAccountDto>(x));
+            try
+            {
+                var accounts = await _repository.GetIncluding(x => x.UserId.Equals(request.UserId), x => x.SocialMediaPlatform);
+                var list = accounts.ToList();
+                var dtos = list.Select(x => _mapper.Map<SocialMediaAccountDto>(x)).ToList();
+                return dtos;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
         }
     }
 }

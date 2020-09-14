@@ -4,7 +4,7 @@ using Site.Application.Hobbies.Model;
 
 namespace Site.Application.Hobbies.Querys
 {
-    public class GetUserHobbiesQuery : IRequest<HobbyDto>, IRequest<List<HobbyDto>>
+    public class GetUserHobbiesQuery : IRequest<List<HobbyDto>>
     {
         public int Id { get; private set; }
 

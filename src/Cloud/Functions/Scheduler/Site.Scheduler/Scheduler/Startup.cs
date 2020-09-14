@@ -1,17 +1,10 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
-using Site.Application.Interfaces.Messaging;
-using Site.Infrastructure;
-using Site.Infrastructure.MessageHandlers;
-using Site.Infrastructure.Modules;
 using Site.Infrastructure.Services;
 using Site.Persistance;
 using Site.Persistance.Repository;
@@ -37,6 +30,10 @@ namespace Scheduler
             builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
             builder.Services.AddScoped<IRecurringJobService, RecurringJobService>();
+            builder.Services.AddTransient<IGithubService, GithubRepoServices>();
+            builder.Services.AddTransient<IBlogPostService, BlogPostService>();
+            builder.Services.AddTransient<ITwitchService, TwitchService>();
+            builder.Services.AddTransient<IYouTubeService, YouTubeService>();
             //services.AddHttpClient();
             //builder.Services.AddAutofac(autoFacBuilder =>
             //{
@@ -77,7 +74,6 @@ namespace Scheduler
             //            return sp.GetService<TwitchWebhookSubscriptionHandler>();
             //        default:
             //            return null;
-
             //    }
             //});
             //builder.servicesRegisterType<GithubRepoServices>().As<IGithubService>();
@@ -88,10 +84,7 @@ namespace Scheduler
             //builder.RegisterType<GithubMessageHandler>().Keyed<IMessageHandler<IMessage>>(MessageType.GithubRepoUpdate);
             //builder.RegisterType<BlogPostsMessageHandler>().Keyed<IMessageHandler<IMessage>>(MessageType.UserBlogPostsUpdate);
 
-            builder.Services.AddTransient<IGithubService, GithubRepoServices>();
-            builder.Services.AddTransient<IBlogPostService, BlogPostService>();
-            builder.Services.AddTransient<ITwitchService, TwitchService>();
-            builder.Services.AddTransient<IYouTubeService, YouTubeService>();
+
             //builder.Services.AddTransient<GithubMessageHandler>();
             //builder.Services.AddTransient<GithubMessageHandler>();
             //builder.Services.AddTransient<IMessageHandlerFactory, MessageHandlerFactory>();

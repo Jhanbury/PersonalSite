@@ -1,10 +1,8 @@
-using System;
+using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Site.Application.Interfaces;
-using Task = System.Threading.Tasks.Task;
 
 namespace Scheduler
 {
@@ -20,8 +18,8 @@ namespace Scheduler
             _username = config.GetValue<string>("User:Github:Id");
         }
 
-        [FunctionName("JobScheduler")]
-        public async Task Run([TimerTrigger("*/2 * * * *")]TimerInfo myTimer, ILogger log)
+        [FunctionName("Daily Jobs")]
+        public async Task DailyJobs([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log)
         {
             
             await _recurringJobService.UpdateGithubRepos(_userId, _username);
@@ -31,5 +29,13 @@ namespace Scheduler
             await _recurringJobService.UpdateVideoPlatforms(_userId);
             log.LogInformation("Update Videos Message Posted");
         }
+
+        [FunctionName("Every 10 Days")]
+        public async Task TenDayScheduler([TimerTrigger("0 0 */10 * *")] TimerInfo myTimer, ILogger log)
+        {
+
+            await _recurringJobService.SubscribeToTwitchWebhooks(_userId);
+            log.LogInformation("Update Twitch WebHook Subscription Posted");
+            }
     }
 }

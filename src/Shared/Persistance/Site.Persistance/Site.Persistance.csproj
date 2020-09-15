@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190407104655_added-githubRepos.cs" />
+    <Compile Remove="Migrations\20190418214939_added social media platform to account table.cs" />
+    <Compile Remove="Migrations\20190517210240_add project tables.cs" />
+    <Compile Remove="Migrations\20190522225018_REMOVED BAD CONFIGS for project.cs" />
+    <Compile Remove="Migrations\20191128002539_updated blog post model.cs" />
+    <Compile Remove="Migrations\20191128002539_updated blog post model.Designer.cs" />
+    <Compile Remove="Migrations\20191212215622_added tech and skills to roles.cs" />
+    <Compile Remove="Migrations\20191212215622_added tech and skills to roles.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Site.Application\Site.Application.csproj" />
+    <ProjectReference Include="..\..\Domain\Site.Domain\Site.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

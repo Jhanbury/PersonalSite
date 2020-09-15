@@ -1,0 +1,30 @@
+name: Scheduler Function CI Build
+
+on:
+  pull_request:
+env:
+  SOLUTION_FILE_PATH: "./src/Cloud/Functions/Scheduler/Site.Scheduler"
+  SOLUTION_FILE_NAME: "Site.Scheduler.sln"
+  DOTNET_VERSION: "3.1.x"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@master
+
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # BUILD
+      - name: dotnet build
+        working-directory: ${{ env.SOLUTION_FILE_PATH }}
+        run: dotnet build ${{ env.SOLUTION_FILE_NAME }} --configuration Debug
+      # TEST
+      - name: dotnet test
+        working-directory: ${{ env.SOLUTION_FILE_PATH }}
+        run: dotnet test ${{ env.SOLUTION_FILE_NAME }}

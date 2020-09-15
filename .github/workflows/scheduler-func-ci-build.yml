@@ -3,7 +3,7 @@ name: Scheduler Function CI Build
 on:
   pull_request:
 env:
-  SOLUTION_FILE_PATH: "src/Cloud/Functions/Scheduler"
+  SOLUTION_FILE_PATH: "./src/Cloud/Functions/Scheduler"
   SOLUTION_FILE_NAME: "Site.Scheduler.sln"
   DOTNET_VERSION: "2.2.402"
 

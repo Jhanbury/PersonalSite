@@ -3,7 +3,7 @@ name: Endpoints Function CI Build
 on:
   pull_request:
 env:
-  SOLUTION_FILE_PATH: "src/Cloud/Functions/Endpoints"
+  SOLUTION_FILE_PATH: "./src/Cloud/Functions/Endpoints"
   SOLUTION_FILE_NAME: "Site.Endpoints.sln"
   DOTNET_VERSION: "2.2.402"
 

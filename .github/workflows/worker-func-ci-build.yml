@@ -3,7 +3,7 @@ name: Worker Function CI Build
 on:
   pull_request:
 env:
-  SOLUTION_FILE_PATH: "src/Cloud/Functions/Worker"
+  SOLUTION_FILE_PATH: "./src/Cloud/Functions/Worker"
   SOLUTION_FILE_NAME: "Site.Worker.sln"
   DOTNET_VERSION: "2.2.402"
 

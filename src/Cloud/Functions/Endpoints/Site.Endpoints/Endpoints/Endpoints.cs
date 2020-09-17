@@ -33,7 +33,7 @@ namespace Endpoints
         }
 
         [FunctionName("SocialLinks")]
-        public async Task<IActionResult> SocialLinks([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/sociallinks")] HttpRequest req, int id,
+        public async Task<IActionResult> SocialLinks([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/social")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -44,7 +44,7 @@ namespace Endpoints
         }
 
         [FunctionName("GithubRepos")]
-        public async Task<IActionResult> GithubRepos([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/repos")] HttpRequest req, int id,
+        public async Task<IActionResult> GithubRepos([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/repos")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -55,7 +55,7 @@ namespace Endpoints
         }
 
         [FunctionName("Projects")]
-        public async Task<IActionResult> Projects([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/projects")] HttpRequest req, int id,
+        public async Task<IActionResult> Projects([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/projects")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -66,7 +66,7 @@ namespace Endpoints
         }
 
         [FunctionName("About")]
-        public async Task<IActionResult> About([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/about")] HttpRequest req, int id,
+        public async Task<IActionResult> About([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/about")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -77,7 +77,7 @@ namespace Endpoints
         }
 
         [FunctionName("Blogs")]
-        public async Task<IActionResult> Blogs([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/blogs")] HttpRequest req, int id,
+        public async Task<IActionResult> Blogs([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/blogs")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -88,7 +88,7 @@ namespace Endpoints
         }
 
         [FunctionName("Videos")]
-        public async Task<IActionResult> Videos([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/videos")] HttpRequest req, int id,
+        public async Task<IActionResult> Videos([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/videos")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -99,7 +99,7 @@ namespace Endpoints
         }
 
         [FunctionName("Hobbies")]
-        public async Task<IActionResult> Hobbies([HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/{id}/hobbies")] HttpRequest req, int id,
+        public async Task<IActionResult> Hobbies([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/hobbies")] HttpRequest req, int id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -110,7 +110,7 @@ namespace Endpoints
         }
 
         [FunctionName("TwitchStream")]
-        public async Task<IActionResult> TwitchStream([HttpTrigger(AuthorizationLevel.Function, "post", Route = "twitch/streamupdate/{userId}/{accountId}")] HttpRequest req, int userId, string accountId,
+        public async Task<IActionResult> TwitchStream([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "twitch/streamupdate/{userId}/{accountId}")] HttpRequest req, int userId, string accountId,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

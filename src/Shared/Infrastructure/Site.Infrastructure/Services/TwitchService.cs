@@ -12,6 +12,7 @@ using Site.Application.Infrastructure.Models.Twitch;
 using Site.Application.Interfaces;
 using Site.Application.PlatformAccounts.Commands;
 using Site.Domain.Entities;
+using Site.Infrastructure.Models;
 using TwitchLib.Api;
 using TwitchLib.Api.V5.Models.Videos;
 
@@ -24,17 +25,22 @@ namespace Site.Infrastructure.Services
         private readonly TwitchAPI _twitchAPI;
         private readonly IMapper _mapper;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly string _twitchApiKey;
+        private readonly string _twitchAppId;
+        private readonly string _twitchAppSecret;
         private readonly string _baseCallbackUrl;
-        private readonly string _twitchUrl;
+        private readonly string _twitchAuthUrl;
+        private readonly string _twitchWebhookUrl;
 
         public TwitchService(IConfiguration config, IRepository<PlatformAccount, int> accountRepo, IRepository<Domain.Entities.Video, int> videoRepo, IMapper mapper, IHttpClientFactory factory)
         {
             _twitchAPI = new TwitchAPI();
-            _twitchApiKey = config.GetValue<string>("TwitchAPIKey");
-            _twitchUrl = config.GetValue<string>("TwitchWebHookUrl");
-            _twitchAPI.Settings.ClientId = _twitchApiKey;
-            _baseCallbackUrl = config.GetValue<string>("TwitchBaseCallback");
+            _twitchAppId = config.GetValue<string>("Twitch:App:Id");
+            _twitchAppSecret = config.GetValue<string>("Twitch:App:Secret");
+            _twitchWebhookUrl = config.GetValue<string>("Twitch:Endpoints:APIUrl");
+            _twitchAuthUrl = config.GetValue<string>("Twitch:Endpoints:AuthUrl");
+            _baseCallbackUrl = config.GetValue<string>("Twitch:Endpoints:CallbackUrl");
+            _twitchAPI.Settings.ClientId = _twitchAppId;
+            //_baseCallbackUrl = config.GetValue<string>("TwitchBaseCallback")?? "https://site-endpoints.azurewebsites.net";
             _mapper = mapper;
             _videoRepository = videoRepo;
             _accountRepo = accountRepo;
@@ -68,20 +74,20 @@ namespace Site.Infrastructure.Services
             }
         }
 
-    private async Task RemoveExpiredVideos(TwitchLib.Api.V5.Models.Videos.Video[] channelVideos, int userId)
-    {
-      var userChannelVideos = await 
-        _videoRepository.Get(x => x.PlatformAccount.UserId.Equals(userId) && x.PlatformAccount.Platform.Equals(Domain.Enums.Platform.Twitch));
-      foreach (var video in userChannelVideos)
-      {
-        if (!channelVideos.Any(x => x.Id.Equals(video.SourceId)))
+        private async Task RemoveExpiredVideos(TwitchLib.Api.V5.Models.Videos.Video[] channelVideos, int userId)
         {
-          _videoRepository.Delete(video);
+            var userChannelVideos = await
+              _videoRepository.Get(x => x.PlatformAccount.UserId.Equals(userId) && x.PlatformAccount.Platform.Equals(Domain.Enums.Platform.Twitch));
+            foreach (var video in userChannelVideos)
+            {
+                if (!channelVideos.Any(x => x.Id.Equals(video.SourceId)))
+                {
+                    _videoRepository.Delete(video);
+                }
+            }
         }
-      }
-    }
 
-    public async Task UpdateTwitchAccounts(int userId)
+        public async Task UpdateTwitchAccounts(int userId)
         {
             var accounts = await GetUserAccounts(userId);
             foreach (var account in accounts)
@@ -90,65 +96,82 @@ namespace Site.Infrastructure.Services
                 _mapper.Map(channel, account);
                 _accountRepo.Update(account);
             }
-            
+
 
         }
 
-    public UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId, string platformId)
-    {
-      if (response != null && response.Data != null && response.Data.Any())
-      {
-        var streamData = response.Data.FirstOrDefault();
-        var commandData = _mapper.Map<UpdateAccountStreamStateCommand>(streamData);
-        commandData.UserId = userId;
-        commandData.AccountId = platformId;
-        return commandData;
-      }
-      else
-      {
-        return new UpdateAccountStreamStateCommand()
+        public UpdateAccountStreamStateCommand HandleTwitchStreamUpdateWebhook(TwitchStreamUpdateResponse response, int userId, string platformId)
         {
-          UserId = userId,
-          IsStreaming = false,
-          AccountId = platformId
-        };
-      }
-        
-      
-    }
+            if (response != null && response.Data != null && response.Data.Any())
+            {
+                var streamData = response.Data.FirstOrDefault();
+                var commandData = _mapper.Map<UpdateAccountStreamStateCommand>(streamData);
+                commandData.UserId = userId;
+                commandData.AccountId = platformId;
+                return commandData;
+            }
+            else
+            {
+                return new UpdateAccountStreamStateCommand()
+                {
+                    UserId = userId,
+                    IsStreaming = false,
+                    AccountId = platformId
+                };
+            }
 
 
-    public async Task<bool> SubscribeToTwitchStreamWebHook(TwitchSubscriptionData subscription)
-    {
-      using (var client = _clientFactory.CreateClient("TwitchWebhook"))
-      {
-        var callback = $"{_baseCallbackUrl}/api/TwitchWebhook/StreamUpdate/{subscription.UserId}/{subscription.TwitchAccountId}";
-        var mode = $"subscribe";
-        var topic = $"{_twitchUrl}/streams?user_id={subscription.TwitchAccountId}";
-        var leaseSeconds = 0;
-        
-        var parameters = new TwitchWebHookParameters()
+        }
+
+
+        public async Task<bool> SubscribeToTwitchStreamWebHook(TwitchSubscriptionData subscription)
         {
-          Callback = callback,
-          Mode = mode,
-          Topic = topic,
-          Lease = leaseSeconds
-        };
-        client.DefaultRequestHeaders.Add("Client-ID", _twitchApiKey);
-        var contentString = JsonConvert.SerializeObject(parameters);
-        var content = new StringContent(contentString, Encoding.UTF8, "application/json");
-        var url = $"{_twitchUrl}/webhooks/hub";
-        var response = await client.PostAsync(url, content);
-        return response.IsSuccessStatusCode;
-      }
+            var token = await GetAppToken();
+            using (var client = _clientFactory.CreateClient("twitch"))
+            {
+                var callback = $"{_baseCallbackUrl}/api/twitch/streamupdate/{subscription.UserId}/{subscription.TwitchAccountId}";
+                var mode = $"subscribe";
+                var topic = $"{_twitchWebhookUrl}/helix/streams?user_id={subscription.TwitchAccountId}";
+                var leaseSeconds = 864000;
+
+                var parameters = new TwitchWebHookParameters()
+                {
+                    Callback = callback,
+                    Mode = mode,
+                    Topic = topic,
+                    Lease = leaseSeconds
+                };
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var contentString = JsonConvert.SerializeObject(parameters);
+                var content = new StringContent(contentString, Encoding.UTF8, "application/json");
+                var url = "helix/webhooks/hub";
+                var response = await client.PostAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+        }
+
+        private async Task<string> GetAppToken()
+        {
+
+            var grantType = "client_credentials";
+            using (var client = _clientFactory.CreateClient())
+            {
+                var url =
+                    $"{_twitchAuthUrl}/oauth2/token?client_id={_twitchAppId}&client_secret={_twitchAppSecret}&grant_type={grantType}";
+                var response = await client.PostAsync(url, new MultipartFormDataContent());
+                response.EnsureSuccessStatusCode();
+                var data = await response.Content.ReadAsStringAsync();
+                var reponseData = JsonConvert.DeserializeObject<TwitchAuthResponse>(data);
+                return reponseData.Access_Token;
+
+            }
+        }
+
+        private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
+        {
+            return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Domain.Enums.Platform.Twitch));
+        }
     }
 
 
-    private async Task<IEnumerable<PlatformAccount>> GetUserAccounts(int userId)
-    {
-        return await _accountRepo.Get(x => x.UserId.Equals(userId) && x.Platform.Equals(Site.Domain.Enums.Platform.Twitch));
-    }
-  }
-
-    
 }

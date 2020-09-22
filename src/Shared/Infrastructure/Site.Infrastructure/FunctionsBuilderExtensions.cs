@@ -28,6 +28,8 @@ namespace Site.Infrastructure
             var config = builder.Services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             //ef
             var connectionString = config["ConnectionString"];
+            var twitchBaseAddress = config["Twitch:Endpoints:APIUrl"];
+            var twitchAPIKey = config["Twitch:App:Id"];
             builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
             //Http settings
@@ -43,6 +45,11 @@ namespace Site.Infrastructure
             {
                 client.BaseAddress = new Uri("https://api.github.com");
                 client.DefaultRequestHeaders.Add("User-Agent", "Personal-Site");
+            });
+            builder.Services.AddHttpClient("twitch", client =>
+            {
+                client.BaseAddress = new Uri(twitchBaseAddress);
+                client.DefaultRequestHeaders.Add("client-id", twitchAPIKey);
             });
             //mediatr
             builder.Services.AddMediatR(typeof(GetUserInfoQuery).Assembly);
@@ -101,7 +108,7 @@ namespace Site.Infrastructure
             return builder;
         }
 
-        public static IFunctionsHostBuilder ConfigureKeyVault(this IFunctionsHostBuilder builder, string vaultUrl)
+        public static IFunctionsHostBuilder ConfigureKeyVault(this IFunctionsHostBuilder builder, string vaultUrl, Assembly assembly = null)
         {
 
             var azureServiceTokenProvider = new AzureServiceTokenProvider();
@@ -109,11 +116,16 @@ namespace Site.Infrastructure
                 new KeyVaultClient.AuthenticationCallback(
                     azureServiceTokenProvider.KeyVaultTokenCallback));
 
-            var config = new ConfigurationBuilder()
+            var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddAzureKeyVault(vaultUrl, keyVaultClient, new DefaultKeyVaultSecretManager()).Build();
+                .AddAzureKeyVault(vaultUrl, keyVaultClient, new DefaultKeyVaultSecretManager());
+            if (assembly != null)
+            {
+                configBuilder.AddUserSecrets(assembly);
+            }
 
-            builder.Services.AddSingleton<IConfiguration>(config);
+
+            builder.Services.AddSingleton<IConfiguration>(configBuilder.Build());
             return builder;
         }
     }

@@ -14,6 +14,7 @@ using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Hobbies.Querys;
 using Site.Application.Infrastructure.Models.Twitch;
 using Site.Application.Interfaces;
+using Site.Application.PlatformAccounts.Queries;
 using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Queries;
@@ -105,6 +106,17 @@ namespace Endpoints
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             var result = await _mediator.Send(new GetUserHobbiesQuery(id));
+
+            return new OkObjectResult(result);
+        }
+
+        [FunctionName("LiveStreams")]
+        public async Task<IActionResult> LiveStreams([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/livestreams")] HttpRequest req, int id,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            var result = await _mediator.Send(new GetUserLiveStreamsQuery(id));
 
             return new OkObjectResult(result);
         }

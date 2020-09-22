@@ -86,11 +86,13 @@ namespace Site.Infrastructure.Services
             if(_blogRepository.Any(x => x.SourceId.Equals(blog.SourceId) && x.Source.Equals(blog.Source)))
             {
                 var model = await _blogRepository.GetSingle(x => x.BlogId.Equals(blog.BlogId));
+                if (model == null) continue;
                 model.ImageUrl = blog.ImageUrl;
                 model.Teaser = blog.Teaser;
                 model.Title = blog.Title;
                 model.Url = blog.Url;
                 _blogRepository.Update(model);
+
             }
             else
             {

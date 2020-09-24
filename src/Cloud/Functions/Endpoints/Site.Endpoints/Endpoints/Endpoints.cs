@@ -129,7 +129,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserLiveStreamsQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("TwitchStream")]

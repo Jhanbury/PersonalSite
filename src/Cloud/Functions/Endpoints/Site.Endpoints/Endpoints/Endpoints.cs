@@ -37,11 +37,11 @@ namespace Endpoints
         public async Task<IActionResult> SocialLinks([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/social")] HttpRequest req, int id,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("----- Social Links Request Started -----");
 
             var result = await _mediator.Send(new GetUserSocialMediaAccountsQuery(id));
-
-            return new OkObjectResult(result.ToList());
+            
+            return new CachedJsonResult(result.ToList());
         }
 
         [FunctionName("GithubRepos")]
@@ -52,7 +52,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetAllGithubReposQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("Projects")]
@@ -63,7 +63,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserProjectsQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("About")]
@@ -74,7 +74,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserInfoQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("Blogs")]
@@ -85,7 +85,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserBlogPostsQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("Videos")]
@@ -96,7 +96,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetAllUserVideos(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("Hobbies")]
@@ -107,7 +107,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserHobbiesQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("LiveStreams")]
@@ -118,7 +118,7 @@ namespace Endpoints
 
             var result = await _mediator.Send(new GetUserLiveStreamsQuery(id));
 
-            return new OkObjectResult(result);
+            return new CachedJsonResult(result);
         }
 
         [FunctionName("TwitchStream")]

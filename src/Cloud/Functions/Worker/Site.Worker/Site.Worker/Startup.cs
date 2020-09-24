@@ -30,7 +30,7 @@ namespace Site.Worker
             var localConfig = GetLocalConfiguration();
             var uri = localConfig.GetValue<string>("VaultUri");
             builder
-                .ConfigureKeyVault(uri)
+                .ConfigureKeyVault(uri, typeof(Startup).Assembly)
                 .ConfigureServices()
                 .ConfigureMessagingHandlers();
 

@@ -22,10 +22,19 @@ namespace Site.Worker
         [FunctionName("Worker")]
         public async Task HandleJob([ServiceBusTrigger("jobs", Connection = "ServiceBusConnectionString")]string myQueueItem, ILogger log)
         {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
-            var message = JsonConvert.DeserializeObject<Message>(myQueueItem, settings);
-            var handler = _messageHandlerFactory.ResolveMessageHandler(message);
-            await handler.ProcessAsync(message);
+            try
+            {
+                var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+                var message = JsonConvert.DeserializeObject<Message>(myQueueItem, settings);
+                var handler = _messageHandlerFactory.ResolveMessageHandler(message);
+                await handler.ProcessAsync(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
     }
 }

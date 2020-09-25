@@ -113,6 +113,7 @@ namespace Site.Application.Infrastructure.AutoMapper
 
             CreateMap<PlatformAccount, LiveStreamDto>()
               .ForMember(x => x.Url, cfg => cfg.MapFrom(y => y.Link))
+              .ForMember(x => x.Streamer, cfg => cfg.MapFrom(y => y.Title))
               .ReverseMap();
         }
     }

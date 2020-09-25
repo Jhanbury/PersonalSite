@@ -121,6 +121,8 @@ namespace Endpoints
             return new CachedJsonResult(result);
         }
 
+        
+
         [FunctionName("TwitchStream")]
         public async Task<IActionResult> TwitchStream([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "twitch/streamupdate/{userId}/{accountId}")] HttpRequest req, int userId, string accountId,
             ILogger log)

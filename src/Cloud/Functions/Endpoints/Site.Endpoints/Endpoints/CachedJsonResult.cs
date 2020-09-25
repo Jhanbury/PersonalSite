@@ -3,9 +3,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Endpoints
 {
@@ -15,6 +14,10 @@ namespace Endpoints
 
         public CachedJsonResult(object value) : base(value)
         {
+            SerializerSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         public CachedJsonResult(object value, int cacheDurationInSeconds) : base(value)
@@ -41,7 +44,7 @@ namespace Endpoints
                 if (_cacheDurationInSeconds > 0)
                     response.Headers.Add("cache-control", "public, max-age=" + _cacheDurationInSeconds);
                 response.ContentType = "application/json";
-                var data = JsonConvert.SerializeObject(Value);
+                var data = JsonConvert.SerializeObject(Value, SerializerSettings as JsonSerializerSettings);
                 await response.WriteAsync(data);
             }
         }

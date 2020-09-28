@@ -32,6 +32,7 @@ namespace Site.Infrastructure.Services
             using (var client = _httpClientFactory.CreateClient("github"))
             {
                 var response = await client.GetAsync($"/users/{username}/repos");
+                response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
                 var repos = JsonConvert.DeserializeObject<List<GithubRepoApiResultDto>>(responseString);
                 return repos;

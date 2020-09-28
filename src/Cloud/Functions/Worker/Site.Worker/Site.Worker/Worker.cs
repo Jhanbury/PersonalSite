@@ -31,8 +31,7 @@ namespace Site.Worker
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                log.LogError(e,e.Message);
             }
             
         }

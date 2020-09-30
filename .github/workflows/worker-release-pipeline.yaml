@@ -1,4 +1,4 @@
-name: Build and Deploy Scheduler Azure Function 
+name: Build and Deploy Worker Azure Function 
 
 on:
   push:

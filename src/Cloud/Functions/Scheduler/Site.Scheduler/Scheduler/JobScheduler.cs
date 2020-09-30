@@ -19,7 +19,7 @@ namespace Scheduler
         }
 
         [FunctionName("DailyJobs")]
-        public async Task DailyJobs([TimerTrigger("* * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task DailyJobs([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log)
         {
             
             await _recurringJobService.UpdateGithubRepos(_userId, _username);
@@ -31,7 +31,7 @@ namespace Scheduler
         }
 
         [FunctionName("Every10Days")]
-        public async Task TenDayScheduler([TimerTrigger("* * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task TenDayScheduler([TimerTrigger("0 0 */10 * *")] TimerInfo myTimer, ILogger log)
         {
 
             await _recurringJobService.SubscribeToTwitchWebhooks(_userId);

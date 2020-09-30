@@ -5,10 +5,12 @@ using MediatR;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
 using Site.Application.Interfaces.Messaging;
@@ -27,10 +29,20 @@ namespace Site.Worker
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            var localConfig = GetLocalConfiguration();
-            var uri = localConfig.GetValue<string>("VaultUri");
+            var env = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT");
+            if (!string.IsNullOrEmpty(env) && env.Equals("Development"))
+            {
+                var context = builder.Services.BuildServiceProvider().GetService<IOptions<ExecutionContextOptions>>().Value;
+                var localConfig = new ConfigurationBuilder()
+                    .SetBasePath(context.AppDirectory)
+                    .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                    .AddUserSecrets(typeof(Startup).Assembly)
+                    .AddEnvironmentVariables()
+                    .Build();
+                var uri = localConfig.GetValue<string>("VaultUri");
+                builder.ConfigureKeyVault(uri);
+            }
             builder
-                .ConfigureKeyVault(uri, typeof(Startup).Assembly)
                 .ConfigureServices()
                 .ConfigureMessagingHandlers();
 

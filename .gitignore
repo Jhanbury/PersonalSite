@@ -337,3 +337,4 @@ ASALocalRun/
 /API/Personal-Site-API/ServiceBus.Tester/appsettings.json
 /API/Personal-Site-API/Personal-Site-API/Properties/ServiceDependencies/local
 /API/Personal-Site-API/Personal-Site-API/Properties
+/src/Shared/Persistance/DB.MigrationTool

@@ -17,7 +17,7 @@ namespace Site.Application.BlogPosts.Models
     public DateTime PublishDate { get; set; }
     public List<string> Tags { get; set; }
     public string Source { get; set; }
-    public int UserId { get; set; }
+    //public int UserId { get; set; }
     public string AuthorName { get; set; }
   }
 }

@@ -1,26 +1,10 @@
-﻿using System;
-using System.Reflection;
-using AutoMapper;
-using MediatR;
+using System;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Azure.WebJobs.Host.Bindings;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Site.Application.Infrastructure.AutoMapper;
-using Site.Application.Interfaces;
-using Site.Application.Interfaces.Messaging;
-using Site.Application.Users.Queries;
 using Site.Infrastructure;
-using Site.Infrastructure.MessageHandlers;
-using Site.Infrastructure.Modules;
-using Site.Infrastructure.Services;
-using Site.Persistance;
-using Site.Persistance.Repository;
 
 [assembly: FunctionsStartup(typeof(Site.Worker.Startup))]
 namespace Site.Worker
@@ -48,12 +32,6 @@ namespace Site.Worker
 
         }
 
-        private static IConfiguration GetLocalConfiguration()
-        {
-            return new ConfigurationBuilder()
-                .AddUserSecrets(typeof(Startup).Assembly)
-                .AddEnvironmentVariables()
-                .Build();
-        }
+        
     }
 }

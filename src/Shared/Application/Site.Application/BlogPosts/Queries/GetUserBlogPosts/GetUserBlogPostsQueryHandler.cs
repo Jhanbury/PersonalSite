@@ -23,7 +23,7 @@ namespace Site.Application.BlogPosts.Queries.GetUserBlogPosts
 
         public async Task<List<UserBlogPostDto>> Handle(GetUserBlogPostsQuery request, CancellationToken cancellationToken)
         {
-            var models = await _repository.GetIncluding(x => x.UserId.Equals(request.UserId), x => x.User);
+            var models = await _repository.GetIncluding(x => x.UserId.Equals(request.UserId), x => x.User, x => x.BlogPostTags);
             return models.Select(x => _mapper.Map<UserBlogPostDto>(x)).ToList();
         }
     }

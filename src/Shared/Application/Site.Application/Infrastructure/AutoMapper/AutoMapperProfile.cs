@@ -6,7 +6,6 @@ using Site.Application.BlogPosts.Models;
 using Site.Application.CareerExperience.Models;
 using Site.Application.CareerTimeLine.Models;
 using Site.Application.Certifications.Models;
-using Site.Application.Company.Models;
 using Site.Application.Education.Model;
 using Site.Application.GithubRepos.Models;
 using Site.Application.Infrastructure.Models;
@@ -35,6 +34,7 @@ namespace Site.Application.Infrastructure.AutoMapper
               .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.ImageUrl))
               .ForMember(x => x.Teaser, cfg => cfg.MapFrom(x => x.Teaser))
               .ForMember(x => x.Url, cfg => cfg.MapFrom(x => x.Url))
+              .ForMember(x => x.Tags, cfg => cfg.MapFrom(x => x.BlogPostTags.Select(y => y.Tag)))
               .ForMember(x => x.Source, cfg => cfg.MapFrom(x => x.Source.ToString()))
               .ForMember(x => x.AuthorName, cfg => cfg.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
               .ReverseMap();

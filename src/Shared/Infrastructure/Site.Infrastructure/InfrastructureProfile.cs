@@ -1,5 +1,7 @@
+using System.Linq;
 using AutoMapper;
 using Site.Domain.Entities;
+using Site.Infrastructure.Models.Blogs;
 using Site.Infrastructure.ValueResolvers;
 using Video = Google.Apis.YouTube.v3.Data.Video;
 
@@ -50,6 +52,20 @@ namespace Site.Infrastructure
                 .ForMember(x => x.PublishDate, y => y.MapFrom(x => x.PublishedAt))
                 .ForMember(x => x.ViewCount, y => y.MapFrom(x => x.Views))
                 .ReverseMap();
+
+            CreateMap<DevtoBlogApiResponse, UserBlogPost>()
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(y => y.Title))
+              .ForMember(x => x.SourceId, cfg => cfg.MapFrom(y => y.Id.ToString()))
+              .ForMember(x => x.Source, cfg => cfg.MapFrom(y => BlogSite.DevTo))
+              .ForMember(x => x.Teaser, cfg => cfg.MapFrom(y => y.Description))
+              .ForMember(x => x.PublishDate, cfg => cfg.MapFrom(y => y.PublishedAt))
+              .ForMember(x => x.Likes, cfg => cfg.MapFrom(y => y.PositiveReactionsCount))
+              .ForMember(x => x.Views, cfg => cfg.MapFrom(y => y.PageViewsCount))
+              .ForMember(x => x.Comments, cfg => cfg.MapFrom(y => y.CommentsCount))
+              .ForMember(x => x.Url, cfg => cfg.MapFrom(y => y.Url))
+              .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(y => y.CoverImage))
+              .ForMember(x => x.BlogPostTags, cfg => cfg.MapFrom(y => y.TagList.Select(x => new BlogPostTag(){ Tag = x})))
+              .ReverseMap();
         }
     }
 }

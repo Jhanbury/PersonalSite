@@ -36,17 +36,7 @@ namespace Site.Infrastructure.Services
                 var response = await client.GetAsync(url);
                 var responseString = await response.Content.ReadAsStringAsync();
                 var blogs = JsonConvert.DeserializeObject<IEnumerable<DevtoBlogApiResponse>>(responseString);
-                //todo use AutoMapper
-                var models = blogs.Select(x => new UserBlogPost
-                {
-                    SourceId = x.Id.ToString(),
-                    Source = BlogSite.DevTo,
-                    Title = x.Title,
-                    Url = x.Url,
-                    ImageUrl = x.CoverImage,
-                    Teaser = x.Description,
-                    UserId = userId                    
-                });
+                var models = blogs.Select(x => _mapper.Map<UserBlogPost>(x,cfg => cfg.AfterMap((src, dest) => dest.UserId = userId)));
                 return models;
             }
         }

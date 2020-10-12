@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Domain.Tests", "..\..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Infrastructure.Tests", "..\..\..\..\Shared\Infrastructure\Site.Infrastructure.Tests\Site.Infrastructure.Tests.csproj", "{13047DA2-6141-4642-AD8C-F4700F588F96}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB.MigrationTool", "..\..\..\..\Shared\Persistance\DB.MigrationTool\DB.MigrationTool.csproj", "{C0FB742E-6515-4ACA-B757-96F8BDB68655}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{13047DA2-6141-4642-AD8C-F4700F588F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13047DA2-6141-4642-AD8C-F4700F588F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13047DA2-6141-4642-AD8C-F4700F588F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FB742E-6515-4ACA-B757-96F8BDB68655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FB742E-6515-4ACA-B757-96F8BDB68655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FB742E-6515-4ACA-B757-96F8BDB68655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FB742E-6515-4ACA-B757-96F8BDB68655}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

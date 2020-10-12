@@ -64,6 +64,9 @@ namespace Site.Infrastructure
               .ForMember(x => x.Comments, cfg => cfg.MapFrom(y => y.CommentsCount))
               .ForMember(x => x.Url, cfg => cfg.MapFrom(y => y.Url))
               .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(y => y.CoverImage))
+              .ForMember(x => x.UserAvatar, cfg => cfg.MapFrom(y => y.User.ProfileImage))
+              .ForMember(x => x.MinutesToRead, cfg => cfg.MapFrom<ReadTimeResolver>())
+              .ForMember(x => x.User, cfg => cfg.Ignore())
               .ForMember(x => x.BlogPostTags, cfg => cfg.MapFrom(y => y.TagList.Select(x => new BlogPostTag(){ Tag = x})))
               .ReverseMap();
         }

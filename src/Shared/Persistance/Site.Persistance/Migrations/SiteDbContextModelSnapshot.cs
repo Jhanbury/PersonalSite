@@ -430,11 +430,13 @@ namespace Site.Persistance.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
+
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProjectId1")
                         .HasColumnType("int");
+
 
                     b.Property<int>("ProjectId2")
                         .HasColumnType("int");
@@ -667,6 +669,7 @@ namespace Site.Persistance.Migrations
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
+
                     b.Property<int>("MinutesToRead")
                         .HasColumnType("int");
 
@@ -688,8 +691,12 @@ namespace Site.Persistance.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
+
                     b.Property<string>("UserAvatar")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -867,6 +874,7 @@ namespace Site.Persistance.Migrations
                 });
 
             modelBuilder.Entity("Site.Domain.Entities.Company", b =>
+
                 {
                     b.HasOne("Site.Domain.Entities.Location", "Location")
                         .WithMany("Companies")
@@ -877,6 +885,7 @@ namespace Site.Persistance.Migrations
 
             modelBuilder.Entity("Site.Domain.Entities.Degree", b =>
                 {
+
                     b.HasOne("Site.Domain.Entities.DegreeType", "DegreeType")
                         .WithMany("Degrees")
                         .HasForeignKey("DegreeTypeId")

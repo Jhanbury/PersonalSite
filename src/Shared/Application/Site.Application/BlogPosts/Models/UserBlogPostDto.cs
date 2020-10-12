@@ -21,5 +21,6 @@ namespace Site.Application.BlogPosts.Models
     public string AuthorName { get; set; }
     public string UserAvatar { get; set; }
     public int ReadLength { get; set; }
+
   }
 }

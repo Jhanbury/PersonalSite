@@ -1,16 +1,9 @@
 using System;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Azure.WebJobs.Host.Bindings;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Site.Application.Infrastructure.AutoMapper;
-using Site.Application.Interfaces;
-using Site.Application.Interfaces.Messaging;
-using Site.Application.Users.Queries;
 using Site.Infrastructure;
 
 [assembly: FunctionsStartup(typeof(Site.Worker.Startup))]
@@ -37,9 +30,7 @@ namespace Site.Worker
         .ConfigureSerilog()
         .ConfigureServices()
         .ConfigureMessagingHandlers();
-
     }
-
-
   }
 }
+       

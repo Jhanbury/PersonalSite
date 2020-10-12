@@ -37,8 +37,9 @@ namespace Endpoints
           .Build();
         var uri = localConfig.GetValue<string>("VaultUri");
         builder.ConfigureKeyVault(uri);
-      }
+      }      
       builder
+        .ConfigureSerilog()
         .ConfigureServices()
         .ConfigureMessagingHandlers();
 

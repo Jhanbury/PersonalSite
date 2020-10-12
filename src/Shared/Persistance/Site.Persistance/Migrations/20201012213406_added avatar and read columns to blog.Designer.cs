@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Site.Persistance;
 
 namespace Site.Persistance.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201012213406_added avatar and read columns to blog")]
+    partial class addedavatarandreadcolumnstoblog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -430,13 +432,11 @@ namespace Site.Persistance.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProjectId1")
                         .HasColumnType("int");
-
 
                     b.Property<int>("ProjectId2")
                         .HasColumnType("int");
@@ -669,7 +669,6 @@ namespace Site.Persistance.Migrations
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
-
                     b.Property<int>("MinutesToRead")
                         .HasColumnType("int");
 
@@ -691,12 +690,8 @@ namespace Site.Persistance.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-
                     b.Property<string>("UserAvatar")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -874,7 +869,6 @@ namespace Site.Persistance.Migrations
                 });
 
             modelBuilder.Entity("Site.Domain.Entities.Company", b =>
-
                 {
                     b.HasOne("Site.Domain.Entities.Location", "Location")
                         .WithMany("Companies")
@@ -885,7 +879,6 @@ namespace Site.Persistance.Migrations
 
             modelBuilder.Entity("Site.Domain.Entities.Degree", b =>
                 {
-
                     b.HasOne("Site.Domain.Entities.DegreeType", "DegreeType")
                         .WithMany("Degrees")
                         .HasForeignKey("DegreeTypeId")

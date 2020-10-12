@@ -49,6 +49,7 @@ namespace Site.Infrastructure.Services
                 var userBlogPosts = models as UserBlogPost[] ?? models.ToArray();
                 await UpdateDatabase(userBlogPosts);
                 await RemoveExpiredPosts(id,userBlogPosts);
+              
             }
             catch (Exception e)
             {
@@ -75,12 +76,17 @@ namespace Site.Infrastructure.Services
           {
             if(_blogRepository.Any(x => x.SourceId.Equals(blog.SourceId) && x.Source.Equals(blog.Source)))
             {
-                var model = await _blogRepository.GetSingle(x => x.BlogId.Equals(blog.BlogId));
+                var model = await _blogRepository.GetSingle(x => x.SourceId.Equals(blog.SourceId) && x.Source.Equals(blog.Source));
                 if (model == null) continue;
                 model.ImageUrl = blog.ImageUrl;
                 model.Teaser = blog.Teaser;
                 model.Title = blog.Title;
                 model.Url = blog.Url;
+                model.Likes = blog.Likes;
+                model.Comments = blog.Comments;
+                model.Views = blog.Views;
+                model.UserAvatar = blog.UserAvatar;
+                model.MinutesToRead = blog.MinutesToRead;
                 _blogRepository.Update(model);
 
             }

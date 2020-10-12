@@ -21,6 +21,9 @@ namespace Site.Infrastructure.Models.Blogs
     [JsonProperty("description")]
     public string Description { get; set; }
 
+    [JsonProperty("body_markdown")]
+    public string Body { get; set; }
+
     [JsonProperty("cover_image")]
     public string CoverImage { get; set; }
 

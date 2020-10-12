@@ -31,6 +31,9 @@ namespace Site.Application.Infrastructure.AutoMapper
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
             CreateMap<UserBlogPost, UserBlogPostDto>()
               .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Title))
+              .ForMember(x => x.ReadLength, cfg => cfg.MapFrom(x => x.MinutesToRead))
+              .ForMember(x => x.UserAvatar, cfg => cfg.MapFrom(x => x.UserAvatar))
+              .ForMember(x => x.Title, cfg => cfg.MapFrom(x => x.Title))
               .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.ImageUrl))
               .ForMember(x => x.Teaser, cfg => cfg.MapFrom(x => x.Teaser))
               .ForMember(x => x.Url, cfg => cfg.MapFrom(x => x.Url))

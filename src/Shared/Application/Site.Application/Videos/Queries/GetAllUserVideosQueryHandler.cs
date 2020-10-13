@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Site.Application.Interfaces;
+using Site.Application.PlatformAccounts.Model;
 using Site.Application.Videos.Models;
 using Site.Domain.Entities;
 

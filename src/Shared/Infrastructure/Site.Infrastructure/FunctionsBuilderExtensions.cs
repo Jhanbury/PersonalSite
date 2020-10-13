@@ -15,6 +15,7 @@ using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
 using Site.Application.Interfaces.Messaging;
 using Site.Application.Users.Queries;
+using Site.Application.Users.Queries.GetUserInfo;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Modules;
 using Site.Infrastructure.Services;

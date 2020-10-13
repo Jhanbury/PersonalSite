@@ -8,7 +8,7 @@ using Site.Application.CareerExperience.Models;
 using Site.Application.Interfaces;
 using Site.Domain.Entities;
 
-namespace Site.Application.CareerExperience.Queries
+namespace Site.Application.CareerExperience.Queries.GetUserExperience
 {
     public class GetUserExperienceQueryHandler : IRequestHandler<GetUserExperienceQuery, List<UserExperienceDto>>
     {

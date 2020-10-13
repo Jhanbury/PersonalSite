@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using MediatR;
+using Site.Application.Articles.Querys.UserArticles;
 using Site.Application.BlogPosts.Queries.GetUserBlogPosts;
 using Site.Application.GithubRepos.Queries.GetAllGithubRepos;
 using Site.Application.Hobbies.Querys;
@@ -18,6 +19,7 @@ using Site.Application.PlatformAccounts.Queries;
 using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Queries;
 using Site.Application.Users.Queries;
+using Site.Application.Users.Queries.GetUserInfo;
 using Site.Application.Videos.Queries;
 
 namespace Endpoints
@@ -84,6 +86,17 @@ namespace Endpoints
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             var result = await _mediator.Send(new GetUserBlogPostsQuery(id));
+
+            return new CachedJsonResult(result);
+        }
+
+        [FunctionName("Articles")]
+        public async Task<IActionResult> Articles([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{id}/articles")] HttpRequest req, int id,
+            ILogger log)
+        {
+            log.LogInformation("User Articles Query Started");
+
+            var result = await _mediator.Send(new UserArticlesQuery(id));
 
             return new CachedJsonResult(result);
         }

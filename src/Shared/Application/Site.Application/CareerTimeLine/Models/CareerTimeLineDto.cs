@@ -11,11 +11,11 @@ namespace Site.Application.CareerTimeLine.Models
     public DateTime Date { get; set; }
     public string FormattedDate { get; set; }
   }
-}
 
-public enum TimeLineType
-{
-  Job,
-  Degree,
-  Certification
+  public enum TimeLineType
+  {
+    Job,
+    Degree,
+    Certification
+  }
 }

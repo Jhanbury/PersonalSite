@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Site.Application.Videos.Models;
 
-namespace Site.Application.Videos.Models
+namespace Site.Application.PlatformAccounts.Model
 {
     public class AccountDto
     {

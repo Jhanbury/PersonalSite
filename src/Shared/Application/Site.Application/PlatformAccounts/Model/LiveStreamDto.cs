@@ -1,4 +1,4 @@
-namespace Site.Application.Videos.Models
+namespace Site.Application.PlatformAccounts.Model
 {
   public class LiveStreamDto
   {

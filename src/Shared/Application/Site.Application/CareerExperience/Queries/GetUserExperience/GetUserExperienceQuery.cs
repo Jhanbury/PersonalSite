@@ -2,7 +2,7 @@
 using MediatR;
 using Site.Application.CareerExperience.Models;
 
-namespace Site.Application.CareerExperience.Queries
+namespace Site.Application.CareerExperience.Queries.GetUserExperience
 {
     public class GetUserExperienceQuery : IRequest<List<UserExperienceDto>>
     {

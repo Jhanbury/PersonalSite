@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AutoMapper;
 using Site.Application.Addresses.Models;
+using Site.Application.Articles.Models;
 using Site.Application.BlogPosts.Models;
 using Site.Application.CareerExperience.Models;
 using Site.Application.CareerTimeLine.Models;
@@ -12,6 +13,7 @@ using Site.Application.Infrastructure.Models;
 using Site.Application.Hobbies.Model;
 using Site.Application.Infrastructure.Models.Twitch;
 using Site.Application.PlatformAccounts.Commands;
+using Site.Application.PlatformAccounts.Model;
 using Site.Application.Projects.Model;
 using Site.Application.Skills.Model;
 using Site.Application.SocialMediaAccounts.Models;
@@ -26,7 +28,7 @@ namespace Site.Application.Infrastructure.AutoMapper
     {
         public AutoMapperProfile()
         {
-            //CreateMap<BlogPost, BlogPostResponse>().ReverseMap();
+            CreateMap<Article, ArticleDto>().ReverseMap();
             CreateMap<Technology, TechnologyDto>().ReverseMap();
             CreateMap<GithubRepo, GithubRepoDto>().ReverseMap();
             CreateMap<UserBlogPost, UserBlogPostDto>()

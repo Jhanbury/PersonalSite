@@ -18,11 +18,11 @@ namespace Site.Domain.Entities
         public ICollection<UserBlogPost> UserBlogPosts { get; set; }
         public ICollection<UserHobby> UserHobbies { get; set; }
         public ICollection<Project> Projects { get; set; }
-       
         public ICollection<PlatformAccount> PlatformAccounts { get; set; }
         public ICollection<UserCertification> UserCertifications { get; set; }
         public ICollection<UserDegree> UserDegrees { get; set; }
         public ICollection<UserWorkExperience> UserWorkExperiences { get; set; }
+        public ICollection<Article> Articles { get; set; }
         
         
     }

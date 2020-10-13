@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Site.Application.Users.Models;
 
-namespace Site.Application.Users.Queries
+namespace Site.Application.Users.Queries.GetUserInfo
 {
     public class GetUserInfoQuery : IRequest<UserDto>
     {

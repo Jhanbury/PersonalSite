@@ -1,8 +1,8 @@
 using System;
 
-namespace Site.Domain.Entities
+namespace Site.Application.Articles.Models
 {
-  public class Article
+  public class ArticleDto
   {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -11,8 +11,5 @@ namespace Site.Domain.Entities
     public string ImageUrl { get; set; }
     public int ReadLength { get; set; }
     public DateTime PublishDate { get; set; }
-    public int UserId { get; set; }
-    public User User { get; set; }
-
   }
 }

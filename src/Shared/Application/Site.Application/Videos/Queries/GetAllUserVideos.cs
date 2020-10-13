@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MediatR;
+using Site.Application.PlatformAccounts.Model;
 using Site.Application.Videos.Models;
 
 namespace Site.Application.Videos.Queries

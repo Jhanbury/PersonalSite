@@ -5,10 +5,12 @@ using MediatR;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.MSSqlServer.Sinks.MSSqlServer.Options;
 using Site.Application.Infrastructure.AutoMapper;
@@ -26,6 +28,7 @@ namespace Site.Infrastructure
 {
   public static class FunctionsBuilderExtensions
   {
+
     public static IFunctionsHostBuilder ConfigureServices(this IFunctionsHostBuilder builder)
     {
       var config = builder.Services.BuildServiceProvider().GetRequiredService<IConfiguration>();
@@ -78,8 +81,10 @@ namespace Site.Infrastructure
     }
 
 
-    public static IFunctionsHostBuilder ConfigureSchedulerServices(this IFunctionsHostBuilder builder, string connectionString)
+    public static IFunctionsHostBuilder ConfigureSchedulerServices(this IFunctionsHostBuilder builder)
     {
+      var config = builder.Services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+      var connectionString = config["ConnectionString"];
       builder.Services.AddHttpClient();
       builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(connectionString));
       builder.Services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
@@ -123,24 +128,20 @@ namespace Site.Infrastructure
       return builder;
     }
 
-    public static IFunctionsHostBuilder ConfigureKeyVault(this IFunctionsHostBuilder builder, string vaultUrl, Assembly assembly = null)
+    public static IFunctionsConfigurationBuilder ConfigureKeyVault(this IFunctionsConfigurationBuilder builder, string vaultUrl, Assembly assembly = null)
     {
-
       var azureServiceTokenProvider = new AzureServiceTokenProvider();
       var keyVaultClient = new KeyVaultClient(
           new KeyVaultClient.AuthenticationCallback(
               azureServiceTokenProvider.KeyVaultTokenCallback));
-
-      var configBuilder = new ConfigurationBuilder()
-          .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+      builder.ConfigurationBuilder
+          //.AddJsonFile("local.settings.json", optional: false, reloadOnChange: true)
           .AddAzureKeyVault(vaultUrl, keyVaultClient, new DefaultKeyVaultSecretManager());
       if (assembly != null)
       {
-        configBuilder.AddUserSecrets(assembly);
+        builder.ConfigurationBuilder.AddUserSecrets(assembly);
       }
 
-
-      builder.Services.AddSingleton<IConfiguration>(configBuilder.Build());
       return builder;
     }
   }

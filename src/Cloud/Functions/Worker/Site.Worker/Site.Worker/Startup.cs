@@ -11,26 +11,23 @@ namespace Site.Worker
 {
   public class Startup : FunctionsStartup
   {
-    public override void Configure(IFunctionsHostBuilder builder)
+    public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
     {
       var env = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT");
       if (!string.IsNullOrEmpty(env) && env.Equals("Development"))
       {
-        var context = builder.Services.BuildServiceProvider().GetService<IOptions<ExecutionContextOptions>>().Value;
-        var localConfig = new ConfigurationBuilder()
-            .SetBasePath(context.AppDirectory)
-            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-            .AddUserSecrets(typeof(Startup).Assembly)
-            .AddEnvironmentVariables()
-            .Build();
+        var localConfig = new ConfigurationBuilder().AddUserSecrets(typeof(Startup).Assembly)
+          .AddEnvironmentVariables()
+          .Build();
         var uri = localConfig.GetValue<string>("VaultUri");
         builder.ConfigureKeyVault(uri);
       }
+    }
+    public override void Configure(IFunctionsHostBuilder builder) =>
       builder
         .ConfigureSerilog()
         .ConfigureServices()
         .ConfigureMessagingHandlers();
-    }
+    
   }
 }
-       

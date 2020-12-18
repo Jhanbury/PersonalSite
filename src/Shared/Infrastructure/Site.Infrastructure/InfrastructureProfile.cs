@@ -48,7 +48,7 @@ namespace Site.Infrastructure
                 .ForMember(x => x.ThumbnailUrl, y => y.MapFrom(x => x.Thumbnails.Large[0].Url))
                 .ForMember(x => x.Url, y => y.MapFrom(x => x.Url))
                 .ForMember(x => x.Id, y => y.Ignore())
-                .ForMember(x => x.VideoDuration, y => y.MapFrom(x => x.Length))
+                .ForMember(x => x.VideoDuration, y => y.MapFrom<TwitchVideoDurationResolver>())
                 .ForMember(x => x.PublishDate, y => y.MapFrom(x => x.PublishedAt))
                 .ForMember(x => x.ViewCount, y => y.MapFrom(x => x.Views))
                 .ReverseMap();

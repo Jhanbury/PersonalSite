@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +17,6 @@ using Site.Application.Interfaces;
 using Site.Application.PlatformAccounts.Queries;
 using Site.Application.Projects.Queries;
 using Site.Application.SocialMediaAccounts.Queries;
-using Site.Application.Users.Queries;
 using Site.Application.Users.Queries.GetUserInfo;
 using Site.Application.Videos.Queries;
 

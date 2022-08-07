@@ -1,22 +1,19 @@
 using System;
 using System.Reflection;
 using AutoMapper;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using MediatR;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.MSSqlServer.Sinks.MSSqlServer.Options;
 using Site.Application.Infrastructure.AutoMapper;
 using Site.Application.Interfaces;
 using Site.Application.Interfaces.Messaging;
-using Site.Application.Users.Queries;
 using Site.Application.Users.Queries.GetUserInfo;
 using Site.Infrastructure.MessageHandlers;
 using Site.Infrastructure.Modules;
@@ -26,7 +23,7 @@ using Site.Persistance.Repository;
 
 namespace Site.Infrastructure
 {
-  public static class FunctionsBuilderExtensions
+    public static class FunctionsBuilderExtensions
   {
 
     public static IFunctionsHostBuilder ConfigureServices(this IFunctionsHostBuilder builder)
@@ -129,14 +126,9 @@ namespace Site.Infrastructure
     }
 
     public static IFunctionsConfigurationBuilder ConfigureKeyVault(this IFunctionsConfigurationBuilder builder, string vaultUrl, Assembly assembly = null)
-    {
-      var azureServiceTokenProvider = new AzureServiceTokenProvider();
-      var keyVaultClient = new KeyVaultClient(
-          new KeyVaultClient.AuthenticationCallback(
-              azureServiceTokenProvider.KeyVaultTokenCallback));
+    {      
       builder.ConfigurationBuilder
-          //.AddJsonFile("local.settings.json", optional: false, reloadOnChange: true)
-          .AddAzureKeyVault(vaultUrl, keyVaultClient, new DefaultKeyVaultSecretManager());
+          .AddAzureKeyVault(new Uri(vaultUrl),new DefaultAzureCredential());
       if (assembly != null)
       {
         builder.ConfigurationBuilder.AddUserSecrets(assembly);

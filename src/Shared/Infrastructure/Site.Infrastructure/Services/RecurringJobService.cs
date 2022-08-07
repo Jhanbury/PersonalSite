@@ -1,25 +1,26 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.ServiceBus;
+using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Site.Application.Interfaces;
 using Site.Infrastructure.Messages;
-using Message = Microsoft.Azure.ServiceBus.Message;
 
 namespace Site.Infrastructure.Services
 {
     public class RecurringJobService : IRecurringJobService
     {
+        private ServiceBusClient _serviceBusClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
         private const string _queueName = "jobs";
-        public RecurringJobService(IConfiguration configuration, ILogger<RecurringJobService> logger)
+        public RecurringJobService(IConfiguration configuration, ILogger<RecurringJobService> logger, ServiceBusClient serviceBusClient)
         {
             _configuration = configuration;
             _logger = logger;
+            _serviceBusClient = serviceBusClient;
         }
 
         public async Task UpdateGithubRepos(int userId, string username)
@@ -43,19 +44,17 @@ namespace Site.Infrastructure.Services
 
         private async Task AddJobToQueue(string queue, object data)
         {
-            var ServiceBusConnectionString = _configuration["ServiceBusConnectionString"];
-            var queueClient = new QueueClient(ServiceBusConnectionString, queue);
-
+            ServiceBusSender sender = _serviceBusClient.CreateSender(queue);
             // Create a new message to send to the queue.
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
             string messageBody = JsonConvert.SerializeObject(data,settings);
-            var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+            var message = new ServiceBusMessage(messageBody);
 
             // Write the body of the message to the console.
             Console.WriteLine($"Sending message: {messageBody}");
 
             // Send the message to the queue.
-            await queueClient.SendAsync(message);
+            await sender.SendMessageAsync(message);
         }
 
         public async Task UpdateUserBlogs(int userId)

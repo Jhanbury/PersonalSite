@@ -1,7 +1,4 @@
-using System;
 using Site.Application.Interfaces.Messaging;
-using Site.Infrastructure.MessageHandlers;
-using Site.Infrastructure.Modules;
 
 namespace Site.Infrastructure
 {

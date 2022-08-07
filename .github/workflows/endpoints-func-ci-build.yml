@@ -5,7 +5,7 @@ on:
 env:
   SOLUTION_FILE_PATH: "./src/Cloud/Functions/Endpoints/Site.Endpoints"
   SOLUTION_FILE_NAME: "Site.Endpoints.sln"
-  DOTNET_VERSION: "3.1.x"
+  DOTNET_VERSION: "6.0.x"
 
 jobs:
   build-and-deploy:
